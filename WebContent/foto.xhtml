@@ -1,0 +1,157 @@
+	<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+
+cabecalho
+<h:body>
+
+		<h:form id="form">
+
+			<h:outputText value="#{empresaBean.empresa.nome}" id="LabelData"></h:outputText>
+
+
+			<p:graphicImage value="#{comprovanteEntregaBean.comprovante.imagem}" width="200"
+				height="100"></p:graphicImage>
+
+
+			<p:graphicImage value="#{comprovanteEntregaBean.comprovante.imagemVerso}" width="200"
+				height="100"></p:graphicImage>
+
+
+
+			<p:commandButton id="foto" value="imagem" onclick="dlg.show();"
+				type="button" icon="ui-icon-search"></p:commandButton>
+
+
+			
+			
+			<h:link value="Foto">
+				<f:param name="param1" value="CT"></f:param>
+			</h:link>
+
+
+			<h:outputText
+				value="#{documentosBean.documentoSelecionado.documento}" />
+
+			<h:outputText value="#{documentosBean.nome}" />
+
+
+			<p:tabView>
+				<p:tab title="Pesquisa por Período">
+					<h:panelGrid columns="7">
+
+						<h:outputLabel value="Data Inicial" for="txtDataInicio" />
+
+						<p:calendar id="txtDataInicio" pattern="dd/MM/yyyy" locale="pt_BR"
+							value="#{documentosBean.dataInicio}" maxlength="10"
+							style="font-size:12px;heigth=30">
+
+						</p:calendar>
+
+						<h:outputLabel value="Data Final" for="txtDataTermino" />
+
+						<p:calendar id="txtDataTermino" pattern="dd/MM/yyyy"
+							locale="pt_BR" value="#{documentosBean.dataTermino}"
+							maxlength="10" style="font-size:12px;width=130">
+						</p:calendar>
+
+						<h:outputLabel value="Posição no Frete" for="selectCliente" />
+						<h:selectOneMenu id="selectCliente"
+							value="#{documentosBean.cliente}">
+							<f:selectItem itemValue="null" itemLabel="Ambas" />
+							<f:selectItem itemValue="remet" itemLabel="Remetente" />
+							<f:selectItem itemValue="dest" itemLabel="Destinatario" />
+						</h:selectOneMenu>
+
+						<p:commandButton value="Pesquisar"
+							style="font-size:12px;width=40%"
+							action="#{documentosBean.DocumentosPorPeriodo}" update="@form"></p:commandButton>
+
+					</h:panelGrid>
+				</p:tab>
+			</p:tabView>
+
+
+
+			<p:dataTable id="tblDocumentos" var="doc"
+				value="#{documentosBean.documentos}">
+
+				<p:column headerText="Documento">
+					<h:outputText value="#{doc.documento}" />
+
+				</p:column>
+
+				<p:column headerText="Destinatario">
+					<h:outputText value="#{doc.destinatario}" />
+
+				</p:column>
+
+				<p:column>
+
+					<p:commandButton id="selectButton" update=":form:fotoDialog"
+						oncomplete="docDialog.show()" icon="ui-i-search" title="View"
+						ajax="false">
+
+						<f:setPropertyActionListener target="#{documentosBean.nome}"
+							value="Felipe Testando" />
+					</p:commandButton>
+				</p:column>
+
+				<p:column>
+
+					<p:commandButton value="Detalha Documento" icon="ui-icon-bullet"
+						onclick="detalheFotoDialog.show();" update=":detalheFotoForm">
+						<f:param id="documento" name="documento" value="#{doc.doc}"></f:param>
+						<f:param id="filial" name="filial" value="#{doc.fil_orig}"></f:param>
+						<f:param id="nrdocumento" name="nrdocumento" value="#{doc.nr_cto}"></f:param>
+						<f:param id="objeto" name="objeto" value="#{doc}"></f:param>
+						<f:setPropertyActionListener
+							target="#{documentosBean.documentoSelecionado}" value="#{doc}" />
+					</p:commandButton>
+
+				</p:column>
+			</p:dataTable>
+
+
+
+
+		</h:form>
+
+
+		<ui:include
+			src="/detalheFoto.xhtml" />
+			
+			
+		<p:dialog id="fotoDialog" header="Comprovante de Entrega"
+			widgetVar="dlg" modal="true" height="100">
+			<p:graphicImage value="#{empresaBean.imagem}" width="200"
+				height="100"></p:graphicImage>
+
+		</p:dialog>
+
+		<p:dialog header="Detalhes" widgetVar="docDialog" resizable="false"
+			id="docDlg" modal="true">
+
+			<h:panelGrid id="display" columns="2">
+				<h:outputText value="Detalhe Doc" />
+				<h:outputText
+					value="#{documentosBean.documentoSelecionado.documento}" />
+
+			</h:panelGrid>
+
+		</p:dialog>
+
+
+
+
+	</h:body>
+</h:head>
+
+</html>

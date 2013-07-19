@@ -1,0 +1,97 @@
+/* CSS Document */
+
+body{
+	padding : 0;
+	margin : 0;            
+	background-image: url("../resources/imagens/bg.gif");
+	background-repeat: repeat-x;
+}
+
+#content{
+	padding-top : 130px;
+	padding-bottom : 30px;
+	padding-left : 230px;
+	padding-right : 20%;
+}
+
+#content h1 {
+	font-family: "Trebuchet MS", Georgia, "Times New Roman", Times, serif;
+	font-size: 120%;
+	font-weight: normal;
+	color: #000000;
+	background-color : transparent;
+}
+
+#content h2 {
+	font-family: "Trebuchet MS", Georgia, "Times New Roman", Times, serif;
+	font-size: 100%;
+	font-weight: bold;
+	color: #000000;
+	background-color : transparent;
+}
+
+#content p{
+	font-family: "Trebuchet MS", Georgia, "Times New Roman", Times, serif;
+	font-size: 80%;
+	font-weight: normal;
+	color: #000000;
+	background-color : transparent;
+	line-height : 140%;
+}
+
+#logo{
+	position : absolute;
+	top : 10px;
+	left : 10px;
+	z-index : 50;
+}
+
+#script{
+	position : absolute;
+	top : 12px;
+	right : 0;
+	text-align : right; /*Mild hack for Netscape 4*/
+}
+
+#navigation{
+	position: absolute;
+	top : 12px;
+	right :20px;
+
+	width : 140px;
+}
+
+#centro{
+	position: absolute;
+	top : 12px;
+	right :300px;
+	width : 640px;
+}
+
+
+#navigation a{
+	font-family: "Trebuchet MS", Georgia, "Times New Roman", Times, serif;
+	color : #00f;
+	background-color: transparent;
+}
+
+.semBorda tr, .semBorda td {
+	border: none !important;
+}
+
+.iconDelete{
+	border: none !important;
+	background-image: url("../img/delete_group.png") !important;     
+    background-repeat: no-repeat;   
+    width: 36px;     
+    height: 36px;  
+}
+
+
+.columns{
+	font-size:10px;width=40%;
+}
+
+
+
+

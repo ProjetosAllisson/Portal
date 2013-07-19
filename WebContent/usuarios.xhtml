@@ -1,0 +1,115 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<h:body>
+		<h:outputStylesheet library="css" name="master.css"></h:outputStylesheet>
+		<p:growl id="messageGrowl" />
+
+		<h:form id="usuariosForm">
+			<p:dataTable id="usuariosTable" value="#{userBean.allUsers}" var="user"
+			    paginator="true" paginatorPosition="bottom"
+				rowKey="#{user.id}" selection="#{userBean.usuarioSelecionado}" selectionMode="single"
+				emptyMessage="Nenhum registro encontrado">
+
+
+				<p:column styleClass="columns">
+					<f:facet name="header">
+						<h:outputText value="Login" />
+					</f:facet>
+					<h:outputText value="#{user.login}" />
+				</p:column>
+
+
+				<p:column styleClass="columns">
+					<f:facet name="header">
+						<h:outputText value="E-mail" />
+					</f:facet>
+					<h:outputText value="#{user.email}" />
+				</p:column>
+
+
+				<p:column styleClass="columns">
+					<f:facet name="header">
+						<h:outputText value="Cnpj" />
+					</f:facet>
+					<h:outputText value="#{user.cliente.cgc}" />
+				</p:column>
+
+
+<!-- ComandButton
+				<p:column>
+
+					<p:spacer width="10px" />
+					<p:commandButton title="Exclui Usuário" 
+  					    
+  					    icon="iconDelete" 
+						update=":usuariosDeleteDialogForm"
+						onclick="usuariosDeleteDialogWidget.show();">
+						<f:setPropertyActionListener target="#{userBean.usuarioSelecionado}"
+							value="#{user}" />
+					</p:commandButton>
+
+					
+				</p:column>
+				
+ -->
+
+				<p:column styleClass="columns">
+
+					<f:facet name="header">
+						<h:outputText value="Excluir" />					
+					</f:facet>
+					<p:commandLink title="Exclui Usuário"  
+  					    
+  					    
+						update=":usuariosDeleteDialogForm"
+						onclick="usuariosDeleteDialogWidget.show();">
+						<f:setPropertyActionListener target="#{userBean.usuarioSelecionado}"
+							value="#{user}" />
+							
+					 <p:graphicImage styleClass="semBorda" value="/img/delete_group.png" ></p:graphicImage>	  
+					
+					<!-- <p:graphicImage styleClass="iconDelete" style="border:0px;"  ></p:graphicImage>	 -->
+
+					</p:commandLink>
+
+					
+				</p:column>
+				
+				<p:column styleClass="columns">
+				
+					<f:facet name="header">
+						<h:outputText value="Editar" />
+					</f:facet>
+					
+					<p:commandLink value="Editar" title="Editar Usuário"
+					update=":usuariosUpdateDialogForm"
+					onclick="usuariosUpdateDialogWidget.show();">
+					<f:setPropertyActionListener target="#{userBean.usuarioSelecionado}" value="#{user}"></f:setPropertyActionListener>
+					
+					
+					</p:commandLink>
+				</p:column>
+
+				
+
+			</p:dataTable>
+
+
+		</h:form>
+
+		<ui:include src="/paginas/protected/dialogs/usuariosDeleteDialog.xhtml" />
+		<ui:include src="/paginas/protected/dialogs/usuariosUpdateDialog.xhtml" />
+
+
+	</h:body>
+
+</h:head>
+</html>

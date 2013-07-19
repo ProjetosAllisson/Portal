@@ -1,0 +1,82 @@
+body {
+	font: 18 px Arial;
+	margin: 0 0 0 0;
+	background-color: #EEEEEE;
+}
+
+h1 {
+	margin: 0;
+	padding: 16px 0;
+	color: #000000;
+	font: bold 40px Arial;
+}
+
+h2 {
+	font: bold 24px Arial;
+	color: #595959;
+}
+
+a {
+	color: #3a34c3;
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+.dados {
+	border-collapse: collapse;
+}
+
+.dados td,.dados th {
+	border: 1px solid #0000 c6;
+	padding: 3px 7px 2px 7px;
+}
+
+.dados th {
+	padding-top: 5px;
+	padding-bottom: 4px;
+	background-color: #156 bbd;
+	color: #ffffff;
+}
+
+.dados tr.impar td {
+	color: #000000;
+	background-color: #d4d4d9;
+}
+
+.dados tr.par td {
+	color: #000000;
+	background-color: #f6f6fa;
+}
+
+input {
+	font-size: 16px;
+	border: 1px solid #0000 c6;
+	background-color: #f6f6fa;
+}
+
+#header {
+	color: #FFFFFF;
+	background-color: #4682B4;
+	padding: 10px 0px 28px 10px;
+}
+
+#header a {
+	color: #FFFFFF;
+	font: bold 24px Arial;
+}
+
+#conteudo {
+	margin: 0px 0px 50 px 10 px;
+}
+
+#divgeral {
+	text-align: left;
+	position: relative;
+	width: 100px;
+	min-height: 480px;
+	background-color: #ccc;
+	margin: 0 auto;
+}

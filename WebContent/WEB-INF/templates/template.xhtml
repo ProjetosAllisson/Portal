@@ -1,0 +1,107 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+
+	<script type="text/javascript">
+        PrimeFaces.locales['pt_BR'] = {
+                closeText :'Fechar',
+                prevText : 'Anterior',
+                nextText : 'Próximo',
+                currentText : 'Começo',
+                monthNames : ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio',
+                              'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro',
+                              'Novembro', 'Dezembro'],
+                monthNameShort : ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 
+                                  'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
+                dayNames : ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta',
+                            'Sexta', 'Sabado'],
+                dayNamesShort : ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'],
+                dayNamesMin : ['D','S','T','Q','Q','S','S'],
+                weekHeader : 'Semana',
+                firstDay : 1,
+                isRTL : false,
+                showMonthAfterYear : false,
+                yearSuffix :'',
+                timeOnlyTitle : 'Só Horas',
+                timeText : 'Tempo',
+                hourText : 'Hora',
+                minuteText : 'Minuto',
+                secondText : 'Segundo',
+                currentText : 'Data Atual',
+                ampm : false,
+                month : 'Mês',
+                week : 'Semana',
+                day : 'Dia',
+                allDayText : 'Todo Dia' 
+             };          
+    </script>
+
+
+
+	<title>Portal de Serviços</title>
+	
+
+</h:head>
+<h:body>
+	<h:outputStylesheet library="css" name="master.css"></h:outputStylesheet>
+
+	<div id="logo">
+		<!--
+		<p:graphicImage value="#{empresaBean.imagem}" width="200" height="100"></p:graphicImage>
+			 -->
+		
+		 
+		<img src="resources/imagens/logoAllisson.png"
+			width="200" height="57" />
+			
+			
+	</div>
+
+	<div >
+
+		<img src="resources/imagens/bg.gif"
+			alt="" width="1345" height="84" />
+
+	</div>
+
+
+	<div id="script" >
+		
+		<h:outputLink value="http://www.allisson.com.br" target="_blank"> 
+            <img src="resources/imagens/logoAllisson.png" width="200" height="57"></img>
+            
+        </h:outputLink>
+		
+	
+	</div>
+	<div id="navigation">
+		<h:form>
+			<h:commandLink style="float:right;" value="Sair"
+				action="#{loginBean.registraSaida}" />
+		</h:form>
+	</div>
+	
+	<div id="centro">
+	  <ui:include src="/cabecalho.xhtml">
+	</ui:include>
+	
+	</div>
+	<ui:insert name="conteudo"></ui:insert>
+
+	<div id="footer" style="text-align: center">
+		<hr />
+		Copyright 2012-2013 Allisson Sistemas. Todos os direitos reservados.
+		<br/>
+		Av.José Nobre 1, Casa C - Vila Maria - CEP 02122-100
+		<br/>
+		Telefone: (11) 2967-1194
+	</div>
+</h:body>
+</html>

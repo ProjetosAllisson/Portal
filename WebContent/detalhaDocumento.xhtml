@@ -1,0 +1,31 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+
+
+
+	<h:form id="formulario">
+		<p:commandButton value="Foto"
+			action="#{documentosBean.listaFotoComprovante}">
+
+			
+
+		</p:commandButton>
+
+
+		<p:graphicImage
+			value="/temp/#{documentosBean.documentoSelecionado.nr_cto}.jpg"
+			cache="false" width="500" height="250" />
+
+		<p:graphicImage
+			value="/temp/#{documentosBean.documentoSelecionado.nr_cto}V.jpg"
+			cache="false" width="500" height="250" />
+
+
+		<h:commandButton id="btnImagem" value="Imagem"
+			action="#{documentosBean.detalhaDocumento}" />
+	</h:form>
+</ui:composition>

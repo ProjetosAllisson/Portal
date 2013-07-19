@@ -1,0 +1,141 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition template="/WEB-INF/templates/template.xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+
+	<ui:define name="conteudo">
+
+		<h:form>
+
+			<!--Ajax com status customizado -->
+			<p:ajaxStatus onstart="statusDialog.show()"
+				onsuccess="statusDialog.hide()" />
+			<p:dialog modal="true" widgetVar="statusDialog" header="Status"
+				draggable="false" closable="false">
+				<h:graphicImage value="img/LoadingProgressBar.gif" />
+			</p:dialog>
+
+
+			<p:panel header="Consulta Publica">
+				<h:panelGrid columns="7">
+					<h:outputLabel value="Informe o Cnpj" for="txtCnpj" />
+					<p:focus>
+						<p:inputMask mask="99.999.999/9999-99" id="txtCnpj"
+							value="#{documentosBean.cpf_cnpj}"></p:inputMask>
+					</p:focus>
+
+					<h:outputLabel value="Nota Fiscal:" for="edtNotaFiscal" />
+					<p:inputText id="edtNotaFiscal"
+						value="#{documentosBean.notafiscal}"
+						converterMessage="Campo nota fiscal é Numérico" required="true">
+						<f:convertNumber integerOnly="true" maxIntegerDigits="9" />
+					</p:inputText>
+
+
+
+					<p:commandButton value="Pesquisar" style="font-size:12px;width=40%"
+						action="#{documentosBean.ConsultaPublica}" update="@form"></p:commandButton>
+				</h:panelGrid>
+
+			</p:panel>
+
+			<p:dataTable value="#{documentosBean.documentos}" paginator="true"
+				paginatorPosition="bottom" rows="10"
+				paginatorTemplate="{CurrentPageReport} {RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+				rowsPerPageTemplate="3,5,10,15,20" var="documentos"
+				id="gridDocumentos" widgetVar="tblDocumentos"
+				emptyMessage="Nenhum registro encontrado">
+				<f:facet name="header">
+			  Lista de Documentos
+			</f:facet>
+
+				<p:column style="font-size:10px;width=40%"
+					sortBy="#{documentos.documento}">
+					<f:facet name="header">
+						<h:outputText value="Documento" />
+					</f:facet>
+					<h:outputText value="#{documentos.documento}" />
+				</p:column>
+
+				<p:column style="font-size:10px;" sortBy="#{documentos.nota}"
+					filterBy="#{documentos.nota}">
+
+
+					<f:facet name="header">
+						<h:outputText value="NF" />
+					</f:facet>
+					<h:outputText value="#{documentos.nota}">
+						<f:convertNumber pattern="########0" minIntegerDigits="9" />
+					</h:outputText>
+				</p:column>
+
+
+				<p:column style="font-size:10px;" sortBy="#{documentos.emissao}">
+					<f:facet name="header">
+						<h:outputText value="Emissão" />
+					</f:facet>
+					<h:outputText value="#{documentos.emissao}">
+						<f:convertDateTime pattern="dd/MM/yyyy" />
+					</h:outputText>
+
+				</p:column>
+
+				<p:column style="font-size:10px;" sortBy="#{documentos.embarque}">
+					<f:facet name="header">
+						<h:outputText value="Embarque" />
+					</f:facet>
+					<h:outputText value="#{documentos.embarque}">
+						<f:convertDateTime pattern="dd/MM/yyyy" />
+					</h:outputText>
+				</p:column>
+
+				<p:column style="font-size:10px;" sortBy="#{documentos.chegada}">
+					<f:facet name="header">
+						<h:outputText value="Chegada" />
+					</f:facet>
+					<h:outputText value="#{documentos.chegada}">
+						<f:convertDateTime pattern="dd/MM/yyyy" />
+					</h:outputText>
+				</p:column>
+
+				<p:column style="font-size:10px;" sortBy="#{documentos.entrega}">
+					<f:facet name="header">
+						<h:outputText value="Entrega" />
+					</f:facet>
+					<h:outputText value="#{documentos.entrega}">
+						<f:convertDateTime pattern="dd/MM/yyyy" />
+					</h:outputText>
+				</p:column>
+
+				<p:column style="font-size:10px;" sortBy="#{documentos.remetente}">
+					<f:facet name="header">
+						<h:outputText value="Remetente" />
+					</f:facet>
+					<h:outputText value="#{documentos.remetente}" />
+				</p:column>
+
+				<p:column style="font-size:10px;"
+					sortBy="#{documentos.destinatario}">
+					<f:facet name="header">
+						<h:outputText value="Destinatário" />
+					</f:facet>
+					<h:outputText value="#{documentos.destinatario}" />
+				</p:column>
+
+				<p:column style="font-size:10px;">
+					<f:facet name="header">
+						<h:outputText value="Ocorrência" />
+					</f:facet>
+					<h:outputText value="#{documentos.ocorrencia}" />
+				</p:column>
+			</p:dataTable>
+
+		</h:form>
+	</ui:define>
+
+</ui:composition>

@@ -1,0 +1,66 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<ui:composition template="/WEB-INF/templates/templateNovo.xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+
+	<ui:define name="conteudo">
+		<h:form id="form">
+		<h:outputStylesheet library="css" name="master.css"></h:outputStylesheet>
+		<p:growl id="growl" showDetail="true"></p:growl>
+			<center>
+				<p:panel header="Cadastro de Usuário">
+
+					
+					<p:panelGrid columns="3" styleClass="semBorda" >
+
+						
+						<h:outputLabel id="lblLogin" for="txtLogin" value="Login" />
+						<p:focus>
+							<p:inputText id="txtLogin" value="#{usuarioBean.usuario.login}"
+								size="20" maxlength="20" required="true"
+								requiredMessage="Informe o Login" />
+						</p:focus>
+						<br></br>
+						<h:outputLabel for="senha" value="Senha:" />
+						<p:password value="#{usuarioBean.usuario.senha}" id="senha"
+							required="true" label="senha" autocomplete="false" feedback="true" 
+							
+							requiredMessage="Senha é campo obrigatório" />
+
+						<br></br>
+
+						<h:outputLabel for="txtCnpj" value="Cnpj:" />
+						<p:inputMask mask="99.999.999/9999-99" id="txtCnpj"
+							value="#{usuarioBean.cnpj}" >
+							
+							<p:ajax event="keyup" listener="#{clienteBean.localizaCliente(usuarioBean.cnpj)}"  update="incluiUsuario,nomeCliente" ></p:ajax>
+							
+							</p:inputMask>
+							
+						<p:spacer width="200" height="10"><h:outputText id="nomeCliente" value="#{clienteBean.cliente.nome}" />	</p:spacer>
+					</p:panelGrid>
+						<f:facet name="footer">
+							
+							<p:spacer width="500" height="10">
+							<h:panelGroup style="display:block; text-align:center">
+								<p:commandButton id="incluiUsuario" value="Inserir Usuário" 
+									action="#{usuarioBean.InserirUsuario}" update="@form" disabled="#{clienteBean.disabled}"></p:commandButton>
+							</h:panelGroup>
+							</p:spacer>
+						</f:facet>
+
+
+
+					
+				</p:panel>
+			</center>
+		</h:form>
+	</ui:define>
+
+</ui:composition>

@@ -1,0 +1,38 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+                  xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+<h:head>
+
+</h:head>
+<h:body>
+	<h:outputStylesheet library="css" name="master.css"></h:outputStylesheet>
+
+	<div >
+		<h:form id="frm" style="float:center;">
+		<a>
+			
+			<c:if test="${loginBean.logado}">
+			 Olá #{sessionScope.usuarioAutenticado.login}! 
+		     Você esta logado.
+		  </c:if>
+		  
+		  </a>
+	   		<h:outputLabel value="Tempo da Sessão"  />
+				<h:outputText id="txtTempoSessao" value=" #{loginBean.tempoSessao}" />
+				<h:outputLabel value=" min. restantes" />
+				<p:poll interval="60" listener="#{loginBean.decrementar}"
+					update="txtTempoSessao" global="false"></p:poll>
+		
+		</h:form>
+	</div>
+
+</h:body>
+
+</ui:composition>

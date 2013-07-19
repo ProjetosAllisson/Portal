@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pageflow:Pageflow xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pageflow="http://www.sybase.com/suade/pageflow" id="pf13590265538810" configfile="/portal/WebContent/WEB-INF/faces-config.xml">
+  <nodes xsi:type="pageflow:PFPage" name="login.jsf" id="pf13595038867450" referenceLink="//@navigationRule.1/@navigationCase.0/@toViewId|" outlinks="pf13595038867451" inlinks="pf13595038867462" path="/login.jsf"/>
+  <nodes xsi:type="pageflow:PFPage" name="documentos.jsf" id="pf13595038867463" referenceLink="//@navigationRule.0/@navigationCase.0/@toViewId|" inlinks="pf13595038867451" path="/documentos.jsf"/>
+  <nodes xsi:type="pageflow:PFPage" name="*" id="pf13595038867465" referenceLink="//@navigationRule.1/@fromViewId|" outlinks="pf13595038867462" path="*"/>
+  <links id="pf13595038867451" target="pf13595038867463" source="pf13595038867450" outcome="success"/>
+  <links id="pf13595038867462" target="pf13595038867450" source="pf13595038867465" outcome="logout"/>
+</pageflow:Pageflow>

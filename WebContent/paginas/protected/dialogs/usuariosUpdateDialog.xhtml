@@ -1,0 +1,85 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:body>
+
+	<p:dialog widgetVar="usuariosUpdateDialogWidget"
+		id="usuariosUpdateDialogId" height="220" width="500" modal="true" closable="true"
+		draggable="false" resizable="false">
+		<h:form id="usuariosUpdateDialogForm" prependId="false">
+			<p:fieldset legend="Edição  -  #{userBean.usuarioSelecionado.login}">
+			
+			<p:separator></p:separator>
+			
+			<p:panelGrid columns="2" styleClass="semBorda">
+				<h:outputText value="Acesso Autorizado ?" />
+				<p:selectBooleanButton  value="#{userBean.usuarioSelecionado.acesso_autorizado}"
+				
+				onLabel="Sim" offLabel="Não" onIcon="ui-icon-check" offIcon="ui-icon-close"></p:selectBooleanButton>
+			
+				<h:outputText value="E-mail" />
+			
+			
+				<p:inputText id="email" label="email" size="40"
+				
+					validatorMessage="Invalid email format"
+					value="#{userBean.usuarioSelecionado.email}">
+ 
+		   		<f:validateRegex
+					pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+ 
+				</p:inputText>
+				<p:watermark for="email" value="Email Address *" />
+				<p:message for="email" />
+				
+				
+				<h:outputLabel for="txtCnpj" value="Cnpj:" />
+						<p:inputMask mask="99.999.999/9999-99" id="txtCnpj"
+							value="#{userBean.usuarioSelecionado.cliente.cgc}"></p:inputMask>
+				
+				<h:outputText value="#{userBean.usuarioSelecionado.cliente.nome}" />
+			</p:panelGrid>			
+			
+			
+			
+			
+			<p:separator></p:separator>				
+				
+				
+				<p:panelGrid columns="4"  width="100%" style="text-align:right" styleClass="semBorda">
+				
+				
+				<p:spacer width="100" height="10"></p:spacer>
+				<p:spacer width="80" height="10"></p:spacer>
+				<p:commandButton value="Confirma" icon="ui-icon-circle-check" title="Confirma Alteração"
+					action="#{userBean.updateUser()}"
+					update=":messageGrowl :usuariosForm:usuariosTable"
+					oncomplete="usuariosUpdateDialogWidget.hide();" />
+
+
+				<p:commandButton value="Cancela" icon="ui-icon-cancel" title="Cancela Alteração"
+					actionListener="#{userBean.resetUser()}"
+					onclick="usuariosUpdateDialogWidget.hide();" type="button" />
+					
+				</p:panelGrid>	
+			
+			
+			
+			
+			
+			
+			</p:fieldset>
+
+
+		</h:form>
+	</p:dialog>
+</h:body>
+
+
+
+</html>

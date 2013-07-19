@@ -24,6 +24,7 @@ public class UserBean extends AbstractMB implements Serializable {
 	private User usuarioSelecionado;
 	private UserFacade userFacade;
 	private List<User> users;
+	 
 	
 	public UserBean(){
 		resetUser();
@@ -90,7 +91,7 @@ public class UserBean extends AbstractMB implements Serializable {
 		try {
 			System.out.println("Usuario"+usuarioSelecionado.getLogin());
 			getUserFacade().deleteUser(usuarioSelecionado);
-			//closeDialog();
+			closeDialog();
 			displayInfoMessageToUser("Excluído com sucesso");
 			loadUsers();
 			resetUser();
@@ -125,6 +126,10 @@ public class UserBean extends AbstractMB implements Serializable {
 
 	public void setUsuarioSelecionado(User usuarioSelecionado) {
 		this.usuarioSelecionado = usuarioSelecionado;
+	}
+	
+	public int qtdeAcessos(){
+		return this.user.getAcessos().size();
 	}
 
 	

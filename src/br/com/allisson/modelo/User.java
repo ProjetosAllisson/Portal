@@ -1,6 +1,7 @@
 package br.com.allisson.modelo;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -57,6 +59,11 @@ public class User implements Serializable {
 	@OneToOne
 	@JoinColumn(name="cnpj")
 	private Cliente cliente;
+	
+	
+	@OneToMany
+	@JoinColumn(name="cod_usuario")
+	private List<Acessos> acessos;
 
 	public int getId() {
 		return id;
@@ -139,6 +146,18 @@ public class User implements Serializable {
 
 	public void setCliente(Cliente cliente) {
 		this.cliente = cliente;
+	}
+
+	public List<Acessos> getAcessos() {
+		return acessos;
+	}
+
+	public void setAcessos(List<Acessos> acessos) {
+		this.acessos = acessos;
+	}
+	
+	public int totalAcessos(){
+		return this.acessos.size();
 	}
 
 }

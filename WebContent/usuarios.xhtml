@@ -98,7 +98,17 @@
 					</p:commandLink>
 				</p:column>
 
+				<p:column styleClass="columns">
 				
+					<f:facet name="header">
+						<h:outputText value="Acessos" />
+					</f:facet>
+					
+					<p:commandLink value="#{user.totalAcessos()}" update=":acessosViewDialogForm" onclick="acessosViewDialogWidget.show();" >
+						<f:setPropertyActionListener target="#{userBean.usuarioSelecionado}" value="#{user}"></f:setPropertyActionListener>
+					</p:commandLink>
+					
+				</p:column>
 
 			</p:dataTable>
 
@@ -107,6 +117,7 @@
 
 		<ui:include src="/paginas/protected/dialogs/usuariosDeleteDialog.xhtml" />
 		<ui:include src="/paginas/protected/dialogs/usuariosUpdateDialog.xhtml" />
+		<ui:include src="/paginas/protected/dialogs/acessosViewDialog.xhtml" />
 
 
 	</h:body>

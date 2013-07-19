@@ -61,15 +61,16 @@ public class UserFacade {
 	public void updateUser(User user){
 		
 		userDAO.beginTransaction();
-		User persistedUser = userDAO.find(user.getId());
+		//User persistedUser = userDAO.find(user.getId());
 		
 		
-		Cliente cliente = new Cliente();
-		cliente.setCgc(user.getCliente().getCgc());
+		//Cliente cliente = new Cliente();
+		//cliente.setCgc(user.getCliente().getCgc());
 		
-		persistedUser.setAcesso_autorizado(user.getAcesso_autorizado());
-		persistedUser.setEmail(user.getEmail());
-		persistedUser.setCliente(cliente);
+		//persistedUser.setAcesso_autorizado(user.getAcesso_autorizado());
+		//persistedUser.setEmail(user.getEmail());
+		//persistedUser.setCliente(cliente);
+		userDAO.update(user);
 		
 		userDAO.commitAndCloseTransaction();
 	}

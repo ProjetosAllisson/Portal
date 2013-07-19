@@ -1,0 +1,33 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:body>
+	
+	<p:dialog widgetVar="acessosViewDialogWidget" id="acessosViewDialogId" height="200" width="500" modal="true" closable="true" >
+	<h:form id="acessosViewDialogForm" prependId="false">
+	
+		<p:dataTable id="acessosTable" value="#{userBean.usuarioSelecionado.acessos}" var ="acesso" emptyMessage="Nenhum registro encontrado">
+		
+			<p:column styleClass="columns">
+					<f:facet name="header">
+						<h:outputText value="Acesso" />
+					</f:facet>
+					<h:outputText value="#{acesso.dt_acesso}" >
+					
+					<f:convertDateTime pattern="dd/MM/yy" />
+					</h:outputText>
+				</p:column>
+		
+		</p:dataTable>
+	
+	</h:form>
+	</p:dialog>
+</h:body>
+
+
+</html>

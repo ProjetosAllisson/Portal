@@ -14,6 +14,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -58,11 +59,13 @@ public class User implements Serializable {
 	
 	@OneToOne
 	@JoinColumn(name="cnpj")
+	@OrderBy("nome")
 	private Cliente cliente;
 	
 	
 	@OneToMany
 	@JoinColumn(name="cod_usuario")
+	@OrderBy("dt_acesso")
 	private List<Acessos> acessos;
 
 	public int getId() {
@@ -158,6 +161,14 @@ public class User implements Serializable {
 	
 	public int totalAcessos(){
 		return this.acessos.size();
+	}
+	
+	public String userAcessoAutorizado(){
+		if (this.getAcesso_autorizado()==true){
+			return "SIM";
+		}
+		else
+			return "NÃO";
 	}
 
 }

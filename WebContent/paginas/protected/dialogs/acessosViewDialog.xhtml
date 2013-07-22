@@ -1,31 +1,60 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
+
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:p="http://primefaces.org/ui">
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
 <h:body>
-	
-	<p:dialog widgetVar="acessosViewDialogWidget" id="acessosViewDialogId" height="200" width="500" modal="true" closable="true" >
-	<h:form id="acessosViewDialogForm" prependId="false">
-	
-		<p:dataTable id="acessosTable" value="#{userBean.usuarioSelecionado.acessos}" var ="acesso" emptyMessage="Nenhum registro encontrado">
-		
-			<p:column styleClass="columns">
+
+	<p:dialog widgetVar="acessosViewDialogWidget" id="acessosViewDialogId"
+		height="500" width="500" modal="true" closable="true">
+		<h:form id="acessosViewDialogForm" prependId="false">
+
+			<p:dataTable id="acessosTable" paginator="true" paginatorPosition="bottom"
+     			rows="20"
+				value="#{userBean.usuarioSelecionado.acessos}" var="acesso"
+				rowsPerPageTemplate="5,10,15,20"
+				emptyMessage="Nenhum registro encontrado">
+
+				<p:column styleClass="columns">
+					<f:facet name="header">
+						<h:outputText value="Login" />
+					
+					</f:facet>
+					<h:outputText value="#{acesso.login}" />
+				
+				
+				</p:column>
+				
+				<p:column styleClass="columns">
 					<f:facet name="header">
 						<h:outputText value="Acesso" />
 					</f:facet>
-					<h:outputText value="#{acesso.dt_acesso}" >
-					
-					<f:convertDateTime pattern="dd/MM/yy" />
+					<h:outputText value="#{acesso.dt_AcessoFormatada}">
+
+						<f:convertDateTime pattern="dd/MM/yyyy hh:mm" />
 					</h:outputText>
 				</p:column>
-		
-		</p:dataTable>
-	
-	</h:form>
+
+
+				<f:facet name="footer">  
+				Total de Acesso(s) 	#{fn:length(userBean.usuarioSelecionado.acessos)}
+        </f:facet>
+
+			</p:dataTable>
+			
+			<p:separator></p:separator>
+
+			<p:spacer width="420" height="10"></p:spacer>
+			<p:commandButton value="Ok" icon="ui-icon-circle-check" 
+					actionListener="#{userBean.resetUser()}"
+					onclick="acessosViewDialogWidget.hide();" type="button" />
+
+		</h:form>
 	</p:dialog>
 </h:body>
 

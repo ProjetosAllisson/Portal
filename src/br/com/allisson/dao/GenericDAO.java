@@ -1,10 +1,15 @@
 package br.com.allisson.dao;
 
 import java.io.Serializable;
-import java.util.*;
-import java.util.Map.*;
- 
-import javax.persistence.*;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.NoResultException;
+import javax.persistence.Persistence;
+import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaQuery;
  
 abstract class GenericDAO<T> implements Serializable {

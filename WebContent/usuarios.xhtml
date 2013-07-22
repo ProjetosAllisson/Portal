@@ -13,16 +13,15 @@
 		<p:growl id="messageGrowl" />
 
 		<h:form id="usuariosForm">
-			<p:dataTable id="usuariosTable" value="#{userBean.allUsers}" var="user"
-			    paginator="true" paginatorPosition="bottom"
-				rowKey="#{user.id}" selection="#{userBean.usuarioSelecionado}" selectionMode="single"
-				emptyMessage="Nenhum registro encontrado">
+			<p:dataTable id="usuariosTable" value="#{userBean.allUsers}"
+				var="user" paginator="true" paginatorPosition="bottom"
+				rowKey="#{user.id}" selection="#{userBean.usuarioSelecionado}"
+				selectionMode="single" emptyMessage="Nenhum registro encontrado">
 
 
-				<p:column styleClass="columns">
-					<f:facet name="header">
-						<h:outputText value="Login" />
-					</f:facet>
+				<p:column id="loginColumn" 
+					filterBy="#{user.login}" headerText="Login">
+					
 					<h:outputText value="#{user.login}" />
 				</p:column>
 
@@ -43,7 +42,16 @@
 				</p:column>
 
 
-<!-- ComandButton
+				<p:column styleClass="columns" sortBy="#{user.cliente.nome}">
+					<f:facet name="header">
+						<h:outputText value="Cliente" />
+					</f:facet>
+					<h:outputText value="#{user.cliente.nome}" />
+				</p:column>
+
+
+
+				<!-- ComandButton
 				<p:column>
 
 					<p:spacer width="10px" />
@@ -64,50 +72,62 @@
 				<p:column styleClass="columns">
 
 					<f:facet name="header">
-						<h:outputText value="Excluir" />					
+						<h:outputText value="Excluir" />
 					</f:facet>
-					<p:commandLink title="Exclui Usuário"  
-  					    
-  					    
+					<p:commandLink title="Exclui Usuário"
 						update=":usuariosDeleteDialogForm"
 						onclick="usuariosDeleteDialogWidget.show();">
-						<f:setPropertyActionListener target="#{userBean.usuarioSelecionado}"
-							value="#{user}" />
-							
-					 <p:graphicImage styleClass="semBorda" value="/img/delete_group.png" ></p:graphicImage>	  
-					
-					<!-- <p:graphicImage styleClass="iconDelete" style="border:0px;"  ></p:graphicImage>	 -->
+						<f:setPropertyActionListener
+							target="#{userBean.usuarioSelecionado}" value="#{user}" />
+
+						<p:graphicImage styleClass="semBorda"
+							value="/img/delete_group.png"></p:graphicImage>
+
+						<!-- <p:graphicImage styleClass="iconDelete" style="border:0px;"  ></p:graphicImage>	 -->
 
 					</p:commandLink>
 
-					
+
 				</p:column>
-				
+
 				<p:column styleClass="columns">
-				
+
 					<f:facet name="header">
 						<h:outputText value="Editar" />
 					</f:facet>
-					
-					<p:commandLink value="Editar" title="Editar Usuário"
-					update=":usuariosUpdateDialogForm"
-					onclick="usuariosUpdateDialogWidget.show();">
-					<f:setPropertyActionListener target="#{userBean.usuarioSelecionado}" value="#{user}"></f:setPropertyActionListener>
-					
-					
+
+					<p:commandLink  title="Editar Usuário"
+						update=":usuariosUpdateDialogForm"
+						onclick="usuariosUpdateDialogWidget.show();">
+						<f:setPropertyActionListener
+							target="#{userBean.usuarioSelecionado}" value="#{user}"></f:setPropertyActionListener>
+							<p:graphicImage styleClass="semBorda"
+							value="/img/users_edit.png"></p:graphicImage>
+
 					</p:commandLink>
 				</p:column>
 
+
 				<p:column styleClass="columns">
-				
+					<f:facet name="header">
+						<h:outputText value="Acesso Autorizado" />
+					</f:facet>
+					<h:outputText value="#{user.userAcessoAutorizado()}" />
+				</p:column>
+
+				<p:column styleClass="columns">
+
 					<f:facet name="header">
 						<h:outputText value="Acessos" />
 					</f:facet>
-					
-					<p:commandLink value="#{user.totalAcessos()}" update=":acessosViewDialogForm" onclick="acessosViewDialogWidget.show();" >
-						<f:setPropertyActionListener target="#{userBean.usuarioSelecionado}" value="#{user}"></f:setPropertyActionListener>
+
+					<p:commandLink value="#{user.totalAcessos()}"
+						update=":acessosViewDialogForm"
+						onclick="acessosViewDialogWidget.show();">
+						<f:setPropertyActionListener
+							target="#{userBean.usuarioSelecionado}" value="#{user}"></f:setPropertyActionListener>
 					</p:commandLink>
-					
+
 				</p:column>
 
 			</p:dataTable>
@@ -115,8 +135,10 @@
 
 		</h:form>
 
-		<ui:include src="/paginas/protected/dialogs/usuariosDeleteDialog.xhtml" />
-		<ui:include src="/paginas/protected/dialogs/usuariosUpdateDialog.xhtml" />
+		<ui:include
+			src="/paginas/protected/dialogs/usuariosDeleteDialog.xhtml" />
+		<ui:include
+			src="/paginas/protected/dialogs/usuariosUpdateDialog.xhtml" />
 		<ui:include src="/paginas/protected/dialogs/acessosViewDialog.xhtml" />
 
 

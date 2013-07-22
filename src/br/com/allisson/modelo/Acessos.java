@@ -2,6 +2,7 @@ package br.com.allisson.modelo;
 
 import java.io.Serializable;
 import java.util.Calendar;
+import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -52,6 +53,19 @@ public class Acessos implements Serializable{
 	}
 	public void setUser(User user) {
 		this.user = user;
+	}
+	
+	public Date getDt_AcessoFormatada(){
+		// popula a data de finalizacao da tarefa, fazendo a conversao
+		/*
+		* Date data = rs.getDate("dataFinalizacao"); if(data != null) {
+		* Calendar dataFinalizacao = Calendar.getInstance();
+		* dataFinalizacao.setTime(data);
+		* tarefa.setDataFinalizacao(dataFinalizacao); }
+		*/
+		
+		return this.dt_acesso.getTime(); 
+		
 	}
 	
 }

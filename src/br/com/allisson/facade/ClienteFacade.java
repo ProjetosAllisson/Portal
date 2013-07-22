@@ -1,5 +1,7 @@
 package br.com.allisson.facade;
 
+import java.util.List;
+
 import br.com.allisson.dao.ClienteDAO;
 import br.com.allisson.modelo.Cliente;
 
@@ -14,6 +16,17 @@ public class ClienteFacade {
 		
 		return cliente;
 		
+	}
+	
+	public List<Cliente> allClientes(){
+		clienteDAO.beginTransaction();
+		
+		List<Cliente> clientes = clienteDAO.findAll();
+		
+		//Collections.sort(clientes,"nome");
+
+		
+		return clientes;
 	}
 
 }

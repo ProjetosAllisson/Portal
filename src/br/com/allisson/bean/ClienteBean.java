@@ -1,5 +1,7 @@
 package br.com.allisson.bean;
 
+import java.util.List;
+
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
@@ -44,6 +46,9 @@ public class ClienteBean {
 		return clienteFacade;
 	}
 
+	public List<Cliente> allClientes(){
+		return getClienteFacade().allClientes();
+	}
 	
 	
 }

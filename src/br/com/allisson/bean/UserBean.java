@@ -11,22 +11,21 @@ import javax.servlet.http.HttpServletRequest;
 import br.com.allisson.facade.UserFacade;
 import br.com.allisson.modelo.User;
 
-
 @SessionScoped
-@ManagedBean(name ="userBean")
+@ManagedBean(name = "userBean")
 public class UserBean extends AbstractMB implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	public static final String INJECTION_NAME = "#{userBean}";
 
-	
 	private User user;
 	private User usuarioSelecionado;
 	private UserFacade userFacade;
 	private List<User> users;
-	 
-	
-	public UserBean(){
+
+	private String cnpj;
+
+	public UserBean() {
 		resetUser();
 	}
 
@@ -44,34 +43,33 @@ public class UserBean extends AbstractMB implements Serializable {
 	}
 
 	private HttpServletRequest getRequest() {
-		return (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+		return (HttpServletRequest) FacesContext.getCurrentInstance()
+				.getExternalContext().getRequest();
 	}
 
-	
 	public void resetUser() {
 		user = new User();
 	}
-		
-	
+
 	public User getUser() {
-		
+
 		return user;
 	}
 
 	public void setUser(User user) {
 		this.user = user;
 	}
-	
-	public UserFacade getUserFacade(){
+
+	public UserFacade getUserFacade() {
 		if (userFacade == null) {
 			userFacade = new UserFacade();
 		}
-		
+
 		return userFacade;
 	}
-	
-	public List<User> getAllUsers(){
-		if (users == null){
+
+	public List<User> getAllUsers() {
+		if (users == null) {
 			loadUsers();
 		}
 		return users;
@@ -79,17 +77,16 @@ public class UserBean extends AbstractMB implements Serializable {
 
 	private void loadUsers() {
 		users = getUserFacade().listAll();
-		
+
 	}
-	
-	
-	public void usuarioSelecionado(User usuarioSelecionado){
+
+	public void usuarioSelecionado(User usuarioSelecionado) {
 		this.setUsuarioSelecionado(usuarioSelecionado);
 	}
-	
+
 	public void deleteUser() {
 		try {
-			System.out.println("Usuario"+usuarioSelecionado.getLogin());
+			System.out.println("Usuario" + usuarioSelecionado.getLogin());
 			getUserFacade().deleteUser(usuarioSelecionado);
 			closeDialog();
 			displayInfoMessageToUser("Excluído com sucesso");
@@ -101,9 +98,8 @@ public class UserBean extends AbstractMB implements Serializable {
 			e.printStackTrace();
 		}
 	}
-	
-	
-	public void updateUser(){
+
+	public void updateUser() {
 		try {
 			getUserFacade().updateUser(usuarioSelecionado);
 			closeDialog();
@@ -116,7 +112,7 @@ public class UserBean extends AbstractMB implements Serializable {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public User getUsuarioSelecionado() {
 		if (usuarioSelecionado == null) {
 			return new User();
@@ -127,10 +123,28 @@ public class UserBean extends AbstractMB implements Serializable {
 	public void setUsuarioSelecionado(User usuarioSelecionado) {
 		this.usuarioSelecionado = usuarioSelecionado;
 	}
-	
-	public int qtdeAcessos(){
-		return this.user.getAcessos().size();
+
+	public String getCnpj() {
+
+		if (this.usuarioSelecionado != null) {
+			System.out.println("Usuario selecionado "
+					+ this.usuarioSelecionado.getCliente().getCgc());
+			
+			return this.usuarioSelecionado.getCliente().getCgc();
+			
+		}
+
+		return cnpj;
+		//return cnpj; // this.usuarioSelecionado.getCliente().getCgc();
 	}
 
+	public void setCnpj(String cnpj) {
+
+		System.out.println("Cnpj informado " + cnpj);
+		this.usuarioSelecionado.getCliente().setCgc(cnpj);
+
+	}
 	
+	
+
 }

@@ -1,6 +1,7 @@
 package br.com.allisson.dao;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import br.com.allisson.modelo.Cliente;
@@ -23,6 +24,12 @@ public class ClienteDAO extends GenericDAO<Cliente>{
 		parameters.put("cgc", cnpj);
 		
 		return super.findOneResult(Cliente.FIND_CLIENTE, parameters);
+	}
+	
+	public List<Cliente> allClientes(){
+		
+		return super.findAll();
+		
 	}
 
 }

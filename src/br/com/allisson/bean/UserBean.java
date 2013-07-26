@@ -17,7 +17,7 @@ public class UserBean extends AbstractMB implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	public static final String INJECTION_NAME = "#{userBean}";
-
+	
 	private User user;
 	private User usuarioSelecionado;
 	private UserFacade userFacade;
@@ -30,16 +30,21 @@ public class UserBean extends AbstractMB implements Serializable {
 	}
 
 	public boolean isAdmin() {
+		
+		System.out.println(user.isAdmin());
+		
 		return user.isAdmin();
 	}
 
 	public boolean isDefaultUser() {
+		System.out.println(user.isUser());
+		
 		return user.isUser();
 	}
 
 	public String logOut() {
 		getRequest().getSession().invalidate();
-		return "/pages/public/login.xhtml";
+		return "/paginas/public/login.xhtml";
 	}
 
 	private HttpServletRequest getRequest() {
@@ -135,14 +140,11 @@ public class UserBean extends AbstractMB implements Serializable {
 		}
 
 		return cnpj;
-		//return cnpj; // this.usuarioSelecionado.getCliente().getCgc();
+		
 	}
 
 	public void setCnpj(String cnpj) {
-
-		System.out.println("Cnpj informado " + cnpj);
 		this.usuarioSelecionado.getCliente().setCgc(cnpj);
-
 	}
 	
 	

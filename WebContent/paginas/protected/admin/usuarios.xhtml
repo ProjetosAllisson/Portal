@@ -1,26 +1,26 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
-<html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:p="http://primefaces.org/ui">
 
-<h:head>
-	<h:body>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core" xmlns:p="http://primefaces.org/ui">
+
+
+<h:body>
+
+<ui:composition template="/paginas/protected/templates/master.xhtml">
+<ui:define name="divMain">
 		<h:outputStylesheet library="css" name="master.css"></h:outputStylesheet>
-		<p:growl id="messageGrowl" />
 
 		<h:form id="usuariosForm">
-			<p:dataTable id="usuariosTable" value="#{userBean.allUsers}"
+			<p:dataTable id="usuariosTable" value="#{userBean.allUsers}" style="width: 80%; height: 60%"
 				var="user" paginator="true" paginatorPosition="bottom"
 				rowKey="#{user.id}" selection="#{userBean.usuarioSelecionado}"
 				selectionMode="single" emptyMessage="Nenhum registro encontrado">
 
 
 				<p:column id="loginColumn" 
-					filterBy="#{user.login}" headerText="Login">
+					sortBy="#{user.login}" headerText="Login">
 					
 					<h:outputText value="#{user.login}" />
 				</p:column>
@@ -34,7 +34,7 @@
 				</p:column>
 
 
-				<p:column styleClass="columns">
+				<p:column styleClass="columns" style="width: 15%; height: 15%">
 					<f:facet name="header">
 						<h:outputText value="Cnpj" />
 					</f:facet>
@@ -42,32 +42,12 @@
 				</p:column>
 
 
-				<p:column styleClass="columns" sortBy="#{user.cliente.nome}">
+				<p:column styleClass="columns" sortBy="#{user.cliente.nome}" style="width: 30%; height: 30%">
 					<f:facet name="header">
 						<h:outputText value="Cliente" />
 					</f:facet>
 					<h:outputText value="#{user.cliente.nome}" />
 				</p:column>
-
-
-
-				<!-- ComandButton
-				<p:column>
-
-					<p:spacer width="10px" />
-					<p:commandButton title="Exclui Usuário" 
-  					    
-  					    icon="iconDelete" 
-						update=":usuariosDeleteDialogForm"
-						onclick="usuariosDeleteDialogWidget.show();">
-						<f:setPropertyActionListener target="#{userBean.usuarioSelecionado}"
-							value="#{user}" />
-					</p:commandButton>
-
-					
-				</p:column>
-				
- -->
 
 				<p:column styleClass="columns">
 
@@ -108,14 +88,14 @@
 				</p:column>
 
 
-				<p:column styleClass="columns">
+				<p:column styleClass="columns" style="width: 1%; height: 1%">
 					<f:facet name="header">
 						<h:outputText value="Acesso Autorizado" />
 					</f:facet>
 					<h:outputText value="#{user.userAcessoAutorizado()}" />
 				</p:column>
 
-				<p:column styleClass="columns">
+				<p:column styleClass="columns" >
 
 					<f:facet name="header">
 						<h:outputText value="Acessos" />
@@ -132,17 +112,17 @@
 
 			</p:dataTable>
 
-
+		
 		</h:form>
 
-		<ui:include
-			src="/paginas/protected/dialogs/usuariosDeleteDialog.xhtml" />
-		<ui:include
-			src="/paginas/protected/dialogs/usuariosUpdateDialog.xhtml" />
+				
+       <ui:include	src="/paginas/protected/dialogs/usuariosDeleteDialog.xhtml" />
+		<ui:include	src="/paginas/protected/dialogs/usuariosUpdateDialog.xhtml" />
 		<ui:include src="/paginas/protected/dialogs/acessosViewDialog.xhtml" />
+			
+		</ui:define>
+	</ui:composition>
 
-
-	</h:body>
-
-</h:head>
+		
+</h:body>
 </html>

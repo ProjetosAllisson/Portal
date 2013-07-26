@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+<h:head>
+	<title>Portal de Serviços</title>
+	
+	<meta http-equiv="X-UA-Compatible" content="IE=8" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	
+	<script src="javax.faces.resource/primefaces.js.jsf?ln=primefaces" type="text/javascript"></script>
+	
+</h:head>
+
+<h:body>
+	<f:view contentType="text/html; charset=UTF-8" encoding="UTF-8" >
+	<p:layout fullPage="true" style="min-width:1020px;max-width:1220px;min-height:800px">
+		<p:layoutUnit position="north" size="60">
+		<div id="divTop" style="vertical-align: middle;">
+			<ui:insert name="divTop">
+				<ui:include src="top.xhtml" />
+			</ui:insert>
+		</div>
+		</p:layoutUnit>
+		
+
+		<div id="divLeft">
+			<ui:insert name="divLeft">
+				<ui:include src="left.xhtml" />
+			</ui:insert>
+		</div>
+
+		<p:layoutUnit position="center">
+			
+			<div id="divMain">
+				<p:growl id="messageGrowl" />
+				<ui:insert name="divMain" />
+			</div>
+		</p:layoutUnit>
+		
+		<p:layoutUnit position="south">
+			<div id="divBottom">
+			
+			<ui:include src="bottom.xhtml"></ui:include>
+			</div>
+		</p:layoutUnit>
+		
+	</p:layout>	
+	</f:view>
+</h:body>
+</html>

@@ -1,0 +1,257 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" >
+
+<h:body>
+	<ui:composition template="/paginas/protected/templates/master.xhtml">
+	<ui:define name="divMain">
+
+		<h:form id="form">
+
+			<!--Ajax com status customizado -->
+			<p:ajaxStatus onstart="statusDialog.show()"
+				onsuccess="statusDialog.hide();" />
+			<p:dialog modal="true" widgetVar="statusDialog" header="Status" 
+				draggable="false" closable="false" >
+				<h:graphicImage value="/resources/LoadingProgressBar.gif" />
+			</p:dialog>
+
+			<p:growl showDetail="true"></p:growl>
+			<p:tabView>
+				<p:tab title="Pesquisa por Período">
+					<h:panelGrid columns="7">
+
+						<h:outputLabel value="Data Inicial" for="txtDataInicio" />
+
+						<p:calendar id="txtDataInicio" pattern="dd/MM/yyyy" locale="pt_BR"
+							value="#{documentosBean.dataInicio}" maxlength="10"
+							style="font-size:12px;heigth=30"
+							converterMessage="Data Invalida. Exemplo 01/01/2013">
+
+						</p:calendar>
+
+						<h:outputLabel value="Data Final" for="txtDataTermino" />
+
+						<p:calendar id="txtDataTermino" pattern="dd/MM/yyyy"
+							locale="pt_BR" value="#{documentosBean.dataTermino}"
+							maxlength="10" style="font-size:12px;width=130">
+						</p:calendar>
+
+						<h:outputLabel value="Posição no Frete" for="selectCliente" />
+						<h:selectOneMenu id="selectCliente"
+							value="#{documentosBean.cliente}">
+							<f:selectItem itemValue="null" itemLabel="Ambas" />
+							<f:selectItem itemValue="remet" itemLabel="Remetente" />
+							<f:selectItem itemValue="dest" itemLabel="Destinatario" />
+						</h:selectOneMenu>
+
+						<p:commandButton value="Pesquisar"
+							style="font-size:12px;width=40%"
+							action="#{documentosBean.DocumentosPorPeriodo}" rendered="#{servDisponiveis.rastreamento()}" update="@form"></p:commandButton>
+
+
+
+					</h:panelGrid>
+				</p:tab>
+
+				<p:tab title="Pesquisa por Nota Fiscal">
+					<h:panelGrid columns="7">
+						<h:outputLabel value="Nota Fiscal:" for="edtNotaFiscal" />
+						<p:inputText id="edtNotaFiscal"
+							value="#{documentosBean.notafiscal}"
+							converterMessage="Campo nota fiscal é Numérico">
+							<f:convertNumber integerOnly="true" maxIntegerDigits="9" />
+						</p:inputText>
+
+						<p:commandButton value="Pesquisar"
+							style="font-size:12px;width=40%"
+							action="#{documentosBean.DocumentosPorNotaFiscal}" update="@form"></p:commandButton>
+
+					</h:panelGrid>
+				</p:tab>
+			</p:tabView>
+
+
+
+
+			<p:dataTable value="#{documentosBean.documentos}" paginator="true"
+				paginatorPosition="bottom" rows="20"
+				paginatorTemplate="{CurrentPageReport} {RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+				rowsPerPageTemplate="3,5,10,15,20" var="documentos"
+				id="gridDocumentos" emptyMessage="Nenhum registro encontrado"
+				rowKey="#{documentos.documento}" selectionMode="single"
+				selection="#{documentosBean.documentoSelecionado}">
+				<f:facet name="header">
+			  Lista de Documentos
+			</f:facet>
+
+				<p:column style="font-size:10px;width=40%"
+					sortBy="#{documentos.documento}">
+					<f:facet name="header">
+						<h:outputText value="Documento" />
+					</f:facet>
+					<h:outputText value="#{documentos.documento}" />
+				</p:column>
+
+				<p:column style="font-size:10px;" sortBy="#{documentos.nota}">
+
+
+					<f:facet name="header">
+						<h:outputText value="NF" />
+					</f:facet>
+					<h:outputText value="#{documentos.nota}">
+						<f:convertNumber pattern="########0" minIntegerDigits="9" />
+					</h:outputText>
+				</p:column>
+
+
+				<p:column style="font-size:10px;" sortBy="#{documentos.emissao}">
+					<f:facet name="header">
+						<h:outputText value="Emissão" />
+					</f:facet>
+					<h:outputText value="#{documentos.emissao}">
+						<f:convertDateTime pattern="dd/MM/yy" />
+					</h:outputText>
+
+				</p:column>
+
+				<p:column style="font-size:10px;" sortBy="#{documentos.embarque}"
+					rendered="#{configDocumentosBean.colunaEmbarque}">
+					<f:facet name="header">
+						<h:outputText value="Embarque" />
+					</f:facet>
+					<h:outputText value="#{documentos.embarque}">
+						<f:convertDateTime pattern="dd/MM/yy" />
+					</h:outputText>
+				</p:column>
+
+				<p:column style="font-size:10px;" sortBy="#{documentos.chegada}"
+					rendered="#{configDocumentosBean.colunaChegada}">
+					<f:facet name="header">
+						<h:outputText value="Chegada" />
+					</f:facet>
+					<h:outputText value="#{documentos.chegada}">
+						<f:convertDateTime pattern="dd/MM/yy" />
+					</h:outputText>
+				</p:column>
+
+
+				<p:column style="font-size:10px;" sortBy="#{documentos.saida}">
+					<f:facet name="header">
+						<h:outputText value="Saida p/ Entrega" />
+					</f:facet>
+					<h:outputText value="#{documentos.saida}">
+						<f:convertDateTime pattern="dd/MM/yy hh:mm" />
+					</h:outputText>
+				</p:column>
+
+				<p:column style="font-size:10px;" sortBy="#{documentos.entrega}">
+					<f:facet name="header">
+						<h:outputText value="Entrega" />
+					</f:facet>
+					<h:outputText value="#{documentos.entrega}">
+						<f:convertDateTime pattern="dd/MM/yy" />
+					</h:outputText>
+				</p:column>
+
+				<p:column style="font-size:10px;" sortBy="#{documentos.remetente}">
+					<f:facet name="header">
+						<h:outputText value="Remetente" />
+					</f:facet>
+					<h:outputText value="#{documentos.remetente}" />
+				</p:column>
+
+				<p:column style="font-size:10px;"
+					sortBy="#{documentos.destinatario}">
+					<f:facet name="header">
+						<h:outputText value="Destinatário" />
+					</f:facet>
+					<h:outputText value="#{documentos.destinatario}" />
+				</p:column>
+
+				<p:column style="font-size:10px;">
+					<f:facet name="header">
+						<h:outputText value="Ocorrência" />
+					</f:facet>
+					<h:outputText value="#{documentos.ocorrencia}" />
+				</p:column>
+
+
+				<p:column style="height: 20px; width: 20px;">
+					<p:commandButton id="selectButton" update=":form:detalhes"
+						oncomplete="documento.show()" icon="ui-icon-image"
+						style="height: 20px; width: 20px; horizontal-align:center;"
+						title="Comprovante de Entrega" rendered="#{documentos.temImagem}">
+					</p:commandButton>
+				</p:column>
+			</p:dataTable>
+
+
+
+			<p:dialog header="Comprovante de Entrega" widgetVar="documento"
+				resizable="false" id="produtoDialog" showEffect="fade"
+				hideEffect="explode" modal="true" draggable="true"
+				maximizable="true" minimizable="true">
+
+				<p:scrollPanel>
+					<p:panel id="detalhes" style="margin:0 auto;">
+
+						<p:accordionPanel id="tabComprovante" >
+							<p:tab id="tabFrente" title="Frente">
+
+								<p:panelGrid columns="2" styleClass="semBorda">
+									<p:commandButton id="downloadLink" title="Download"
+										ajax="false" onclick="PrimeFaces.monitorDownload(start, stop)"
+										icon="ui-icon-disk">
+										<p:fileDownload value="#{documentosBean.file}" />
+									</p:commandButton>
+
+									<p:commandButton type="button" icon="ui-icon-print"
+										title="Imprime">
+										<p:printer target="imgFrente" />
+									</p:commandButton>
+								</p:panelGrid>
+								<p:graphicImage id="imgFrente"
+									value="/temp/#{documentosBean.documentoSelecionado.nr_cto}.jpg"
+									cache="false" width="600" height="400" />
+							</p:tab>
+							<p:tab id="tabVerso" title="Verso">
+
+
+								<p:panelGrid columns="2" styleClass="semBorda">
+									<p:commandButton id="downloadLinkVerso" title="Download"
+										ajax="false" onclick="PrimeFaces.monitorDownload(start, stop)"
+										icon="ui-icon-disk">
+										<p:fileDownload value="#{documentosBean.fileVerso}" />
+									</p:commandButton>
+
+									<p:commandButton type="button" icon="ui-icon-print"
+										title="Imprime">
+										<p:printer target="imgVerso" />
+									</p:commandButton>
+								</p:panelGrid>
+
+
+								<p:graphicImage id="imgVerso"
+									value="/temp/#{documentosBean.documentoSelecionado.nr_cto}V.jpg"
+									cache="false" width="600" height="400" />
+							</p:tab>
+						</p:accordionPanel>
+
+					</p:panel>
+				</p:scrollPanel>
+			</p:dialog>
+
+		</h:form>
+
+	</ui:define>
+	</ui:composition>
+	</h:body>
+</html>
+
+

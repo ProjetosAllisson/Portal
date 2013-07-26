@@ -1,10 +1,10 @@
 package br.com.allisson.bean;
 
 import java.io.IOException;
-import java.sql.SQLException;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
@@ -21,6 +21,11 @@ import br.com.allisson.util.Criptografia;
 @SessionScoped
 public class LoginBean extends AbstractMB{
 
+	
+	@ManagedProperty(value = UserBean.INJECTION_NAME)
+	private UserBean userBean;
+	
+	
 	private User usuarioAutenticado;
 
 	private String usuario;
@@ -71,7 +76,7 @@ public class LoginBean extends AbstractMB{
 		this.senha = senha;
 	}
 
-	public void autentica() throws SQLException {
+	public String autentica()  {
 		UserFacade userFacade = new UserFacade();
 
 		System.out.println("autentica");
@@ -99,6 +104,12 @@ public class LoginBean extends AbstractMB{
 			
 			displayInfoMessageToUser("Acesso ao Portal Web, Seja bem-vindo " + usuario);
 			
+			userBean.setUser(usuarioAutenticado);
+			
+			
+			System.out.println(usuarioAutenticado.isUser());
+			
+			System.out.println(usuarioAutenticado.isAdmin());
 			
 			FacesContext ctx = FacesContext.getCurrentInstance();
 			session = (HttpSession) ctx.getExternalContext().getSession(false);
@@ -122,6 +133,10 @@ public class LoginBean extends AbstractMB{
 
 			// return "rastreamento";
 
+			
+			return "/paginas/protected/index.xhtml";
+			
+			/*
 			try {
 				FacesContext.getCurrentInstance().getExternalContext()
 						.getSessionMap()
@@ -137,8 +152,10 @@ public class LoginBean extends AbstractMB{
 				e.printStackTrace();
 			}
 
+			*
+			*/
 		}
-		// return ;
+		 return null;
 
 	}
 
@@ -204,6 +221,14 @@ public class LoginBean extends AbstractMB{
 
 	public void setLogado(boolean logado) {
 		this.logado = logado;
+	}
+
+	public UserBean getUserBean() {
+		return userBean;
+	}
+
+	public void setUserBean(UserBean userBean) {
+		this.userBean = userBean;
 	}
 
 }

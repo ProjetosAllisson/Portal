@@ -6,10 +6,16 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
+<h:head>
+
+	<meta http-equiv="X-UA-Compatible" content="IE=8" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+</h:head>
 <h:body>
 
 	<p:dialog widgetVar="usuariosUpdateDialogWidget"
-		id="usuariosUpdateDialogId" height="220" width="700" modal="true"
+		id="usuariosUpdateDialogId" height="220" width="700" modal="true" appendToBody="true"
 		closable="true" draggable="false" resizable="false">
 		<h:form id="usuariosUpdateDialogForm" prependId="false">
 			<p:fieldset legend="Edição  -  #{userBean.usuarioSelecionado.login}">
@@ -41,23 +47,7 @@
 
 					<h:outputText value="Cliente:" />
 
-					<!-- 
-					<p:inputMask mask="99.999.999/9999-99" id="txtCnpj"
-						value="#{userBean.usuarioSelecionado.cliente.cgc}">
-
-
-						<p:ajax event="keyup"
-							listener="#{clienteBean.localizaCliente(userBean.usuarioSelecionado.cliente.cgc)}"
-							update="nomeCliente"></p:ajax>
-
-					</p:inputMask>
-
-					<h:outputText id="nomeCliente" value="#{userBean.usuarioSelecionado.cliente.nome}" />
-					
-					
-					 -->
-					 
-					 
+										 
 					 <p:selectOneMenu value="#{userBean.cnpj}" >
 					 	<f:selectItem itemLabel="Nome"/>
 					 	<f:selectItems value="#{clienteBean.allClientes()}" var="cliente"  itemLabel="#{cliente.nome}" itemValue="#{cliente.cgc}"></f:selectItems>

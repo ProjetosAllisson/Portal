@@ -3,7 +3,6 @@ package br.com.allisson.facade;
 import java.util.List;
 
 import br.com.allisson.dao.UserDAO;
-import br.com.allisson.modelo.Cliente;
 import br.com.allisson.modelo.User;
 
 public class UserFacade {

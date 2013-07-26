@@ -310,5 +310,12 @@ public class DocumentosBean {
 				documentoSelecionado.getNr_cto()+"V.jpg");
 		return file;
 	}
+	
+	
+	public String acesso() {
+		System.out.println("tentando acessar a pagina");
+		return "paginas/protected/defaultUser/documentos.jsf";
+	}
+	
 
 }

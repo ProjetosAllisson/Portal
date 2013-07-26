@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:ui="http://java.sun.com/jsf/facelets"
+	  xmlns:h="http://java.sun.com/jsf/html"
+	  xmlns:f="http://java.sun.com/jsf/core"
+	  xmlns:p="http://primefaces.org/ui">
+<h:head>
+
+	<title>Portal Web - Allisson Sistemas</title>
+	
+	<ui:include	src="/paginas/protected/dialogs/usuariosDeleteDialog.xhtml" />
+	<ui:include	src="/paginas/protected/dialogs/usuariosUpdateDialog.xhtml" />
+	<ui:include src="/paginas/protected/dialogs/acessosViewDialog.xhtml" />
+	
+	
+</h:head>
+<body>
+	<p:layout fullPage="true">
+
+		
+	
+		<p:layoutUnit position="north" size="50" style="background: blue;" >
+			<h:outputLink value="http://www.allisson.com.br" target="_blank">
+					<div>
+						<img src="resources/imagens/banner.JPG" width="100%"
+							height="100%"></img>
+					</div>
+				</h:outputLink>
+		</p:layoutUnit>
+	
+		<p:layoutUnit position="center" header="Sistema">
+		<ui:insert name="conteudo"/>
+			<div id="rodape">
+				<h:form>
+					<!-- 
+					<p:dock position="top" itemWidth="50"  > 
+						<p:menuitem value="Compra" icon="resources/imagens/home.png" url="#"></p:menuitem>
+						<p:menuitem value="Venda" icon="resources/imagens/home.png" url="#"></p:menuitem>
+						<p:menuitem value="Novo Cadastro" icon="resources/imagens/home.png" url="#"></p:menuitem>
+						<p:menuitem value="Listar" icon="resources/imagens/home.png" url="#"></p:menuitem>
+						 
+						<p:menuitem value="Consultar" icon="/resources/images/icone-busca.jpg"></p:menuitem>
+						<p:menuitem value="Consultar" icon="/resources/images/grafico.jpg"></p:menuitem>
+						
+					</p:dock>
+					 -->
+				</h:form>
+			</div>
+		</p:layoutUnit>
+		
+		
+		
+		
+		<p:layoutUnit position="west" width="200" resizable="true" closable="false" collapsible="true" header="Menu">
+		<h:form>
+			<p:menu style="width:98%; font-size:12px;">
+				<p:submenu label="Agendamento">
+					<p:menuitem value="Busca de sucata"></p:menuitem>
+					<p:menuitem value="Entrefa de Mercadoria"></p:menuitem>
+				</p:submenu>
+				
+				<p:submenu label="Funcionario">
+					<p:menuitem value="Folha de pagamento"></p:menuitem>
+					<p:menuitem value="Vales"></p:menuitem>
+					<p:menuitem value="Faltas"></p:menuitem>
+					<p:menuitem value="Hora Extra"></p:menuitem>
+					<p:menuitem value="Lembretes"></p:menuitem>
+				</p:submenu>
+				
+				<p:submenu label="Administrativo" rendered="#{configDocumentosBean.colunaChegada}">
+					<p:menuitem value="Fila de Caminhoneiros"></p:menuitem>
+					<p:menuitem value="Carretas na estrada"></p:menuitem>
+					<p:menuitem value="Cheques"></p:menuitem>
+					<p:menuitem value="Notas Fiscais"></p:menuitem>
+				</p:submenu>
+			</p:menu>
+		</h:form>
+		</p:layoutUnit>
+		
+		<!-- 
+		<p:layoutUnit position="east" size="300" resizable="true" closable="false" collapsible="true">
+			<p:accordionPanel multiple="true" activeIndex="0" autoHeight="false">
+				<p:tab title="Calendario">
+					<p:calendar mode="inline" navigator="none" locale="pt"></p:calendar>
+				</p:tab>
+				<p:tab title="Informações">
+				</p:tab>
+				<p:tab title="Feed de Noticias">
+				</p:tab>
+			</p:accordionPanel>
+		</p:layoutUnit>
+		 -->
+	</p:layout>
+  		<p:growl id="growl" showDetail="true" sticky="true" />  
+  		
+		
+
+</body>
+</html>

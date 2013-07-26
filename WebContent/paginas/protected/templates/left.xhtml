@@ -1,0 +1,46 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:body>
+	<ui:composition>
+		<p:layoutUnit position="west" size="220" resizable="true" closable="false" collapsible="true">
+				<ui:insert name="menu">
+					<h:form>
+						<p:menu style="width: 200px" rendered="#{userBean.admin or userBean.defaultUser}">
+							<p:submenu label="Menu">
+								
+								<p:menuitem value="Rastreamento" icon="ui-icon-search"
+									action="/paginas/protected/defaultUser/documentos.jsf" immediate="true" ajax="false"></p:menuitem>
+							</p:submenu>
+						</p:menu>
+						
+						<p:menu style="width: 200px" rendered="#{userBean.admin}" >
+							<p:submenu label ="Administrador">
+								<p:menuitem value="Todos os Usuarios" icon="ui-icon-person"
+								  action="/paginas/protected/admin/usuarios.jsf" immediate="true" ajax="false"></p:menuitem>
+							</p:submenu>
+						</p:menu>
+						
+						<p:menu style="width: 200px">
+							<p:submenu >
+								
+								<p:menuitem value="Sair" icon="ui-icon-power"
+									action="#{userBean.logOut()}" />	
+								
+							</p:submenu>
+							
+						</p:menu>
+	
+	
+						
+					</h:form>
+				</ui:insert>
+			</p:layoutUnit>
+	</ui:composition>
+</h:body>
+</html>

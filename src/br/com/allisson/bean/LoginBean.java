@@ -134,15 +134,15 @@ public class LoginBean extends AbstractMB{
 			// return "rastreamento";
 
 			
-			return "/paginas/protected/index.xhtml";
+			//return "/paginas/protected/index.xhtml";
 			
-			/*
+			
 			try {
+				//FacesContext.getCurrentInstance().getExternalContext()
+					//	.getSessionMap()
+						//.put("documentosBean", new DocumentosBean());
 				FacesContext.getCurrentInstance().getExternalContext()
-						.getSessionMap()
-						.put("documentosBean", new DocumentosBean());
-				FacesContext.getCurrentInstance().getExternalContext()
-						.redirect("documentos.jsf");
+						.redirect("paginas/protected/index.jsf");
 
 				//
 				//FacesContext.getCurrentInstance().getExternalContext()
@@ -152,8 +152,7 @@ public class LoginBean extends AbstractMB{
 				e.printStackTrace();
 			}
 
-			*
-			*/
+			
 		}
 		 return null;
 

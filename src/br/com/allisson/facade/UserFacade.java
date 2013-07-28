@@ -46,6 +46,14 @@ public class UserFacade {
 		return result;
 	}
 	
+	public List<User> listAllNaoAutorizados() {
+		userDAO.beginTransaction();
+		List<User> result = userDAO.findAllUserNaoAutorizados();
+		userDAO.closeTransaction();
+		return result;
+	}
+	
+	
 	public void deleteUser(User user){
 		
 		System.out.println(user.getLogin());

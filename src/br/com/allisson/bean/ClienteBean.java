@@ -8,16 +8,17 @@ import javax.faces.bean.SessionScoped;
 import br.com.allisson.facade.ClienteFacade;
 import br.com.allisson.modelo.Cliente;
 
-@ManagedBean(name ="clienteBean")
+@ManagedBean(name = "clienteBean")
 @SessionScoped
 public class ClienteBean {
-	
+
 	private Cliente cliente;
+	private List<Cliente> clientes;
 	private ClienteFacade clienteFacade;
-	
-	private boolean disabled = true; 
-	
-	public void localizaCliente(String cliente){
+
+	private boolean disabled = true;
+
+	public void localizaCliente(String cliente) {
 		setCliente(getClienteFacade().localiza(cliente));
 
 		this.setDisabled(getCliente() == null);
@@ -40,15 +41,19 @@ public class ClienteBean {
 	}
 
 	public ClienteFacade getClienteFacade() {
-		if (clienteFacade == null){
+		if (clienteFacade == null) {
 			clienteFacade = new ClienteFacade();
-		}		
+		}
 		return clienteFacade;
 	}
 
-	public List<Cliente> allClientes(){
-		return getClienteFacade().allClientes();
+	public List<Cliente> allClientes() {
+		if (clientes == null) {
+			clientes = getClienteFacade().allClientes();
+		}
+		
+		return clientes;
+		
 	}
-	
-	
+
 }

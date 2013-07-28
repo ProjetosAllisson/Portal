@@ -13,9 +13,20 @@
 		<h:outputStylesheet library="css" name="master.css"></h:outputStylesheet>
 
 		<h:form id="usuariosForm">
-			<p:dataTable id="usuariosTable" value="#{userBean.allUsers}" style="width: 80%; height: 60%"
+			
+			<p:commandLink title="Incluir Usuário" update=":usuariosInsertDialogForm"
+			 			onclick="usuariosInsertDialogWidget.show();">
+			 			
+					<p:graphicImage styleClass="semBorda" value="/img/insertusuario.png"></p:graphicImage>
+			 </p:commandLink>
+			
+						
+			
+			
+			
+			<p:dataTable id="usuariosTable" value="#{usuariosBean.allUsers}" style="width: 80%; height: 60%"
 				var="user" paginator="true" paginatorPosition="bottom"
-				rowKey="#{user.id}" selection="#{userBean.usuarioSelecionado}"
+				rowKey="#{user.id}" selection="#{usuariosBean.usuarioSelecionado}"
 				selectionMode="single" emptyMessage="Nenhum registro encontrado">
 
 
@@ -58,7 +69,7 @@
 						update=":usuariosDeleteDialogForm"
 						onclick="usuariosDeleteDialogWidget.show();">
 						<f:setPropertyActionListener
-							target="#{userBean.usuarioSelecionado}" value="#{user}" />
+							target="#{usuariosBean.usuarioSelecionado}" value="#{user}" />
 
 						<p:graphicImage styleClass="semBorda"
 							value="/img/delete_group.png"></p:graphicImage>
@@ -80,7 +91,7 @@
 						update=":usuariosUpdateDialogForm"
 						onclick="usuariosUpdateDialogWidget.show();">
 						<f:setPropertyActionListener
-							target="#{userBean.usuarioSelecionado}" value="#{user}"></f:setPropertyActionListener>
+							target="#{usuariosBean.usuarioSelecionado}" value="#{user}"></f:setPropertyActionListener>
 							<p:graphicImage styleClass="semBorda"
 							value="/img/users_edit.png"></p:graphicImage>
 
@@ -105,7 +116,7 @@
 						update=":acessosViewDialogForm"
 						onclick="acessosViewDialogWidget.show();">
 						<f:setPropertyActionListener
-							target="#{userBean.usuarioSelecionado}" value="#{user}"></f:setPropertyActionListener>
+							target="#{usuariosBean.usuarioSelecionado}" value="#{user}"></f:setPropertyActionListener>
 					</p:commandLink>
 
 				</p:column>
@@ -115,8 +126,8 @@
 		
 		</h:form>
 
-				
-       <ui:include	src="/paginas/protected/dialogs/usuariosDeleteDialog.xhtml" />
+		<ui:include src="/paginas/protected/dialogs/usuariosInsertDialog.xhtml" />		
+        <ui:include	src="/paginas/protected/dialogs/usuariosDeleteDialog.xhtml" />
 		<ui:include	src="/paginas/protected/dialogs/usuariosUpdateDialog.xhtml" />
 		<ui:include src="/paginas/protected/dialogs/acessosViewDialog.xhtml" />
 			

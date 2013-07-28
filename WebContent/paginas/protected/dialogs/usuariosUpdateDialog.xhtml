@@ -18,14 +18,14 @@
 		id="usuariosUpdateDialogId" height="220" width="700" modal="true" appendToBody="true"
 		closable="true" draggable="false" resizable="false">
 		<h:form id="usuariosUpdateDialogForm" prependId="false">
-			<p:fieldset legend="Edição  -  #{userBean.usuarioSelecionado.login}">
+			<p:fieldset legend="Edição  -  #{usuariosBean.usuarioSelecionado.login}">
 
 				<p:separator></p:separator>
 
 				<p:panelGrid columns="3" styleClass="semBorda">
 					<h:outputText value="Acesso Autorizado ?" />
 					<p:selectBooleanButton
-						value="#{userBean.usuarioSelecionado.acesso_autorizado}"
+						value="#{usuariosBean.usuarioSelecionado.acesso_autorizado}"
 						onLabel="Sim" offLabel="Não" onIcon="ui-icon-check"
 						offIcon="ui-icon-close"></p:selectBooleanButton>
 
@@ -35,7 +35,7 @@
 
 					<p:inputText id="email" label="email" size="40"
 						validatorMessage="Invalid email format"
-						value="#{userBean.usuarioSelecionado.email}">
+						value="#{usuariosBean.usuarioSelecionado.email}">
 
 						<f:validateRegex
 							pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
@@ -48,7 +48,7 @@
 					<h:outputText value="Cliente:" />
 
 										 
-					 <p:selectOneMenu value="#{userBean.cnpj}" >
+					 <p:selectOneMenu value="#{usuariosBean.cnpj}" >
 					 	<f:selectItem itemLabel="Nome"/>
 					 	<f:selectItems value="#{clienteBean.allClientes()}" var="cliente"  itemLabel="#{cliente.nome}" itemValue="#{cliente.cgc}"></f:selectItems>
 					 	
@@ -70,7 +70,7 @@
 
 					<p:spacer width="400" height="10"></p:spacer>
 					<p:commandButton value="Confirma" icon="ui-icon-circle-check"
-						title="Confirma Alteração" action="#{userBean.updateUser()}"
+						title="Confirma Alteração" action="#{usuariosBean.updateUser()}"
 						update=":messageGrowl :usuariosForm:usuariosTable"
 						oncomplete="usuariosUpdateDialogWidget.hide();" />
 

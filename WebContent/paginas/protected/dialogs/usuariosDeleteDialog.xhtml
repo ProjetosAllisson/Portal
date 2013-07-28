@@ -16,7 +16,7 @@
 		<h:form id="usuariosDeleteDialogForm" prependId="false">
 
 
-			<p:fieldset legend="Login  -  #{userBean.usuarioSelecionado.login}">
+			<p:fieldset legend="Login  -  #{usuariosBean.usuarioSelecionado.login}">
 
 				<p:separator></p:separator>
 				
@@ -39,7 +39,7 @@
 				<p:spacer width="100" height="10"></p:spacer>
 				<p:spacer width="80" height="10"></p:spacer>
 				<p:commandButton value="Confirma" icon="ui-icon-circle-check" title="Confirma Exclusão"
-					action="#{userBean.deleteUser()}"
+					action="#{usuariosBean.deleteUser()}"
 					update=":messageGrowl :usuariosForm:usuariosTable"
 					oncomplete="usuariosDeleteDialogWidget.hide();" />
 

@@ -1,6 +1,7 @@
 package br.com.allisson.dao;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import br.com.allisson.modelo.User;
@@ -22,6 +23,21 @@ public class UserDAO extends GenericDAO<User> {
 		//parameters.put("senha", senha);
 
 		return super.findOneResult(User.FIND_USER_LOGIN, parameters);
+	}
+	
+	
+	
+	public List<User> findAllUserNaoAutorizados(){
+		
+		
+		
+		/*
+		 * 
+		 * Fazer a Busca DAO
+		 */
+		
+		return super.findAllResult(User.FIND_ALL_USER_NAO_AUTORIZADOS, null);
+		
 	}
 
 }

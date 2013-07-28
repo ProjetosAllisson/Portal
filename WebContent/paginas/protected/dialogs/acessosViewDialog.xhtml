@@ -16,7 +16,7 @@
 
 			<p:dataTable id="acessosTable" paginator="true" paginatorPosition="bottom"
      			rows="20"
-				value="#{userBean.usuarioSelecionado.acessos}" var="acesso"
+				value="#{usuariosBean.usuarioSelecionado.acessos}" var="acesso"
 				rowsPerPageTemplate="5,10,15,20"
 				emptyMessage="Nenhum registro encontrado">
 
@@ -42,7 +42,7 @@
 
 
 				<f:facet name="footer">  
-				Total de Acesso(s) 	#{fn:length(userBean.usuarioSelecionado.acessos)}
+				Total de Acesso(s) 	#{fn:length(usuariosBean.usuarioSelecionado.acessos)}
         </f:facet>
 
 			</p:dataTable>

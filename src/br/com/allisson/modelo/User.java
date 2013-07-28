@@ -11,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -22,7 +23,10 @@ import br.com.allisson.util.Criptografia;
 
 @Entity
 @Table(name = "TBL_USUARIO")
-@NamedQuery(name = "User.findUser", query = "select u from User u where u.login = :login")
+@NamedQueries({
+	@NamedQuery(name = "User.findUser", query = "select u from User u where u.login = :login"),
+	@NamedQuery(name = "User.findAllNaoAutorizados", query = "select u from User u where u.acesso_autorizado = false")
+})
 public class User implements Serializable {
 
 	/**
@@ -31,6 +35,7 @@ public class User implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	public static final String FIND_USER_LOGIN = "User.findUser";
+	public static final String FIND_ALL_USER_NAO_AUTORIZADOS = "User.findAllNaoAutorizados";
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)

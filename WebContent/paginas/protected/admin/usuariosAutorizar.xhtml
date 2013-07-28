@@ -1,0 +1,45 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/paginas/protected/templates/master.xhtml">
+	<ui:define name="divMain">
+
+		<h:form id="usuariosAutorizarForm">
+			<p:dataTable id="usuariosAutorizarTable" var="user"
+				value="#{usuariosBean.allUsersNaoAutorizados}" paginator="true"
+				paginatorPosition="bottom" rowKey="#{user.id}"
+				selection="#{usuariosBean.usuariosSelecionados}">
+
+				<p:column selectionMode="multiple"></p:column>
+
+				<p:column headerText="Login">
+					#{user.login}
+				</p:column>
+
+				<p:column headerText="Cnpj">
+					#{user.cliente.cgc}
+				</p:column>
+
+				<p:column headerText="Nome">
+					#{user.cliente.nome}
+				</p:column>
+
+			</p:dataTable>
+			<p:commandButton id="multiAutorizarButton" title="Auor" value="Autorizar" ajax="false" update=":usuariosAutorizarTable"  
+				action="#{usuariosBean.autorizaUsuarios}">
+				
+				</p:commandButton>
+
+		</h:form>
+
+
+	</ui:define>
+
+</ui:composition>
+</html>

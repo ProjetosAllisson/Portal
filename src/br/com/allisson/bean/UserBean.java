@@ -4,8 +4,10 @@ import java.io.Serializable;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import br.com.allisson.modelo.User;
 
@@ -37,8 +39,19 @@ public class UserBean extends AbstractMB implements Serializable {
 	}
 
 	public String logOut() {
+		FacesContext fc = FacesContext.getCurrentInstance();
+		ExternalContext ec = fc.getExternalContext();
+		HttpSession session = (HttpSession) ec.getSession(false);
+
+		session.removeAttribute("usuarioAutenticado");
+		session.invalidate();
+		
 		getRequest().getSession().invalidate();
-		return "/paginas/public/login.xhtml";
+		
+		
+		
+		return "/pages/public/login.jsf";
+		//return "login.jsf";
 	}
 
 	private HttpServletRequest getRequest() {

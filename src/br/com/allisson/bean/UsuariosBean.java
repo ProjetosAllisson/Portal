@@ -1,7 +1,6 @@
 package br.com.allisson.bean;
 
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
@@ -33,7 +32,7 @@ public class UsuariosBean extends AbstractMB {
 		resetUser();
 	}
 
-	public String InserirUsuario() throws SQLException {
+	public void InserirUsuario() {
 	
 
 		Cliente cliente = new Cliente();
@@ -46,11 +45,13 @@ public class UsuariosBean extends AbstractMB {
 			usuario.setAcesso_autorizado(false);
 			getUserFacade().createUser(usuario);
 
+			loadUsers();
+			
 			displayInfoMessageToUser("Usuário inserido com sucesso");
 
-			return "usuario_sucesso";
+			//return "usuario_sucesso";
 		}
-		return null;
+		//return null;
 
 		/*
 		 * try { usuarioDao.adiciona(this.usuario); return "usuario_sucesso"; }
@@ -171,15 +172,7 @@ public class UsuariosBean extends AbstractMB {
 		this.usuarioSelecionado = usuarioSelecionado;
 	}
 
-	public String getCnpjInclusao() {
-		
-		if (this.usuarioSelecionado != null) {
-			System.out.println("Usuario selecionado "
-					+ this.usuarioSelecionado.getCliente().getCgc());
-			
-			return this.usuarioSelecionado.getCliente().getCgc();
-			
-		}
+	public String getCnpjInclusao() {				
 		return cnpj;
 	}
 	
@@ -203,7 +196,7 @@ public class UsuariosBean extends AbstractMB {
 	}
 	
 	public void setCnpjInclusao(String cnpj) {
-		this.usuario.getCliente().setCgc(cnpj);
+		this.cnpj = cnpj;
 	}
 
 	public User[] getUsuariosSelecionados() {

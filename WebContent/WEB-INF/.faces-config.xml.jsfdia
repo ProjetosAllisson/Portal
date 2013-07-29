@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <PROCESS model-entity="JSFProcess">
- <PROCESS-ITEM NAME="rules:#login.xhtml" PATH="/login.xhtml"
+ <PROCESS-ITEM NAME="rules:#login_teste.xhtml" PATH="/login_teste.xhtml"
   SHAPE="32,17,0,0" model-entity="JSFProcessGroup"/>
  <PROCESS-ITEM NAME="rules:#documentos.xhtml" PATH="/documentos.xhtml"
   SHAPE="240,33,0,0" model-entity="JSFProcessGroup">
   <PROCESS-ITEM ID="rules:#documentos.xhtml:0" NAME="item"
    PATH="/documentos.xhtml" model-entity="JSFProcessItem">
-   <PROCESS-ITEM-OUTPUT ID="Login::#login.xhtml" NAME="output"
-    PATH="/login.xhtml" TARGET="rules:#login.xhtml" TITLE="Login" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT ID="Login::#login_teste.xhtml" NAME="output"
+    PATH="/login_teste.xhtml" TARGET="rules:#login_teste.xhtml"
+    TITLE="Login" model-entity="JSFProcessItemOutput"/>
   </PROCESS-ITEM>
  </PROCESS-ITEM>
  <PROCESS-ITEM NAME="rules:#consultaPublicaCpf.xhtml"

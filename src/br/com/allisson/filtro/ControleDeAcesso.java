@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-//@WebFilter(servletNames = { "Faces Servlet" })
+@WebFilter(servletNames = { "Faces Servlet" })
 public class ControleDeAcesso implements Filter {
 
 
@@ -43,7 +43,10 @@ public class ControleDeAcesso implements Filter {
 
 			if (session.getAttribute("usuarioAutenticado") == null
 					&& precisaAutenticar(url)) {
-				httpRes.sendRedirect(httpReq.getContextPath() + "/login.jsf");
+				
+				System.out.println(httpReq.getContextPath());
+				
+				httpRes.sendRedirect(httpReq.getContextPath() + "/pages/public/login.jsf");
 			} else {
 				chain.doFilter(request, response);
 			}

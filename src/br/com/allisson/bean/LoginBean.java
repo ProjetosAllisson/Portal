@@ -142,7 +142,7 @@ public class LoginBean extends AbstractMB{
 					//	.getSessionMap()
 						//.put("documentosBean", new DocumentosBean());
 				FacesContext.getCurrentInstance().getExternalContext()
-						.redirect("paginas/protected/index.jsf");
+						.redirect("../protected/index.jsf");
 
 				//
 				//FacesContext.getCurrentInstance().getExternalContext()
@@ -166,13 +166,15 @@ public class LoginBean extends AbstractMB{
 		session.removeAttribute("usuarioAutenticado");
 		session.invalidate();
 
+		/*
 		try {
-			FacesContext.getCurrentInstance().getExternalContext()
-					.redirect("login.jsf");
+			//FacesContext.getCurrentInstance().getExternalContext()
+				//	.redirect("login.jsf");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		*/
 	}
 
 	public void decrementar() {

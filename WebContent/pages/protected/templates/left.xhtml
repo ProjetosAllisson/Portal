@@ -15,17 +15,17 @@
 							<p:submenu label="Menu">
 								
 								<p:menuitem value="Rastreamento" icon="ui-icon-search"
-									action="/paginas/protected/defaultUser/documentos.jsf" immediate="true" ajax="false"></p:menuitem>
+									action="/pages/protected/defaultUser/documentos.jsf" immediate="true" ajax="false"></p:menuitem>
 							</p:submenu>
 						</p:menu>
 						
 						<p:menu style="width: 200px" rendered="#{userBean.admin}" >
 							<p:submenu label ="Administrador">
 								<p:menuitem value="Todos os Usuarios" icon="ui-icon-person"
-								  action="/paginas/protected/admin/usuarios.jsf" immediate="true" ajax="false"></p:menuitem>
+								  action="/pages/protected/admin/usuarios.jsf" immediate="true" ajax="false"></p:menuitem>
 								  
 								<p:menuitem value="Autorizar Usuários" icon="ui-icon-person" 
-								  action="/paginas/protected/admin/usuariosAutorizar.jsf" immediate="true" ajax="false"></p:menuitem>  
+								  action="/pages/protected/admin/usuariosAutorizar.jsf" immediate="true" ajax="false"></p:menuitem>  
 							</p:submenu>
 						</p:menu>
 						

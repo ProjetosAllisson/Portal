@@ -64,6 +64,7 @@ public class Acessos implements Serializable{
 		* tarefa.setDataFinalizacao(dataFinalizacao); }
 		*/
 		
+				
 		return this.dt_acesso.getTime(); 
 		
 	}

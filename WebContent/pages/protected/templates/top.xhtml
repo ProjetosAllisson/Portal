@@ -7,10 +7,26 @@
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:c="http://java.sun.com/jsp/jstl/core">
 <h:body>
+    <h:outputStylesheet library="css" name="master.css"></h:outputStylesheet>
 	<ui:composition>
 		<div id="topMessage">
 			
 				<h:form>
+		     		
+		     		
+		     		<!-- 
+		     		<p:dock position="top">  
+						    <p:menuitem value="Rastreamento" icon="/img/rastreamento.png" url="#"/>  
+						    <p:menuitem value="Todos Clientes" icon="/img/insertusuario.png" url="#"/>  
+						    <p:menuitem value="Autorizar Acesso" icon="/img/busca.png" url="#"/>  
+						    <p:menuitem value="Email" icon="/images/dock/email.png" url="#"/>  
+						    <p:menuitem value="Portfolio" icon="/images/dock/portfolio.png" url="#"/>  
+						    <p:menuitem value="Link" icon="/images/dock/link.png" url="#"/>  
+						    <p:menuitem value="RSS" icon="/images/dock/rss.png" url="#"/>  
+						    <p:menuitem value="History" icon="/images/dock/history.png" url="#"/>  
+						</p:dock>  
+		     		 -->
+		     		
 		     		
 		     		<!-- 
 		     		<h:outputLink value="http://www.allisson.com.br" target="_blank">
@@ -21,20 +37,26 @@
 					<p:panel  >
 					
 						<center>
+
 						<c:if test="${loginBean.logado}">
-							 Olá #{sessionScope.usuarioAutenticado.login}! 
-						     Você esta logado.#{userMB.user.login}
+							 <h:outputText value="Olá #{sessionScope.usuarioAutenticado.login}, seja Bem Vindo! 
+						     Você esta logado.#{userMB.user.login}" style="font-size:12px;width=40%"/>
 					    </c:if>
-					    
+
+					    <!-- 
 					    <h:outputLabel value="Tempo da Sessão"  />
 						<h:outputText id="txtTempoSessao" value=" #{loginBean.tempoSessao}" />
 						<h:outputLabel value=" min. restantes" />
 						<p:poll interval="60" listener="#{loginBean.decrementar}"
 							update="txtTempoSessao" global="false"></p:poll>
-										
+						 -->				
 			     		</center>
+			     				     		
+			     		
 					</p:panel>							
-						
+					<p:commandLink action="/pages/protected/index.jsf" title="Pagina inicial">
+						<h:graphicImage value="/img/home.png" />	
+					</p:commandLink>
 				</h:form>
 			
 		</div>

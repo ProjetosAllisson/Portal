@@ -11,11 +11,16 @@
 		<p:layoutUnit position="west" size="220" resizable="true" closable="false" collapsible="true">
 				<ui:insert name="menu">
 					<h:form>
+						
+											
+						
 						<p:menu style="width: 200px" rendered="#{userBean.admin or userBean.defaultUser}">
 							<p:submenu label="Menu">
 								
 								<p:menuitem value="Rastreamento" icon="ui-icon-search"
 									action="/pages/protected/defaultUser/documentos.jsf" immediate="true" ajax="false"></p:menuitem>
+									
+									
 							</p:submenu>
 						</p:menu>
 						

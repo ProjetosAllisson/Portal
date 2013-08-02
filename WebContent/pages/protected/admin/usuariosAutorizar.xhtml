@@ -13,7 +13,7 @@
 		<h:form id="usuariosAutorizarForm">
 			<p:dataTable id="usuariosAutorizarTable" var="user"
 				value="#{usuariosBean.allUsersNaoAutorizados}" paginator="true"
-				paginatorPosition="bottom" rowKey="#{user.id}"
+				paginatorPosition="bottom" rowKey="#{user.id}" emptyMessage="Nenhum usuário para ser autorizado."
 				selection="#{usuariosBean.usuariosSelecionados}">
 
 				<p:column selectionMode="multiple"></p:column>

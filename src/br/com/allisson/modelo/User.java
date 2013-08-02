@@ -110,11 +110,11 @@ public class User implements Serializable {
 	}
 
 	public boolean isAdmin() {
-		return Role.ADMIN.equals(role);
+		return Role.ADMIN.equals(getRole());
 	}
 
 	public boolean isUser() {
-		return Role.USER.equals(role);
+		return Role.USER.equals(getRole());
 	}
 
 	@Override
@@ -174,6 +174,14 @@ public class User implements Serializable {
 		}
 		else
 			return "NÃO";
+	}
+
+	public Role getRole() {
+		return role;
+	}
+
+	public void setRole(Role role) {
+		this.role = role;
 	}
 
 }

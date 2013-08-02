@@ -9,6 +9,7 @@ import javax.faces.context.FacesContext;
 
 import br.com.allisson.facade.UserFacade;
 import br.com.allisson.modelo.Cliente;
+import br.com.allisson.modelo.Role;
 import br.com.allisson.modelo.User;
 
 @ManagedBean(name = "usuariosBean")
@@ -42,6 +43,8 @@ public class UsuariosBean extends AbstractMB {
 		if (getUserFacade().isExists(usuario.getLogin()) == true) {
 			displayErrorMessageToUser("Registro Duplicado. O Usuário que você esta inserindo ja existe");
 		} else {
+			usuario.setRole(Role.USER);
+			
 			usuario.setAcesso_autorizado(false);
 			getUserFacade().createUser(usuario);
 

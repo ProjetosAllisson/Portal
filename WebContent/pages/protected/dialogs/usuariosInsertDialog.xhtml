@@ -18,11 +18,11 @@
 			
 			<p:separator></p:separator>
 			
-			<p:panelGrid columns="3" >
+			<p:panelGrid columns="3" styleClass="semBorda" >
 				<h:outputText value="Login" />
-				<p:focus>
+
 					<p:inputText value="#{usuariosBean.usuario.login}" required="true" maxlength="20" requiredMessage="Login obrigatório"></p:inputText>
-				</p:focus>
+
 				<br></br>
 				<h:outputLabel for="senha" value="Senha:" />
 						<p:password value="#{usuariosBean.usuario.senha}" id="senha"

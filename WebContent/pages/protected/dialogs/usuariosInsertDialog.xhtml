@@ -8,7 +8,7 @@
 	xmlns:p="http://primefaces.org/ui">
 <h:body>
 
-	<h:outputStylesheet library="css" name="master.css"></h:outputStylesheet>
+	
 	<p:dialog widgetVar="usuariosInsertDialogWidget"
 		id="usuariosInsertDialogId" height="380" width="800" modal="true"
 		appendToBody="true" closable="true" draggable="false"
@@ -33,6 +33,7 @@
 
 
 					<br></br>
+<!--
 					<h:outputText value="Cliente:" />
 
 										 
@@ -42,6 +43,22 @@
 					 	
 					 	
 					 </p:selectOneMenu>
+-->
+
+				<h:outputText value="Cliente:" />
+
+										 
+					 <h:selectOneMenu value="#{usuariosBean.cnpjInclusao}" >
+					 	<f:selectItem itemLabel="Nome"/>
+					 	<f:selectItems value="#{clienteBean.allClientes()}" var="cliente"  itemLabel="#{cliente.nome}" itemValue="#{cliente.cgc}"></f:selectItems>
+					 	
+					 	
+					 </h:selectOneMenu>
+
+
+
+
+
 					
 					<br/>
 					
@@ -54,7 +71,7 @@
 					<br></br>
 					
 					
-					 
+ 					 
 	 				<h:outputText value="E-mail" />
 
 

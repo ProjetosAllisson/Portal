@@ -7,65 +7,67 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
 <h:body>
-	<p:dialog id="documentosComprovanteId" widgetVar="documentosComprovanteWidget" height="500" width="500" modal="true" appendToBody="true" 
-	          closable="true" draggable="false" resizable="false" >
-	
-		<h:form id ="documentosComprovanteForm" prependId="false">
+	<p:dialog id="documentosComprovanteId"
+		widgetVar="documentosComprovanteWidget" height="550" width="700"
+		modal="true" appendToBody="true" closable="true" draggable="false"
+		resizable="false">
+
+		<h:form id="documentosComprovanteForm" prependId="false">
 			<p:scrollPanel>
-					<p:panel id="detalhes" style="margin:0 auto;">
+				<p:panel id="detalhes" style="margin:0 auto;">
 
-						<p:accordionPanel id="tabComprovante" >
-							<p:tab id="tabFrente" title="Frente">
+					<p:accordionPanel id="tabComprovante">
+						<p:tab id="tabFrente" title="Frente">
 
-								<p:panelGrid columns="2" styleClass="semBorda">
-									<p:commandButton id="downloadLink" title="Download"
-										ajax="false" onclick="PrimeFaces.monitorDownload(start, stop)"
-										icon="ui-icon-disk">
-										<p:fileDownload value="#{documentosBean.file}" />
-									</p:commandButton>
+							<p:panelGrid columns="2" styleClass="semBorda">
+								<p:commandButton id="downloadLink" title="Download" ajax="false"
+									onclick="PrimeFaces.monitorDownload(start, stop)"
+									icon="ui-icon-disk">
+									<p:fileDownload value="#{documentosBean.file}" />
+								</p:commandButton>
 
-									<p:commandButton type="button" icon="ui-icon-print"
-										title="Imprime">
-										<p:printer target="imgFrente" />
-									</p:commandButton>
-								</p:panelGrid>
-								<p:graphicImage id="imgFrente"
-									value="/temp/#{documentosBean.documentoSelecionado.nr_cto}.jpg"
-									cache="false" width="600" height="400" />
-							</p:tab>
-							<p:tab id="tabVerso" title="Verso">
-
-
-								<p:panelGrid columns="2" styleClass="semBorda">
-									<p:commandButton id="downloadLinkVerso" title="Download"
-										ajax="false" onclick="PrimeFaces.monitorDownload(start, stop)"
-										icon="ui-icon-disk">
-										<p:fileDownload value="#{documentosBean.fileVerso}" />
-									</p:commandButton>
-
-									<p:commandButton type="button" icon="ui-icon-print"
-										title="Imprime">
-										<p:printer target="imgVerso" />
-									</p:commandButton>
-								</p:panelGrid>
+								<p:commandButton type="button" icon="ui-icon-print"
+									title="Imprime">
+									<p:printer target="imgFrente" />
+								</p:commandButton>
+							</p:panelGrid>
+							<p:graphicImage id="imgFrente"
+								value="/temp/#{documentosBean.documentoSelecionado.nr_cto}.jpg"
+								cache="false" width="600" height="400" />
+						</p:tab>
+						<p:tab id="tabVerso" title="Verso">
 
 
-								<p:graphicImage id="imgVerso"
-									value="/temp/#{documentosBean.documentoSelecionado.nr_cto}V.jpg"
-									cache="false" width="600" height="400" />
-							</p:tab>
-						</p:accordionPanel>
+							<p:panelGrid columns="2" styleClass="semBorda">
+								<p:commandButton id="downloadLinkVerso" title="Download"
+									ajax="false" onclick="PrimeFaces.monitorDownload(start, stop)"
+									icon="ui-icon-disk">
+									<p:fileDownload value="#{documentosBean.fileVerso}" />
+								</p:commandButton>
 
-					</p:panel>
-				</p:scrollPanel>
-			
-		
-		
+								<p:commandButton type="button" icon="ui-icon-print"
+									title="Imprime">
+									<p:printer target="imgVerso" />
+								</p:commandButton>
+							</p:panelGrid>
+
+
+							<p:graphicImage id="imgVerso"
+								value="/temp/#{documentosBean.documentoSelecionado.nr_cto}V.jpg"
+								cache="false" width="600" height="400" />
+						</p:tab>
+					</p:accordionPanel>
+
+				</p:panel>
+			</p:scrollPanel>
+
+
+
 		</h:form>
-	
+
 	</p:dialog>
 
-</h:body>	
+</h:body>
 
 
 </html>

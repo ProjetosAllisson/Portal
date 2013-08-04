@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
  "http://www.w3.org/TR/xhtml1/xhtml1-transition.dtd">
- 
+
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html"
@@ -13,51 +13,55 @@
 	<title>Portal Web - Allisson</title>
 
 
-	
+
 
 
 </h:head>
 <h:body>
+	<h:outputStylesheet library="css" name="master.css"></h:outputStylesheet>
 
 	<f:view contentType="text/html; charset=UTF-8" encoding="UTF-8">
-	<div align="center">
-		<p:layout fullPage="true" style="min-width:1020px;max-width:1220px;min-height:800px">
-			<p:layoutUnit position="north" size="100">
+		<div align="center">
+			<p:layout fullPage="true"
+				style="min-width:1020px;max-width:1220px;min-height:800px">
+				<p:layoutUnit position="north" size="100">
 
-				<h:outputLink value="http://www.allisson.com.br" target="_blank">
-					<img src="../../img/cabecalho1.JPG" width="1310"
-						height="80"></img>
+					<h:outputLink value="http://www.allisson.com.br" target="_blank">
 
-				</h:outputLink>
+						<p:graphicImage value="/img/cabecalho1.JPG" width="1310"
+							height="80" styleClass="semBorda">
+						</p:graphicImage>
 
-			</p:layoutUnit>
+					</h:outputLink>
 
-			<p:layoutUnit position="west" size="220">
-				<ui:insert name="menu">
-					<h:form>
-						<p:menu style="width: 200px">
-							<p:submenu label="Menu">
-								<p:menuitem value="Login" icon="ui-icon-key"
-									action="#{loginBean.login}" />
-								<p:menuitem value="Consulta Publica" icon="ui-icon-search"
-									action="#{documentosBean.consultaPublicaPorCpf}"></p:menuitem>
-								
-								<!-- 
+				</p:layoutUnit>
+
+				<p:layoutUnit position="west" size="220">
+					<ui:insert name="menu">
+						<h:form>
+							<p:menu style="width: 200px">
+								<p:submenu label="Menu">
+									<p:menuitem value="Login" icon="ui-icon-key"
+										action="#{loginBean.login}" />
+									<p:menuitem value="Consulta Publica" icon="ui-icon-search"
+										action="#{documentosBean.consultaPublicaPorCpf}"></p:menuitem>
+
+									<!-- 
 								<p:menuitem value="Fazer meu cadastro" icon="ui-icon-contact"
 									action="#{usuarioBean.cadastra}" />
-								 -->	
-									
-							</p:submenu>
-						</p:menu>
-					</h:form>
-				</ui:insert>
-			</p:layoutUnit>
-			<p:layoutUnit position="center">
-				<ui:insert name="conteudo">
+								 -->
+
+								</p:submenu>
+							</p:menu>
+						</h:form>
+					</ui:insert>
+				</p:layoutUnit>
+				<p:layoutUnit position="center">
+					<ui:insert name="conteudo">
                         O que estiver aqui sera substituido
                     </ui:insert>
-			</p:layoutUnit>
-			<p:layoutUnit position="south">
+				</p:layoutUnit>
+				<p:layoutUnit position="south">
 				
 				
 				Copyright 2012-2013 Allisson Sistemas. Todos os direitos reservados.
@@ -67,8 +71,8 @@
 				Telefone: (11) 2967-1194
 				
 			</p:layoutUnit>
-		</p:layout>
-	</div>
+			</p:layout>
+		</div>
 	</f:view>
 </h:body>
 </html>

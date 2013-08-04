@@ -6,13 +6,6 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
-<h:head>
-
-	<meta http-equiv="X-UA-Compatible" content="IE=8" />
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-
-	<script type="text/javascript" src="scripts/jquery.js"></script>
-</h:head>
 <h:body>
 
 	<p:dialog widgetVar="usuariosUpdateDialogWidget"
@@ -38,8 +31,6 @@
 						validatorMessage="Invalid email format"
 						value="#{usuariosBean.usuarioSelecionado.email}">
 
-						<f:validateRegex
-							pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
 
 					</p:inputText>
 					<p:watermark for="email" value="Email Address *" />
@@ -49,12 +40,12 @@
 					<h:outputText value="Cliente:" />
 
 										 
-					 <p:selectOneMenu value="#{usuariosBean.cnpj}" >
+					 <h:selectOneMenu value="#{usuariosBean.cnpj}" >
 					 	<f:selectItem itemLabel="Nome"/>
 					 	<f:selectItems value="#{clienteBean.allClientes()}" var="cliente"  itemLabel="#{cliente.nome}" itemValue="#{cliente.cgc}"></f:selectItems>
 					 	
 					 	
-					 </p:selectOneMenu>
+					 </h:selectOneMenu>
 					 
 				</p:panelGrid>
 

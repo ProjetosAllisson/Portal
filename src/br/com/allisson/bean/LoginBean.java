@@ -107,9 +107,9 @@ public class LoginBean extends AbstractMB{
 			userBean.setUser(usuarioAutenticado);
 			
 			
-			System.out.println(usuarioAutenticado.isUser());
+//			System.out.println(usuarioAutenticado.isUser());
 			
-			System.out.println(usuarioAutenticado.isAdmin());
+	//		System.out.println(usuarioAutenticado.isAdmin());
 			
 			FacesContext ctx = FacesContext.getCurrentInstance();
 			session = (HttpSession) ctx.getExternalContext().getSession(false);
@@ -166,15 +166,15 @@ public class LoginBean extends AbstractMB{
 		session.removeAttribute("usuarioAutenticado");
 		session.invalidate();
 
-		/*
+		
 		try {
-			//FacesContext.getCurrentInstance().getExternalContext()
-				//	.redirect("login.jsf");
+			FacesContext.getCurrentInstance().getExternalContext()
+					.redirect("login.jsf");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		*/
+		
 	}
 
 	public void decrementar() {

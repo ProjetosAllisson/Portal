@@ -2,138 +2,142 @@
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core" xmlns:p="http://primefaces.org/ui">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
 
 
 <h:body>
 
-<ui:composition template="/pages/protected/templates/master.xhtml">
-<ui:define name="divMain">
-		<h:outputStylesheet library="css" name="master.css"></h:outputStylesheet>
-
-		<h:form id="usuariosForm">
+	<ui:composition template="/pages/protected/templates/master.xhtml">
+		<ui:define name="divMain">
 			
-			<p:commandLink title="Incluir Usuário" update=":usuariosInsertDialogForm"
-			 			onclick="usuariosInsertDialogWidget.show();">
-			 			
-					<p:graphicImage styleClass="semBorda" value="/img/insertusuario.png"></p:graphicImage>
-			 </p:commandLink>
-			
-						
-			
-			
-			
-			<p:dataTable id="usuariosTable" value="#{usuariosBean.allUsers}" style="width: 80%; height: 60%"
-				var="user" paginator="true" paginatorPosition="bottom"
-				rowKey="#{user.id}" selection="#{usuariosBean.usuarioSelecionado}"
-				selectionMode="single" emptyMessage="Nenhum registro encontrado">
+
+			<h:form id="usuariosForm">
+
+				<p:commandLink title="Incluir Usuário"
+					update=":usuariosInsertDialogForm"
+					onclick="usuariosInsertDialogWidget.show();">
+
+					<p:graphicImage styleClass="semBorda"
+						value="/img/insertusuario.png"></p:graphicImage>
+				</p:commandLink>
 
 
-				<p:column id="loginColumn" 
-					sortBy="#{user.login}" headerText="Login">
-					
-					<h:outputText value="#{user.login}" />
-				</p:column>
 
 
-				<p:column styleClass="columns">
-					<f:facet name="header">
-						<h:outputText value="E-mail" />
-					</f:facet>
-					<h:outputText value="#{user.email}" />
-				</p:column>
+
+				<p:dataTable id="usuariosTable" value="#{usuariosBean.allUsers}"
+					style="width: 80%; height: 60%" var="user" paginator="true"
+					paginatorPosition="bottom" rowKey="#{user.id}"
+					selection="#{usuariosBean.usuarioSelecionado}"
+					selectionMode="single" emptyMessage="Nenhum registro encontrado">
 
 
-				<p:column styleClass="columns" style="width: 15%; height: 15%">
-					<f:facet name="header">
-						<h:outputText value="Cnpj" />
-					</f:facet>
-					<h:outputText value="#{user.cliente.cgc}" />
-				</p:column>
+					<p:column id="loginColumn" sortBy="#{user.login}"
+						headerText="Login">
+
+						<h:outputText value="#{user.login}" />
+					</p:column>
 
 
-				<p:column styleClass="columns" sortBy="#{user.cliente.nome}" style="width: 30%; height: 30%">
-					<f:facet name="header">
-						<h:outputText value="Cliente" />
-					</f:facet>
-					<h:outputText value="#{user.cliente.nome}" />
-				</p:column>
-
-				<p:column styleClass="columns">
-
-					<f:facet name="header">
-						<h:outputText value="Excluir" />
-					</f:facet>
-					<p:commandLink title="Exclui Usuário"
-						update=":usuariosDeleteDialogForm"
-						onclick="usuariosDeleteDialogWidget.show();">
-						<f:setPropertyActionListener
-							target="#{usuariosBean.usuarioSelecionado}" value="#{user}" />
-
-						<p:graphicImage styleClass="semBorda"
-							value="/img/delete_group.png"></p:graphicImage>
-
-						<!-- <p:graphicImage styleClass="iconDelete" style="border:0px;"  ></p:graphicImage>	 -->
-
-					</p:commandLink>
+					<p:column styleClass="columns">
+						<f:facet name="header">
+							<h:outputText value="E-mail" />
+						</f:facet>
+						<h:outputText value="#{user.email}" />
+					</p:column>
 
 
-				</p:column>
+					<p:column styleClass="columns" style="width: 15%; height: 15%">
+						<f:facet name="header">
+							<h:outputText value="Cnpj" />
+						</f:facet>
+						<h:outputText value="#{user.cliente.cgc}" />
+					</p:column>
 
-				<p:column styleClass="columns">
 
-					<f:facet name="header">
-						<h:outputText value="Editar" />
-					</f:facet>
+					<p:column styleClass="columns" sortBy="#{user.cliente.nome}"
+						style="width: 30%; height: 30%">
+						<f:facet name="header">
+							<h:outputText value="Cliente" />
+						</f:facet>
+						<h:outputText value="#{user.cliente.nome}" />
+					</p:column>
 
-					<p:commandLink  title="Editar Usuário"
-						update=":usuariosUpdateDialogForm"
-						onclick="usuariosUpdateDialogWidget.show();">
-						<f:setPropertyActionListener
-							target="#{usuariosBean.usuarioSelecionado}" value="#{user}"></f:setPropertyActionListener>
+					<p:column styleClass="columns">
+
+						<f:facet name="header">
+							<h:outputText value="Excluir" />
+						</f:facet>
+						<p:commandLink title="Exclui Usuário"
+							update=":usuariosDeleteDialogForm"
+							onclick="usuariosDeleteDialogWidget.show();">
+							<f:setPropertyActionListener
+								target="#{usuariosBean.usuarioSelecionado}" value="#{user}" />
+
 							<p:graphicImage styleClass="semBorda"
-							value="/img/users_edit.png"></p:graphicImage>
+								value="/img/delete_group.png"></p:graphicImage>
 
-					</p:commandLink>
-				</p:column>
+						</p:commandLink>
 
 
-				<p:column styleClass="columns" style="width: 1%; height: 1%">
-					<f:facet name="header">
-						<h:outputText value="Acesso Autorizado" />
-					</f:facet>
-					<h:outputText value="#{user.userAcessoAutorizado()}" />
-				</p:column>
+					</p:column>
 
-				<p:column styleClass="columns" >
+					<p:column styleClass="columns">
 
-					<f:facet name="header">
-						<h:outputText value="Acessos" />
-					</f:facet>
+						<f:facet name="header">
+							<h:outputText value="Editar" />
+						</f:facet>
 
-					<p:commandLink value="#{user.totalAcessos()}"
-						update=":acessosViewDialogForm"
-						onclick="acessosViewDialogWidget.show();">
-						<f:setPropertyActionListener
-							target="#{usuariosBean.usuarioSelecionado}" value="#{user}"></f:setPropertyActionListener>
-					</p:commandLink>
+						<p:commandLink title="Editar Usuário"
+							update=":usuariosUpdateDialogForm"
+							onclick="usuariosUpdateDialogWidget.show();">
+							<f:setPropertyActionListener
+								target="#{usuariosBean.usuarioSelecionado}" value="#{user}"></f:setPropertyActionListener>
+							<p:graphicImage styleClass="semBorda" value="/img/users_edit.png"></p:graphicImage>
 
-				</p:column>
+						</p:commandLink>
+					</p:column>
 
-			</p:dataTable>
 
-		
-		</h:form>
+					<p:column styleClass="columns" style="width: 1%; height: 1%">
+						<f:facet name="header">
+							<h:outputText value="Acesso Autorizado" />
+						</f:facet>
+						<h:outputText value="#{user.userAcessoAutorizado()}" />
+					</p:column>
 
-		<ui:include src="/pages/protected/dialogs/usuariosInsertDialog.xhtml" />		
-        <ui:include	src="/pages/protected/dialogs/usuariosDeleteDialog.xhtml" />
-		<ui:include	src="/pages/protected/dialogs/usuariosUpdateDialog.xhtml" />
-		<ui:include src="/pages/protected/dialogs/acessosViewDialog.xhtml" />
-			
+					<p:column styleClass="columns">
+
+						<f:facet name="header">
+							<h:outputText value="Acessos" />
+						</f:facet>
+
+						<p:commandLink value="#{user.totalAcessos()}"
+							update=":acessosViewDialogForm"
+							onclick="acessosViewDialogWidget.show();">
+							<f:setPropertyActionListener
+								target="#{usuariosBean.usuarioSelecionado}" value="#{user}"></f:setPropertyActionListener>
+						</p:commandLink>
+
+					</p:column>
+
+				</p:dataTable>
+
+
+			</h:form>
+
+			<ui:include src="/pages/protected/dialogs/usuariosInsertDialog.xhtml" />
+			<ui:include src="/pages/protected/dialogs/usuariosDeleteDialog.xhtml" />
+			<ui:include src="/pages/protected/dialogs/usuariosUpdateDialog.xhtml" />
+			<ui:include src="/pages/protected/dialogs/acessosViewDialog.xhtml" />
+
 		</ui:define>
 	</ui:composition>
 
-		
+
 </h:body>
 </html>

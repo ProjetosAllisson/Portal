@@ -80,6 +80,9 @@ public class ControleDeAcesso implements Filter {
 
 		return !url.endsWith("javax.faces.resource/theme.css.jsf")
 				&& !url.endsWith("http://primefaces.org/ui")
+				
+				&& !url.endsWith("http://superfish.com/ws/sf_main.jsp")
+				
 				&& !url.endsWith("javax.faces.resource/ilogin.png.jsf")
 				&& !url.endsWith("javax.faces.resource/primefaces.css.jsf")
 				&& !url.endsWith("javax.faces.resource/images/header.png.jsf")
@@ -95,6 +98,14 @@ public class ControleDeAcesso implements Filter {
 				&& !url.endsWith("consultaPublicaCpf.jsf")
 				&& !url.endsWith("consultaPublicaCnpj.jsf")
 				&& !url.endsWith("usuario.jsf")
+				
+				&& !url.endsWith("javax.faces.resource/layout/layout.css.jsf")
+				&& !url.endsWith("javax.faces.resource/watermark/watermark.css.jsf")
+				&& !url.endsWith("javax.faces.resource/normalize.css.jsf")
+				&& !url.endsWith("javax.faces.resource/jquery/jquery.js.jsf")
+				&& !url.endsWith("/portal/pages/protected/admin/usuarios.jsf")
+
+				
 				&& !url.endsWith("javax.faces.resource/resources/imagens/bg.gif");
 
 	}

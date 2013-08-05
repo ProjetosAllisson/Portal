@@ -45,7 +45,7 @@ public class UsuariosBean extends AbstractMB {
 		} else {
 			usuario.setRole(Role.USER);
 			
-			usuario.setAcesso_autorizado(false);
+			//usuario.setAcesso_autorizado(false);
 			getUserFacade().createUser(usuario);
 
 			loadUsers();
@@ -105,9 +105,9 @@ public class UsuariosBean extends AbstractMB {
 	}
 
 	public List<User> getAllUsers() {
-		if (users == null) {
+		//if (users == null) {
 			loadUsers();
-		}
+		//}
 		return users;
 	}
 	

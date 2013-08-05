@@ -7,6 +7,8 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
 <h:body>
+	<h:outputStylesheet library="css" name="master.css"></h:outputStylesheet>
+	
 	<p:dialog id="documentosComprovanteId"
 		widgetVar="documentosComprovanteWidget" height="550" width="700"
 		modal="true" appendToBody="true" closable="true" draggable="false"
@@ -14,7 +16,7 @@
 
 		<h:form id="documentosComprovanteForm" prependId="false">
 			<p:scrollPanel>
-				<p:panel id="detalhes" style="margin:0 auto;">
+				<p:panel id="detalhes" style="margin:0 auto;" styleClass="semBorda">
 
 					<p:accordionPanel id="tabComprovante">
 						<p:tab id="tabFrente" title="Frente">

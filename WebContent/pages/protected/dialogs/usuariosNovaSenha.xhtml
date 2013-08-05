@@ -1,0 +1,69 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:body>
+	<p:dialog widgetVar="usuariosNovaSenhaWidget"
+		id="usuariosNovaSenhaId" height="380" width="400" modal="true"
+		appendToBody="true" closable="true" draggable="false"
+		resizable="false">
+		<h:form id ="usuariosNovaSenhaForm">
+			<p:fieldset legend="Novo Login/Senha">
+				<p:separator></p:separator>
+				
+				<p:panelGrid columns="3" styleClass="semBorda">
+					<h:outputText value="Login" />
+	
+						<p:inputText value="#{usuariosBean.usuario.login}" required="true" maxlength="20" requiredMessage="Login obrigatório"></p:inputText>
+
+					<br></br>
+				
+					<h:outputLabel for="senha" value="Senha:" />
+							<p:password value="#{usuariosBean.usuario.senha}" id="senha"
+								required="true" label="senha" autocomplete="false" feedback="true" 
+							
+								requiredMessage="Senha é campo obrigatório" />
+					<br></br>		
+				
+				
+					<h:outputLabel for="confirmacao" value="Confirmação:" />
+							<p:password value="#{usuariosBean.usuario.senha}" id="senha"
+								required="true" label="senha" autocomplete="false" feedback="true" 
+							
+								requiredMessage="Confirmação da Senha é campo obrigatório" />
+					<br></br>		
+				</p:panelGrid>		
+			
+				<p:separator></p:separator>
+
+
+				<p:panelGrid columns="4" width="100%" style="text-align:right"
+					styleClass="semBorda">
+
+
+
+					<p:spacer width="400" height="10"></p:spacer>
+					<p:commandButton value="Confirma" icon="ui-icon-circle-check"
+						title="Confirma Alteração" action="#{usuariosBean.updateUser()}"
+						update=":messageGrowl :usuariosForm:usuariosTable"
+						oncomplete="usuariosUpdateDialogWidget.hide();" />
+
+
+					<p:commandButton value="Cancela" icon="ui-icon-cancel"
+						title="Cancela Alteração" actionListener="#{userBean.resetUser()}"
+						onclick="usuariosUpdateDialogWidget.hide();" type="button" />
+
+				</p:panelGrid>
+			
+			</p:fieldset>
+		
+		
+		</h:form>		
+	</p:dialog>
+
+</h:body>
+</html>

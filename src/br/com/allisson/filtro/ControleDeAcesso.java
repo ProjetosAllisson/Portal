@@ -54,26 +54,7 @@ public class ControleDeAcesso implements Filter {
 			e.printStackTrace();
 		}
 
-		/*
-		 * if (session.getAttribute("usuarioAutenticado") != null ||
-		 * req.getRequestURI().endsWith("login.jsf") ||
-		 * req.getRequestURI().endsWith("consultaPublicaCpf.jsf") ||
-		 * req.getRequestURI().endsWith("consultaPublicaCnpj.jsf") ||
-		 * req.getRequestURI().endsWith(".css") ||
-		 * req.getRequestURI().endsWith(".js") ||
-		 * req.getRequestURI().endsWith(".jpg") ||
-		 * req.getRequestURI().endsWith(".gif") ) { chain.doFilter(request,
-		 * response); } else {
-		 * 
-		 * HttpServletResponse res = (HttpServletResponse) response;
-		 * 
-		 * // Desativa o cache do browser res.setHeader("Cache-Control",
-		 * "no-store"); res.setHeader("Pragma", "no-cache");
-		 * res.setDateHeader("Expires", 0);
-		 * 
-		 * 
-		 * res.sendRedirect("login.jsf"); }
-		 */
+	
 	}
 
 	private boolean precisaAutenticar(String url) {
@@ -103,7 +84,7 @@ public class ControleDeAcesso implements Filter {
 				&& !url.endsWith("javax.faces.resource/watermark/watermark.css.jsf")
 				&& !url.endsWith("javax.faces.resource/normalize.css.jsf")
 				&& !url.endsWith("javax.faces.resource/jquery/jquery.js.jsf")
-				&& !url.endsWith("/portal/pages/protected/admin/usuarios.jsf")
+				
 
 				
 				&& !url.endsWith("javax.faces.resource/resources/imagens/bg.gif");

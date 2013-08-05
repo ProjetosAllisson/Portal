@@ -1,5 +1,7 @@
 package br.com.allisson.modelo;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -7,18 +9,26 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "STWOPETCLI")
 @NamedQueries({
 	@NamedQuery(name = "Cliente.findCliente", query ="select u from Cliente u where u.cgc = :cgc"),
-	@NamedQuery(name = "Cliente.allClientes", query ="select u from Cliente u"),
+	@NamedQuery(name = "Cliente.allClientes", query ="select u from Cliente u where u.ult_acesso is not null and u.ult_acesso between :start and :end "),
+	
 })
 
 public class Cliente {
 
 	
 	public static final String FIND_CLIENTE = "Cliente.findCliente";
+	public static final String ALL_CLIENTES = "Cliente.allClientes";
+	
+	
+	//@NamedQuery(name = "Cliente.porNomeCliente", query ="select u from Cliente u where u.nome like :nome"),
+	//public static final String POR_NOME_CLIENTES = "Cliente.porNomeCliente";
 	
 	@Id
 	@Column(name ="cgc")
@@ -32,6 +42,9 @@ public class Cliente {
 	@Column
 	@OrderBy("nome")
 	private String nome;
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date ult_acesso;
 
 	public String getNome() {
 		return nome;

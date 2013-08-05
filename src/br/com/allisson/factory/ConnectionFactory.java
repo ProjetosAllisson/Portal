@@ -7,6 +7,9 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+
 import org.hibernate.cfg.Configuration;
 
 
@@ -25,13 +28,13 @@ public class ConnectionFactory {
 		// "root", "");
 
 		// File file = new File()
-
-		String urlBd = "jdbc:firebirdsql:localhost/3050:C:/Portal/Base/TransMais.FDB";
+		//jdbc:firebirdsql:localhost/3050:C:/Portal/Base/TransMais.FDB
+		String urlBd = null;// = "jdbc:firebirdsql:localhost/3050:C:/Portal/Base/TransMais.FDB";
 
 		// Rodojumbo
 		// String urlBd
-		// ="jdbc:firebirdsql:192.168.0.178/3050:F:/BaseDados/rodojumbo.FDB";
-
+		// ="jdbc:firebirdsql:192.168.0.178/3050:c:/Allisson/BaseDados/RODOJUMBO.FDB";
+		                                         
 		// Eureka
 		// String urlBd
 		// ="jdbc:firebirdsql:192.168.0.101/3050:C:/Allisson/BaseDados/eureka.FDB";
@@ -73,6 +76,15 @@ public class ConnectionFactory {
 		cfg.setProperty("javax.persistence.jdbc.url",
 				urlBd);
 
+		
+		EntityManagerFactory factory = Persistence.
+		          createEntityManagerFactory("Portal");
+
+		    factory.close();
+		    
+		    
+		   
+		
 		
 		String usuarioBd = "sysdba";
 		String senhaBd = "masterkey";

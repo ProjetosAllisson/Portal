@@ -15,7 +15,7 @@
 		<ui:define name="divMain">
 			
 
-			<h:form id="usuariosForm">
+			<h:form id="usuariosForm" rendered="#{userBean.admin}">
 
 				<p:commandLink title="Incluir Usuário"
 					update=":usuariosInsertDialogForm"

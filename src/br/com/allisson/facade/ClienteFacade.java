@@ -21,7 +21,7 @@ public class ClienteFacade {
 	public List<Cliente> allClientes(){
 		clienteDAO.beginTransaction();
 		
-		List<Cliente> clientes = clienteDAO.findAll();
+		List<Cliente> clientes = clienteDAO.allClientes();
 		
 		//Collections.sort(clientes,"nome");
 

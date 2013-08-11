@@ -16,16 +16,15 @@ import br.com.allisson.modelo.User;
 @SessionScoped
 public class UsuariosBean extends AbstractMB {
 
+	public static final String INJECTION_NAME = "#{usuariosBean}";
+
 	private User usuario;
 	private UserFacade userFacade;
-	
+
 	private User usuarioSelecionado;
 	private User[] usuariosSelecionados;
 	private List<User> users;
 	private List<User> usersNaoAutorizados;
-
-	private String cnpj;
-	
 
 	private Cliente cliente;
 
@@ -34,27 +33,23 @@ public class UsuariosBean extends AbstractMB {
 	}
 
 	public void InserirUsuario() {
-	
 
-		Cliente cliente = new Cliente();
-		cliente.setCgc(this.cnpj);
 		usuario.setCliente(cliente);
 
 		if (getUserFacade().isExists(usuario.getLogin()) == true) {
 			displayErrorMessageToUser("Registro Duplicado. O Usuário que você esta inserindo ja existe");
 		} else {
 			usuario.setRole(Role.USER);
-			
-			//usuario.setAcesso_autorizado(false);
+
 			getUserFacade().createUser(usuario);
 
+			resetUser();
 			loadUsers();
-			
+
 			displayInfoMessageToUser("Usuário inserido com sucesso");
 
-			//return "usuario_sucesso";
 		}
-		//return null;
+		// return null;
 
 		/*
 		 * try { usuarioDao.adiciona(this.usuario); return "usuario_sucesso"; }
@@ -88,13 +83,15 @@ public class UsuariosBean extends AbstractMB {
 		this.usuario = usuario;
 	}
 
-	
 	public Cliente getCliente() {
 		return cliente;
 	}
 
 	public void setCliente(Cliente cliente) {
 		this.cliente = cliente;
+		if (usuarioSelecionado != null) {
+			this.usuarioSelecionado.setCliente(cliente);
+		}
 	}
 
 	public UserFacade getUserFacade() {
@@ -105,20 +102,20 @@ public class UsuariosBean extends AbstractMB {
 	}
 
 	public List<User> getAllUsers() {
-		//if (users == null) {
-			loadUsers();
-		//}
+		// if (users == null) {
+		loadUsers();
+		// }
 		return users;
 	}
-	
+
 	public List<User> getAllUsersNaoAutorizados() {
 		loadUsersNaoAutorizados();
-		
+
 		return usersNaoAutorizados;
 	}
 
 	private void loadUsersNaoAutorizados() {
-		usersNaoAutorizados = getUserFacade().listAllNaoAutorizados();		
+		usersNaoAutorizados = getUserFacade().listAllNaoAutorizados();
 	}
 
 	private void loadUsers() {
@@ -132,9 +129,10 @@ public class UsuariosBean extends AbstractMB {
 
 	public void resetUser() {
 		usuario = new User();
+		usuarioSelecionado = new User();
+		cliente = new Cliente();
 	}
 
-	
 	public void deleteUser() {
 		try {
 			System.out.println("Usuario" + usuarioSelecionado.getLogin());
@@ -175,33 +173,6 @@ public class UsuariosBean extends AbstractMB {
 		this.usuarioSelecionado = usuarioSelecionado;
 	}
 
-	public String getCnpjInclusao() {				
-		return cnpj;
-	}
-	
-	public String getCnpj() {
-
-		System.out.println("cnpj get");
-		if (this.usuarioSelecionado != null) {
-			System.out.println("Usuario selecionado "
-					+ this.usuarioSelecionado.getCliente().getCgc());
-			
-			return this.usuarioSelecionado.getCliente().getCgc();
-			
-		}
-		
-		return cnpj;
-		
-	}
-
-	public void setCnpj(String cnpj) {
-		this.usuarioSelecionado.getCliente().setCgc(cnpj);
-	}
-	
-	public void setCnpjInclusao(String cnpj) {
-		this.cnpj = cnpj;
-	}
-
 	public User[] getUsuariosSelecionados() {
 		return usuariosSelecionados;
 	}
@@ -210,17 +181,12 @@ public class UsuariosBean extends AbstractMB {
 		this.usuariosSelecionados = usuariosSelecionados;
 	}
 
-	
-	public void autorizaUsuarios(){
-		for (User usuario :getUsuariosSelecionados()){
+	public void autorizaUsuarios() {
+		for (User usuario : getUsuariosSelecionados()) {
 			usuario.setAcesso_autorizado(true);
 			getUserFacade().updateUser(usuario);
 		}
 		loadUsersNaoAutorizados();
 	}
-
-
-		
-
 
 }

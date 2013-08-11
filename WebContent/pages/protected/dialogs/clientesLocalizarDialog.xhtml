@@ -1,0 +1,73 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:body>
+
+	<p:growl showDetail="false"></p:growl>
+	<p:dialog widgetVar="buscaClienteDialogWidget"
+		id="buscaClienteDialogId" height="550" width="800" modal="true"
+		appendToBody="true" closable="true" draggable="false"
+		resizable="false">
+
+
+		<h:form id="buscaClienteDialogForm">
+			<h:panelGrid columns="3" cellpadding="5"  >
+				
+				<p:panel header="Informe o Nome"  >
+					<p:spacer width="720" height="0"></p:spacer>			
+					<p:inputText id="nomeId" value="#{clienteBean.nomeCliente}">
+						<p:ajax listener="#{clienteBean.localizaClientes}" event="keyup"
+							update="table" />
+					</p:inputText>
+
+				</p:panel>
+			</h:panelGrid>
+			<p:dataTable id="table" value="#{clienteBean.clientes}" var="c"
+				rowKey="#{c.cgc}" selectionMode="single" paginator="true"
+				paginatorPosition="bottom" rows="15"
+				selection="#{clienteBean.clienteSelecionado}">
+
+
+				<p:column headerText="Cgc" styleClass="columns">
+					#{c.cgc}
+				</p:column>
+				<p:column headerText="Nome" styleClass="columns">
+					#{c.nome}
+				</p:column>
+
+			</p:dataTable>
+
+
+			<p:separator></p:separator>
+
+
+			<p:panelGrid columns="4" width="100%" style="text-align:right"
+				styleClass="semBorda">
+
+
+
+				<p:spacer width="500" height="10"></p:spacer>
+
+				<p:commandButton value="Confirma" icon="ui-icon-circle-check"
+					title="Confirma Inclusão"
+					actionListener="#{clienteBean.clienteEscolhido}"
+					update=":usuariosUpdateDialogForm:nomeCliente,:usuariosInsertDialogForm:nomeCliente,:usuariosInsertDialogForm:cmdInserir"
+					oncomplete="buscaClienteDialogWidget.hide();" />
+
+
+				<p:commandButton value="Cancela" icon="ui-icon-cancel"
+					title="Cancela Inclusão"
+					actionListener="#{usuariosBean.resetUser()}"
+					onclick="buscaClienteDialogWidget.hide();" type="button" />
+
+			</p:panelGrid>
+
+		</h:form>
+	</p:dialog>
+</h:body>
+</html>

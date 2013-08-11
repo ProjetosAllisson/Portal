@@ -7,37 +7,42 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
 <h:body>
-	<p:dialog widgetVar="usuariosNovaSenhaWidget"
-		id="usuariosNovaSenhaId" height="380" width="400" modal="true"
-		appendToBody="true" closable="true" draggable="false"
-		resizable="false">
-		<h:form id ="usuariosNovaSenhaForm">
-			<p:fieldset legend="Novo Login/Senha">
+
+	<p:dialog widgetVar="usuariosNovaSenhaWidget" id="usuariosNovaSenhaId"
+		height="200" width="400" modal="true" appendToBody="true"
+		closable="true" draggable="false" resizable="false">
+		<h:form id="usuariosNovaSenhaForm" >
+
+			<p:growl id="growl" showDetail="true"></p:growl>
+			<p:fieldset
+				legend="Novo Login/Senha  -  #{usuariosBean.usuarioSelecionado.login}">
 				<p:separator></p:separator>
-				
+
 				<p:panelGrid columns="3" styleClass="semBorda">
 					<h:outputText value="Login" />
-	
-						<p:inputText value="#{usuariosBean.usuario.login}" required="true" maxlength="20" requiredMessage="Login obrigatório"></p:inputText>
+
+					<p:inputText value="#{usuariosBean.usuarioSelecionado.login}"
+						required="true" maxlength="20" requiredMessage="Login obrigatório"></p:inputText>
 
 					<br></br>
-				
-					<h:outputLabel for="senha" value="Senha:" />
-							<p:password value="#{usuariosBean.usuario.senha}" id="senha"
-								required="true" label="senha" autocomplete="false" feedback="true" 
-							
-								requiredMessage="Senha é campo obrigatório" />
-					<br></br>		
-				
-				
+
+					<h:outputLabel for="usrsenha" value="Senha:" />
+					<p:password value="#{usuariosBean.usuarioSelecionado.senha}"
+						id="usrsenha" required="true" label="senha" autocomplete="false"
+						feedback="true" requiredMessage="Senha é campo obrigatório" />
+					<br></br>
+
+					<!-- 
 					<h:outputLabel for="confirmacao" value="Confirmação:" />
-							<p:password value="#{usuariosBean.usuario.senha}" id="senha"
-								required="true" label="senha" autocomplete="false" feedback="true" 
-							
-								requiredMessage="Confirmação da Senha é campo obrigatório" />
-					<br></br>		
-				</p:panelGrid>		
-			
+					<p:password value="#{usuariosBean.usuarioSelecionado.senha}"
+						id="confirmacao" required="true" label="senha" autocomplete="false"
+						feedback="true"
+						requiredMessage="Confirmação da Senha é campo obrigatório" />
+					<br></br>
+					
+				 -->
+				</p:panelGrid>
+
 				<p:separator></p:separator>
 
 
@@ -46,23 +51,23 @@
 
 
 
-					<p:spacer width="400" height="10"></p:spacer>
+					<p:spacer width="100" height="10"></p:spacer>
 					<p:commandButton value="Confirma" icon="ui-icon-circle-check"
 						title="Confirma Alteração" action="#{usuariosBean.updateUser()}"
-						update=":messageGrowl :usuariosForm:usuariosTable"
-						oncomplete="usuariosUpdateDialogWidget.hide();" />
+						update="usuariosNovaSenhaForm" ajax="false" 
+						oncomplete="closeDialogIfSucess(xhr, status, args, usuariosNovaSenhaWidget, 'usuariosNovaSenhaId')" />
 
 
 					<p:commandButton value="Cancela" icon="ui-icon-cancel"
-						title="Cancela Alteração" actionListener="#{userBean.resetUser()}"
-						onclick="usuariosUpdateDialogWidget.hide();" type="button" />
+						title="Cancela Alteração" actionListener="#{userBean.resetUser()}" update="@form"
+						onclick="usuariosNovaSenhaWidget.hide();" type="button" />
 
 				</p:panelGrid>
-			
+
 			</p:fieldset>
-		
-		
-		</h:form>		
+
+
+		</h:form>
 	</p:dialog>
 
 </h:body>

@@ -1,5 +1,6 @@
 package br.com.allisson.dao;
 
+import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -20,7 +21,12 @@ import br.com.allisson.modelo.ServicosDisponiveis;
 import br.com.allisson.modelo.User;
 import br.com.allisson.util.Criptografia;
 
-public class DocumentoDAO {
+public class DocumentoDAO implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	private final Connection connection;
 	private final ServicosDisponiveis servicos;
@@ -255,7 +261,7 @@ public class DocumentoDAO {
 
 			String sql = selectDados() + "where mov.status <> 'CA'"
 					+ " and (mov.cgc_remet = ? or mov.cgc_dest = ?)"
-					+ " and (mov.dt_emissao >= current_timestamp -90)";
+					+ " and (mov.dt_emissao >= current_timestamp -360)";
 
 			PreparedStatement stm = this.connection.prepareStatement(sql);
 
@@ -263,7 +269,7 @@ public class DocumentoDAO {
 			stm.setString(2, cpf_cnpj);
 
 			ResultSet rs = stm.executeQuery();
-
+			
 			while (rs.next()) {
 				documentos.add(populaDocumento(rs));
 			}

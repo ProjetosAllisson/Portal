@@ -28,5 +28,16 @@ public class ClienteFacade {
 		
 		return clientes;
 	}
+	
+	public List<Cliente> allClientesPorNome(String nome){
+		clienteDAO.beginTransaction();
+		
+		List<Cliente> result = clienteDAO.allClientesPorNome(nome);
+		
+		clienteDAO.closeTransaction();
+		
+		return result;
+	}
+
 
 }

@@ -13,7 +13,7 @@
 
 	<ui:composition template="/pages/protected/templates/master.xhtml">
 		<ui:define name="divMain">
-			
+
 
 			<h:form id="usuariosForm" rendered="#{userBean.admin}">
 
@@ -70,37 +70,48 @@
 					<p:column styleClass="columns">
 
 						<f:facet name="header">
-							<h:outputText value="Excluir" />
+							<h:outputText value="Ações" />
 						</f:facet>
-						<p:commandLink title="Exclui Usuário"
-							update=":usuariosDeleteDialogForm"
-							onclick="usuariosDeleteDialogWidget.show();">
-							<f:setPropertyActionListener
-								target="#{usuariosBean.usuarioSelecionado}" value="#{user}" />
 
-							<p:graphicImage styleClass="semBorda"
-								value="/img/delete_group.png"></p:graphicImage>
-
-						</p:commandLink>
-
-
-					</p:column>
-
-					<p:column styleClass="columns">
-
-						<f:facet name="header">
-							<h:outputText value="Editar" />
-						</f:facet>
+						<p:spacer width="10" height="10"></p:spacer>
 
 						<p:commandLink title="Editar Usuário"
 							update=":usuariosUpdateDialogForm"
 							onclick="usuariosUpdateDialogWidget.show();">
 							<f:setPropertyActionListener
 								target="#{usuariosBean.usuarioSelecionado}" value="#{user}"></f:setPropertyActionListener>
-							<p:graphicImage styleClass="semBorda" value="/img/users_edit.png"></p:graphicImage>
+							<p:graphicImage styleClass="semBorda" value="/img/editar.png"></p:graphicImage>
 
 						</p:commandLink>
+
+						<p:spacer width="10" height="10"></p:spacer>
+
+						<p:commandLink title="Trocar Senha"
+							update=":usuariosNovaSenhaForm"
+							onclick="usuariosNovaSenhaWidget.show();">
+							<f:setPropertyActionListener
+								target="#{usuariosBean.usuarioSelecionado}" value="#{user}"></f:setPropertyActionListener>
+							<p:graphicImage styleClass="semBorda" value="/img/senha.png"></p:graphicImage>
+
+						</p:commandLink>
+
+
+						<p:spacer width="10" height="10"></p:spacer>
+
+						<p:commandLink title="Exclui Usuário"
+							update=":usuariosDeleteDialogForm"
+							onclick="usuariosDeleteDialogWidget.show();">
+							<f:setPropertyActionListener
+								target="#{usuariosBean.usuarioSelecionado}" value="#{user}" />
+
+							<p:graphicImage styleClass="semBorda" value="/img/excluir.png"></p:graphicImage>
+
+						</p:commandLink>
+
+
+
 					</p:column>
+
 
 
 					<p:column styleClass="columns" style="width: 1%; height: 1%">
@@ -125,6 +136,7 @@
 
 					</p:column>
 
+
 				</p:dataTable>
 
 
@@ -134,6 +146,11 @@
 			<ui:include src="/pages/protected/dialogs/usuariosDeleteDialog.xhtml" />
 			<ui:include src="/pages/protected/dialogs/usuariosUpdateDialog.xhtml" />
 			<ui:include src="/pages/protected/dialogs/acessosViewDialog.xhtml" />
+			<ui:include src="/pages/protected/dialogs/usuariosNovaSenha.xhtml" />
+
+			<ui:include
+				src="/pages/protected/dialogs/clientesLocalizarDialog.xhtml"></ui:include>
+
 
 		</ui:define>
 	</ui:composition>

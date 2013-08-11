@@ -58,5 +58,13 @@ public class ClienteDAO extends GenericDAO<Cliente>{
 		return super.findAllResult(Cliente.ALL_CLIENTES, parameters);
 		
 	}
+	
+	public List<Cliente> allClientesPorNome(String nome){
+		Map<String, Object> parameters = new HashMap<String, Object>();
+		
+		parameters.put("nome", nome+"%");
+		
+		return super.findAllResult(Cliente.POR_NOME_CLIENTES, parameters);
+	}
 
 }

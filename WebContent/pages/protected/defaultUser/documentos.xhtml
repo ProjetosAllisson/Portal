@@ -13,15 +13,7 @@
 
 		<h:form id="form">
 
-			<!--Ajax com status customizado -->
-			<p:ajaxStatus onstart="statusDialog.show()"
-				onsuccess="statusDialog.hide();" />
-			<p:dialog modal="true" widgetVar="statusDialog" header="Status" 
-				draggable="false" closable="false" >
-				<h:graphicImage value="/resources/LoadingProgressBar.gif" />
-			</p:dialog>
 
-			<p:growl showDetail="true"></p:growl>
 			<p:tabView>
 				<p:tab title="Pesquisa por Período">
 					<h:panelGrid columns="7">

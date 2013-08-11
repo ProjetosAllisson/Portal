@@ -1,10 +1,16 @@
 package br.com.allisson.util;
 
+import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-public class Criptografia {
+public class Criptografia implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	
 	public static String md5(String senha)  {

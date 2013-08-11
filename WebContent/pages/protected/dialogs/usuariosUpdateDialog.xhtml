@@ -40,13 +40,27 @@
 					<h:outputText value="Cliente:" />
 
 										 
+					 <!-- 
 					 <h:selectOneMenu value="#{usuariosBean.cnpj}" >
 					 	<f:selectItem itemLabel="Nome"/>
 					 	<f:selectItems value="#{clienteBean.allClientes()}" var="cliente"  itemLabel="#{cliente.nome}" itemValue="#{cliente.cgc}"></f:selectItems>
 					 	
 					 	
 					 </h:selectOneMenu>
+					  -->
 					 
+					 <p:commandLink  title="Localiza Clientes" 
+						onclick="buscaClienteDialogWidget.show();">
+					
+						<h:outputText id="nomeCliente" value="#{usuariosBean.usuarioSelecionado.cliente.nome}" />					
+					
+					</p:commandLink>
+					
+					 
+					 
+					  <!-- 
+					  <h:outputText id="nomeCliente" value="#{usuariosBean.usuarioSelecionado.cliente.nome}" />
+					   -->
 				</p:panelGrid>
 
 
@@ -83,6 +97,7 @@
 
 		</h:form>
 	</p:dialog>
+	
 </h:body>
 
 

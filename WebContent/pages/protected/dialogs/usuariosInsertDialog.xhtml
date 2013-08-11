@@ -8,60 +8,50 @@
 	xmlns:p="http://primefaces.org/ui">
 <h:body>
 
-	
+
 	<p:dialog widgetVar="usuariosInsertDialogWidget"
 		id="usuariosInsertDialogId" height="380" width="800" modal="true"
 		appendToBody="true" closable="true" draggable="false"
 		resizable="false">
 		<h:form id="usuariosInsertDialogForm">
 			<p:fieldset legend="Inserindo Usuário">
-			
-			<p:separator></p:separator>
-			
-			<p:panelGrid columns="3" styleClass="semBorda" >
-				<h:outputText value="Login" />
 
-					<p:inputText value="#{usuariosBean.usuario.login}" required="true" maxlength="20" requiredMessage="Login obrigatório"></p:inputText>
+				<p:separator></p:separator>
 
-				<br></br>
-				<h:outputLabel for="senha" value="Senha:" />
-						<p:password value="#{usuariosBean.usuario.senha}" id="senha"
-							required="true" label="senha" autocomplete="false" feedback="true" 
-							
-							requiredMessage="Senha é campo obrigatório" />
-				<br></br>				
+				<p:panelGrid columns="3" styleClass="semBorda">
+					<h:outputText value="Login" />
+
+					<p:inputText value="#{usuariosBean.usuario.login}" required="true"
+						maxlength="20" requiredMessage="Login obrigatório"></p:inputText>
+
+					<br></br>
+					<h:outputLabel for="senha" value="Senha:" />
+					<p:password value="#{usuariosBean.usuario.senha}" id="senha"
+						required="true" label="senha" autocomplete="false" feedback="true"
+						requiredMessage="Senha é campo obrigatório" />
+					<br></br>
 
 
 					<br></br>
 
-				<h:outputText value="Cliente:" />
-
-										 
-					 <h:selectOneMenu value="#{usuariosBean.cnpjInclusao}" >
-					 	<f:selectItem itemLabel="Nome"/>
-					 	<f:selectItems value="#{clienteBean.allClientes()}" var="cliente"  itemLabel="#{cliente.nome}" itemValue="#{cliente.cgc}"></f:selectItems>
-					 	
-					 	
-					 </h:selectOneMenu>
-
-
-
-
-
+					<p:commandLink value="Busca Cliente" title="Localiza Clientes" 
+						onclick="buscaClienteDialogWidget.show();">
+						 
+					</p:commandLink>
 					
-					<br/>
-					
+					<h:outputText id="nomeCliente" value="#{clienteBean.clienteSelecionado.nome}" />
+					<br />
+
 					<h:outputText value="Acesso Autorizado ?" />
 					<p:selectBooleanButton
-						value="#{usuariosBean.usuario.acesso_autorizado}"
-						onLabel="Sim" offLabel="Não" onIcon="ui-icon-check"
-						offIcon="ui-icon-close"></p:selectBooleanButton>
+						value="#{usuariosBean.usuario.acesso_autorizado}" onLabel="Sim"
+						offLabel="Não" onIcon="ui-icon-check" offIcon="ui-icon-close"></p:selectBooleanButton>
 
 					<br></br>
-					
-					
- 					 
-	 				<h:outputText value="E-mail" />
+
+
+
+					<h:outputText value="E-mail" />
 
 
 					<p:inputText id="email" label="email" size="40"
@@ -71,41 +61,51 @@
 
 					</p:inputText>
 					<p:watermark for="email" value="Email Address *" />
-					 
-				
-				
-			</p:panelGrid>
-			
-			
-			<p:separator></p:separator>
 
 
-			<p:panelGrid columns="4" width="100%" style="text-align:right"
+
+				</p:panelGrid>
+
+
+
+
+
+
+
+
+				<p:separator></p:separator>
+
+
+				<p:panelGrid columns="4" width="100%" style="text-align:right"
 					styleClass="semBorda">
 
 
 
 					<p:spacer width="400" height="10"></p:spacer>
-					<p:commandButton value="Inclui" icon="ui-icon-circle-check" ajax="false"
-						title="Confirma Inclusão" action="#{usuariosBean.InserirUsuario}"
+					<p:commandButton id="cmdInserir" value="Inclui" icon="ui-icon-circle-check"
+						ajax="false" title="Confirma Inclusão"
+						action="#{usuariosBean.InserirUsuario}"
 						update=":messageGrowl :usuariosForm:usuariosTable"
-						oncomplete="usuariosInsertDialogWidget.hide();" />
+						oncomplete="usuariosInsertDialogWidget.hide();" disabled="#{clienteBean.disabled}"/>
 
 
 					<p:commandButton value="Cancela" icon="ui-icon-cancel"
-						title="Cancela Inclusão" actionListener="#{usuariosBean.resetUser()}"
+						title="Cancela Inclusão"
+						actionListener="#{usuariosBean.resetUser()}"
 						onclick="usuariosInsertDialogWidget.hide();" type="button" />
 
 				</p:panelGrid>
-			
-			
-			
+
+
+
 			</p:fieldset>
-		
+
 		</h:form>
-		
+
+
 
 	</p:dialog>
+
 
 </h:body>
 

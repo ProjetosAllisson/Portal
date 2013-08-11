@@ -1,8 +1,10 @@
 package br.com.allisson.bean;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 
 import br.com.allisson.facade.ClienteFacade;
@@ -12,11 +14,23 @@ import br.com.allisson.modelo.Cliente;
 @SessionScoped
 public class ClienteBean {
 
+	@ManagedProperty(value = UsuariosBean.INJECTION_NAME)
+	private UsuariosBean usuariosBean;
+
 	private Cliente cliente;
 	private List<Cliente> clientes;
 	private ClienteFacade clienteFacade;
+	private Cliente clienteSelecionado;
+
+	private String nomeCliente;
 
 	private boolean disabled = true;
+	
+	private void resetClientes(){
+		clientes = new ArrayList<Cliente>();
+		this.nomeCliente ="";
+		//clienteSelecionado = new Cliente();
+	}
 
 	public void localizaCliente(String cliente) {
 		setCliente(getClienteFacade().localiza(cliente));
@@ -48,12 +62,64 @@ public class ClienteBean {
 	}
 
 	public List<Cliente> allClientes() {
-		if (clientes == null) {
-			clientes = getClienteFacade().allClientes();
+		if (getClientes() == null) {
+			setClientes(getClienteFacade().allClientes());
 		}
-		
-		return clientes;
-		
+
+		return getClientes();
+
 	}
 
+	public List<Cliente> localizaClientes() {
+		if (!getNomeCliente().equals("")) {
+			setClientes(getClienteFacade().allClientesPorNome(getNomeCliente()));
+		}
+
+		return getClientes();
+	}
+
+	public String getNomeCliente() {
+		return nomeCliente;
+	}
+
+	public void setNomeCliente(String nomeCliente) {
+		this.nomeCliente = nomeCliente.toUpperCase();
+	}
+
+	public UsuariosBean getUsuariosBean() {
+		return usuariosBean;
+	}
+
+	public void setUsuariosBean(UsuariosBean usuariosBean) {
+		this.usuariosBean = usuariosBean;
+	}
+
+	public List<Cliente> getClientes() {
+		return clientes;
+	}
+
+	public void setClientes(List<Cliente> clientes) {
+		this.clientes = clientes;
+	}
+
+	public Cliente getClienteSelecionado() {
+		return clienteSelecionado;
+	}
+
+	public void setClienteSelecionado(Cliente clienteSelecionado) {
+		this.clienteSelecionado = clienteSelecionado;
+	}
+
+	public void clienteEscolhido() {
+		this.setDisabled(true);
+		if (this.clienteSelecionado != null) {
+			this.setDisabled(false);
+			this.usuariosBean.setCliente(this.clienteSelecionado);
+			
+			resetClientes();
+		}
+	}
+
+	
+	
 }

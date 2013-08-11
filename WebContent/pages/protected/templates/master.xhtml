@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" ?>  
+<?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -10,11 +10,11 @@
 
 <h:head>
 	<title>Portal de Serviços</title>
-	
+
 	<meta http-equiv="X-UA-Compatible" content="IE=8" />
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	
-	
+
+
 	<script type="text/javascript">
         PrimeFaces.locales['pt_BR'] = {
                 closeText :'Fechar',
@@ -48,51 +48,64 @@
                 allDayText : 'Todo Dia' 
              };          
     </script>
-	
-	
-	
-	
+
+
+
+
 </h:head>
 
 <h:body>
 	<h:outputStylesheet library="css" name="normalize.css"></h:outputStylesheet>
-	
-	
-	<f:view contentType="text/html; charset=UTF-8" encoding="UTF-8" >
-	<p:layout fullPage="true" style="min-width:1020px;max-width:1220px;min-height:800px">
-		<p:layoutUnit position="north" size="80">
-		<div id="divTop" style="vertical-align: middle;">
-			<ui:insert name="divTop">
-				<ui:include src="top.xhtml" />
-			</ui:insert>
-		</div>
-		</p:layoutUnit>
-		
-
-		 
-		<div id="divLeft">
-			<ui:insert name="divLeft">
-				<ui:include src="left.xhtml" />
-			</ui:insert>
-		</div>
 
 
-		<p:layoutUnit position="center">
-			
-			<div id="divMain">
-				<p:growl id="messageGrowl" />
-				<ui:insert name="divMain" />
+
+	<p:ajaxStatus onstart="statusDialog.show()"
+		onsuccess="statusDialog.hide();" />
+	<p:dialog modal="true" widgetVar="statusDialog" header="Status"
+		draggable="false" closable="false">
+		<h:graphicImage value="/resources/LoadingProgressBar.gif" />
+	</p:dialog>
+
+	<p:growl showDetail="true"></p:growl>
+
+
+
+	<f:view contentType="text/html; charset=UTF-8" encoding="UTF-8">
+		<p:layout fullPage="true"
+			style="min-width:1020px;max-width:1220px;min-height:800px">
+			<p:layoutUnit position="north" size="80">
+				<div id="divTop" style="vertical-align: middle;">
+					<ui:insert name="divTop">
+						<ui:include src="top.xhtml" />
+					</ui:insert>
+				</div>
+			</p:layoutUnit>
+
+
+
+			<div id="divLeft">
+				<ui:insert name="divLeft">
+					<ui:include src="left.xhtml" />
+				</ui:insert>
 			</div>
-		</p:layoutUnit>
-		
-		<p:layoutUnit position="south">
-			<div id="divBottom">
-			
-			<ui:include src="bottom.xhtml"></ui:include>
-			</div>
-		</p:layoutUnit>
-		
-	</p:layout>	
+
+
+			<p:layoutUnit position="center">
+
+				<div id="divMain">
+					<p:growl id="messageGrowl" />
+					<ui:insert name="divMain" />
+				</div>
+			</p:layoutUnit>
+
+			<p:layoutUnit position="south">
+				<div id="divBottom">
+
+					<ui:include src="bottom.xhtml"></ui:include>
+				</div>
+			</p:layoutUnit>
+
+		</p:layout>
 	</f:view>
 </h:body>
 </html>

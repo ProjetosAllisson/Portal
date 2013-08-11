@@ -1,5 +1,6 @@
 package br.com.allisson.modelo;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -17,18 +18,20 @@ import javax.persistence.TemporalType;
 @NamedQueries({
 	@NamedQuery(name = "Cliente.findCliente", query ="select u from Cliente u where u.cgc = :cgc"),
 	@NamedQuery(name = "Cliente.allClientes", query ="select u from Cliente u where u.ult_acesso is not null and u.ult_acesso between :start and :end "),
-	
+	@NamedQuery(name = "Cliente.porNomeCliente", query ="select u from Cliente u where u.nome like :nome"),
 })
 
-public class Cliente {
+public class Cliente implements Serializable {
 
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	
 	public static final String FIND_CLIENTE = "Cliente.findCliente";
 	public static final String ALL_CLIENTES = "Cliente.allClientes";
-	
-	
-	//@NamedQuery(name = "Cliente.porNomeCliente", query ="select u from Cliente u where u.nome like :nome"),
-	//public static final String POR_NOME_CLIENTES = "Cliente.porNomeCliente";
+	public static final String POR_NOME_CLIENTES = "Cliente.porNomeCliente";
 	
 	@Id
 	@Column(name ="cgc")

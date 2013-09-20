@@ -5,7 +5,7 @@ import java.io.IOException;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.RequestScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
@@ -18,14 +18,12 @@ import br.com.allisson.modelo.User;
 import br.com.allisson.util.Criptografia;
 
 @ManagedBean(name = "loginBean")
-@SessionScoped
-public class LoginBean extends AbstractMB{
+@RequestScoped
+public class LoginBean extends AbstractMB {
 
-	
 	@ManagedProperty(value = UserBean.INJECTION_NAME)
 	private UserBean userBean;
-	
-	
+
 	private User usuarioAutenticado;
 
 	private String usuario;
@@ -76,7 +74,7 @@ public class LoginBean extends AbstractMB{
 		this.senha = senha;
 	}
 
-	public String autentica()  {
+	public String autentica() {
 		UserFacade userFacade = new UserFacade();
 
 		System.out.println("autentica");
@@ -85,76 +83,90 @@ public class LoginBean extends AbstractMB{
 
 		System.out.println(this.usuario);
 		System.out.println(this.senha);
-		
 
-		
 		this.senha = Criptografia.md5(this.senha);
-		
+
 		System.out.println(this.senha);
-		
+
 		usuarioAutenticado = userFacade.isValidLogin(usuario, senha);
 
 		
-		if ((usuarioAutenticado != null) && (usuarioAutenticado.getAcesso_autorizado() == false)){
+		System.out.println("consultou");
+		
+		if ((usuarioAutenticado != null)
+				&& (usuarioAutenticado.getAcesso_autorizado() == false)) {
 			displayErrorMessageToUser("Usuário ainda não foi autorizado o acesso!");
 		}
-		
+
 		else if (usuarioAutenticado != null) {
 			logado = true;
+
 			
-			displayInfoMessageToUser("Acesso ao Portal Web, Seja bem-vindo " + usuario);
 			
+			System.out.println("Acesso autorizado");
+			
+			displayInfoMessageToUser("Acesso ao Portal Web, Seja bem-vindo "
+					+ usuario);
+
 			userBean.setUser(usuarioAutenticado);
-			
-			
-//			System.out.println(usuarioAutenticado.isUser());
-			
-	//		System.out.println(usuarioAutenticado.isAdmin());
+
+			System.out.println("Passou o MB");
 			
 			FacesContext ctx = FacesContext.getCurrentInstance();
 			session = (HttpSession) ctx.getExternalContext().getSession(false);
 			session.setAttribute("usuarioAutenticado", usuarioAutenticado);
 
-						
 			AcessosFacade acessosFacade = new AcessosFacade();
 			acessosFacade.createAcesso(usuarioAutenticado);
+			
+			
+			System.out.println("Acesso Ok");
 
 		} else {
 			displayErrorMessageToUser("Erro ao efetuar login, Usuário ou Senha incorretos");
-			
+
 		}
 
-		//FacesContext.getCurrentInstance().addMessage(null, msg);
 		context.addCallbackParam("logado", logado);
 
 		if (logado) {
 
-			System.out.println("LOGADO");
-
-			// return "rastreamento";
-
 			
-			//return "/paginas/protected/index.xhtml";
-			
+			System.out.println("Usuario Logado");
 			
 			try {
-				//FacesContext.getCurrentInstance().getExternalContext()
-					//	.getSessionMap()
-						//.put("documentosBean", new DocumentosBean());
 				FacesContext.getCurrentInstance().getExternalContext()
 						.redirect("../protected/index.jsf");
 
-				//
-				//FacesContext.getCurrentInstance().getExternalContext()
-					//	.redirect("rastreamento");
 			} catch (IOException e) {
-				// TODOAuto-generated catch block
 				e.printStackTrace();
 			}
 
+		}else{
+			
+			
+			
+			try {
+				FacesContext.getCurrentInstance().getExternalContext()
+						.redirect("loginSemAcesso.jsf");
+
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			
+			FacesContext fc = FacesContext.getCurrentInstance();
+			ExternalContext ec = fc.getExternalContext();
+			HttpSession session = (HttpSession) ec.getSession(false);
+
+			session.removeAttribute("usuarioAutenticado");
+			session.invalidate();
+			
 			
 		}
-		 return null;
+			
+			
+		System.out.println("Login Ok");	
+		return null;
 
 	}
 
@@ -166,7 +178,6 @@ public class LoginBean extends AbstractMB{
 		session.removeAttribute("usuarioAutenticado");
 		session.invalidate();
 
-		
 		try {
 			FacesContext.getCurrentInstance().getExternalContext()
 					.redirect("login.jsf");
@@ -174,7 +185,7 @@ public class LoginBean extends AbstractMB{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 	}
 
 	public void decrementar() {

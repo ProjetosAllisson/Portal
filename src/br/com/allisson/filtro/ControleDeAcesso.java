@@ -74,6 +74,8 @@ public class ControleDeAcesso implements Filter {
 				&& !url.endsWith("javax.faces.resource/style.css.jsf")
 				&& !url.endsWith("javax.faces.resource/theme.css.jsf")
 				&& !url.contains("login.jsf") && !url.endsWith(".css")
+				&& !url.contains("loginFrame.jsf")
+				&& !url.contains("loginSemAcesso.jsf")
 				&& !url.endsWith(".js") && !url.endsWith(".jpg")
 				&& !url.endsWith(".gif") && !url.endsWith(".js.jsf")
 				&& !url.endsWith("consultaPublicaCpf.jsf")

@@ -1,0 +1,50 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<h:body>
+		<p:growl id="growl" showDetail="true" life="3000"></p:growl>
+		<h:form target="_blank">
+		
+		<p:panel header="Portal de Serviço Web"
+				 style="position:absolute;">
+				 
+				 
+			<h:panelGrid id="panel" columns="3" cellspacing="3" styleClass="semBorda">	 
+				<h:outputLabel for="usuario" value="Usuário: " />
+				<p:focus>
+					<p:inputText value="#{loginBean.usuario}" id="usuario"
+								required="true" label="usuario" />
+				</p:focus>
+				<br></br>			
+				<h:outputLabel for="senha" value="Senha:" />
+					<p:password value="#{loginBean.senha}" id="senha" required="true"
+								label="senha" />
+			
+				<br/>				
+				
+				
+				<p:commandLink value="Solicite cadastro" title="Localiza Clientes" 
+						onclick="buscaClienteDialogWidget.show();">
+						 
+				</p:commandLink>
+				
+				
+				<h:commandButton id="btnLogin" value="Login" update=":growl"
+								icon="ui-icon-check" action="#{loginBean.autentica}" >
+				</h:commandButton>
+				
+			</h:panelGrid>	
+		</p:panel>
+							
+		</h:form>
+
+	</h:body>
+</h:head>
+
+</html>

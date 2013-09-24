@@ -22,13 +22,13 @@
 						
 						<h:outputLabel id="lblLogin" for="txtLogin" value="Login" />
 						<p:focus>
-							<p:inputText id="txtLogin" value="#{usuarioBean.usuario.login}"
+							<p:inputText id="txtLogin" value="#{usuariosBean.usuario.login}"
 								size="20" maxlength="20" required="true"
 								requiredMessage="Informe o Login" />
 						</p:focus>
 						<br></br>
 						<h:outputLabel for="senha" value="Senha:" />
-						<p:password value="#{usuarioBean.usuario.senha}" id="senha"
+						<p:password value="#{usuariosBean.usuario.senha}" id="senha"
 							required="true" label="senha" autocomplete="false" feedback="true" 
 							
 							requiredMessage="Senha é campo obrigatório" />
@@ -37,7 +37,7 @@
 
 						<h:outputLabel for="txtCnpj" value="Cnpj:" />
 						<p:inputMask mask="99.999.999/9999-99" id="txtCnpj"
-							value="#{usuarioBean.cnpj}" >
+							value="#{usuariosBean.cnpj}" >
 							
 							<p:ajax event="keyup" listener="#{clienteBean.localizaCliente(usuarioBean.cnpj)}"  update="incluiUsuario,nomeCliente" ></p:ajax>
 							
@@ -47,12 +47,11 @@
 					</p:panelGrid>
 						<f:facet name="footer">
 							
-							<p:spacer width="500" height="10">
 							<h:panelGroup style="display:block; text-align:center">
 								<p:commandButton id="incluiUsuario" value="Inserir Usuário" 
-									action="#{usuarioBean.InserirUsuario}" update="@form" disabled="#{clienteBean.disabled}"></p:commandButton>
+									action="#{usuariosBean.InserirUsuarioExterno()}" update="@form"  ></p:commandButton>
 							</h:panelGroup>
-							</p:spacer>
+							
 						</f:facet>
 
 

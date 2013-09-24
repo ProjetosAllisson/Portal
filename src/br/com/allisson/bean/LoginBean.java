@@ -75,65 +75,10 @@ public class LoginBean extends AbstractMB {
 	}
 
 	public String autentica() {
-		UserFacade userFacade = new UserFacade();
 
-		System.out.println("autentica");
-		RequestContext context = RequestContext.getCurrentInstance();
-		System.out.println(context);
-
-		System.out.println(this.usuario);
-		System.out.println(this.senha);
-
-		this.senha = Criptografia.md5(this.senha);
-
-		System.out.println(this.senha);
-
-		usuarioAutenticado = userFacade.isValidLogin(usuario, senha);
-
-		
-		System.out.println("consultou");
-		
-		if ((usuarioAutenticado != null)
-				&& (usuarioAutenticado.getAcesso_autorizado() == false)) {
-			displayErrorMessageToUser("Usuário ainda não foi autorizado o acesso!");
-		}
-
-		else if (usuarioAutenticado != null) {
-			logado = true;
-
-			
-			
-			System.out.println("Acesso autorizado");
-			
-			displayInfoMessageToUser("Acesso ao Portal Web, Seja bem-vindo "
-					+ usuario);
-
-			userBean.setUser(usuarioAutenticado);
-
-			System.out.println("Passou o MB");
-			
-			FacesContext ctx = FacesContext.getCurrentInstance();
-			session = (HttpSession) ctx.getExternalContext().getSession(false);
-			session.setAttribute("usuarioAutenticado", usuarioAutenticado);
-
-			AcessosFacade acessosFacade = new AcessosFacade();
-			acessosFacade.createAcesso(usuarioAutenticado);
-			
-			
-			System.out.println("Acesso Ok");
-
-		} else {
-			displayErrorMessageToUser("Erro ao efetuar login, Usuário ou Senha incorretos");
-
-		}
-
-		context.addCallbackParam("logado", logado);
+		this.autenticacao();
 
 		if (logado) {
-
-			
-			System.out.println("Usuario Logado");
-			
 			try {
 				FacesContext.getCurrentInstance().getExternalContext()
 						.redirect("../protected/index.jsf");
@@ -142,10 +87,26 @@ public class LoginBean extends AbstractMB {
 				e.printStackTrace();
 			}
 
-		}else{
-			
-			
-			
+		}
+		return null;
+
+	}
+
+	public void autenticaLoginFrame() {
+
+		this.autenticacao();
+		
+		if (logado) {
+			try {
+				FacesContext.getCurrentInstance().getExternalContext()
+						.redirect("../protected/index.jsf");
+
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+
+		}else {
+
 			try {
 				FacesContext.getCurrentInstance().getExternalContext()
 						.redirect("loginSemAcesso.jsf");
@@ -153,20 +114,53 @@ public class LoginBean extends AbstractMB {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			
+
 			FacesContext fc = FacesContext.getCurrentInstance();
 			ExternalContext ec = fc.getExternalContext();
 			HttpSession session = (HttpSession) ec.getSession(false);
 
 			session.removeAttribute("usuarioAutenticado");
 			session.invalidate();
-			
-			
+
 		}
-			
-			
-		System.out.println("Login Ok");	
-		return null;
+
+	}
+
+	private void autenticacao() {
+
+		UserFacade userFacade = new UserFacade();
+
+		RequestContext context = RequestContext.getCurrentInstance();
+		this.senha = Criptografia.md5(this.senha);
+
+		usuarioAutenticado = userFacade.isValidLogin(usuario, senha);
+
+		if ((usuarioAutenticado != null)
+				&& (usuarioAutenticado.getAcesso_autorizado() == false)) {
+			displayErrorMessageToUser("Usuário ainda não foi autorizado o acesso!");
+		}
+
+		else if (usuarioAutenticado != null) {
+			logado = true;
+
+			displayInfoMessageToUser("Acesso ao Portal Web, Seja bem-vindo "
+					+ usuario);
+
+			userBean.setUser(usuarioAutenticado);
+
+			FacesContext ctx = FacesContext.getCurrentInstance();
+			session = (HttpSession) ctx.getExternalContext().getSession(false);
+			session.setAttribute("usuarioAutenticado", usuarioAutenticado);
+
+			AcessosFacade acessosFacade = new AcessosFacade();
+			acessosFacade.createAcesso(usuarioAutenticado);
+
+		} else {
+			displayErrorMessageToUser("Erro ao efetuar login, Usuário ou Senha incorretos");
+
+		}
+
+		context.addCallbackParam("logado", logado);
 
 	}
 

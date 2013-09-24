@@ -28,14 +28,6 @@ public class UserDAO extends GenericDAO<User> {
 	
 	
 	public List<User> findAllUserNaoAutorizados(){
-		
-		
-		
-		/*
-		 * 
-		 * Fazer a Busca DAO
-		 */
-		
 		return super.findAllResult(User.FIND_ALL_USER_NAO_AUTORIZADOS, null);
 		
 	}

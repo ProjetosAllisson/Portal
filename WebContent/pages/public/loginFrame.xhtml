@@ -8,40 +8,44 @@
 	xmlns:p="http://primefaces.org/ui">
 <h:head>
 	<h:body>
-		<p:growl id="growl" showDetail="true" life="3000"></p:growl>
 		<h:form target="_blank">
-		
-		<p:panel header="Portal de Serviço Web"
-				 style="position:absolute;">
-				 
-				 
-			<h:panelGrid id="panel" columns="3" cellspacing="3" styleClass="semBorda">	 
-				<h:outputLabel for="usuario" value="Usuário: " />
-				<p:focus>
-					<p:inputText value="#{loginBean.usuario}" id="usuario"
-								required="true" label="usuario" />
-				</p:focus>
-				<br></br>			
-				<h:outputLabel for="senha" value="Senha:" />
+
+			<p:panel header="Portal de Serviço Web" style="position:absolute;">
+
+
+				<h:panelGrid id="panel" columns="3" cellspacing="3"
+					styleClass="semBorda">
+					<h:outputLabel for="usuario" value="Usuário: " />
+					<p:focus>
+						<p:inputText value="#{loginBean.usuario}" id="usuario"
+							required="true" label="usuario" />
+					</p:focus>
+					<br></br>
+					<h:outputLabel for="senha" value="Senha:" />
 					<p:password value="#{loginBean.senha}" id="senha" required="true"
-								label="senha" />
-			
-				<br/>				
-				
-				
-				<p:commandLink value="Solicite cadastro" title="Localiza Clientes" 
-						onclick="buscaClienteDialogWidget.show();">
+						label="senha" />
+
+					<br />
+
+
+					<!--  
+				<p:commandLink value="Solicite cadastro" title="Solicitação de Acesso" 
+						onclick="#{usuarioBean.cadastra}">
 						 
 				</p:commandLink>
-				
-				
-				<h:commandButton id="btnLogin" value="Login" update=":growl"
-								icon="ui-icon-check" action="#{loginBean.autentica}" >
+				 -->
+
+
+				</h:panelGrid>
+			
+				<p:spacer width="130" height="1"></p:spacer>
+			
+				<h:commandButton id="btnLogin" value="Login" icon="ui-icon-check"
+					action="#{loginBean.autenticaLoginFrame}">
 				</h:commandButton>
-				
-			</h:panelGrid>	
-		</p:panel>
-							
+
+			</p:panel>
+
 		</h:form>
 
 	</h:body>

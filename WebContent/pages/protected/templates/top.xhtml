@@ -38,10 +38,17 @@
 					
 						<center>
 
+						
+						<!-- 
 						<c:if test="${loginBean.logado}">
 							 <h:outputText value="Olá #{sessionScope.usuarioAutenticado.login}, seja Bem Vindo! 
-						     Você esta logado.#{userMB.user.login}" style="font-size:12px;width=40%"/>
+						     Você esta logado." style="font-size:12px;width=40%"/>
 					    </c:if>
+ 						-->
+ 						
+ 					   <h:outputText value="Olá #{userBean.user.login}, seja Bem Vindo! 
+						     Você esta logado." style="font-size:12px;width=40%"/>
+
 
 					    <!-- 
 					    <h:outputLabel value="Tempo da Sessão"  />
@@ -57,6 +64,17 @@
 					<p:commandLink action="/pages/protected/index.jsf" title="Pagina inicial" immediate="true" ajax="false">
 						<h:graphicImage value="/img/home.png" />	
 					</p:commandLink>
+					
+					<p:spacer with ="40" height="10"></p:spacer>
+					
+					<c:if test="${userBean.consultaporGrupo == false}">
+						<h:outputText value=" #{userBean.user.cliente.fantasia}" />
+					</c:if>
+					
+					 
+					<c:if test="${userBean.consultaporGrupo}">
+						<h:outputText value=" #{userBean.user.cliente.grupoCliente.descricao}" />
+					</c:if>
 				</h:form>
 			
 		</div>

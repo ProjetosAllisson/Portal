@@ -27,13 +27,13 @@ public class UsuariosBean extends AbstractMB {
 	private List<User> usersNaoAutorizados;
 
 	private Cliente cliente;
+	private String cnpj;
 
 	public UsuariosBean() {
 		resetUser();
 	}
 
 	public void InserirUsuario() {
-
 		usuario.setCliente(cliente);
 
 		if (getUserFacade().isExists(usuario.getLogin()) == true) {
@@ -49,25 +49,48 @@ public class UsuariosBean extends AbstractMB {
 			displayInfoMessageToUser("Usuário inserido com sucesso");
 
 		}
-		// return null;
+		
+	}
+	
+	
+	public void InserirUsuarioExterno(){
 
-		/*
-		 * try { usuarioDao.adiciona(this.usuario); return "usuario_sucesso"; }
-		 * catch (Exception e) { FacesMessage msg = new
-		 * FacesMessage("Registro Duplicado",
-		 * "O Usuário que você esta inserindo ja existe");
-		 * //FacesContext.getCurrentInstance().addMessage(null, msg);
-		 * 
-		 * }
-		 */
-		// }
-		// return null;
+		usuario.setCliente(cliente);
+		
+		if (getUserFacade().isExists(usuario.getLogin()) == true) {
+			displayErrorMessageToUser("Registro Duplicado. O Usuário que você esta inserindo ja existe");
+		} else {
+			usuario.setRole(Role.USER);
+			usuario.setAcesso_autorizado(false);
+
+			getUserFacade().createUser(usuario);
+
+			resetUser();
+			loadUsers();
+
+			displayInfoMessageToUser("Usuário inserido com sucesso");
+			
+			
+			try {
+				FacesContext.getCurrentInstance().getExternalContext()
+						.redirect("usuario_sucesso.jsf");
+
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+
+
+		}
+		
+		
 
 	}
 
 	public void cadastra() throws IOException {
 		// return "usuario";
 
+		System.out.println("Usuariooo");
+		
 		FacesContext.getCurrentInstance().getExternalContext().getSessionMap()
 				.put("usuarioBean", new UsuariosBean());
 		FacesContext.getCurrentInstance().getExternalContext()
@@ -187,6 +210,17 @@ public class UsuariosBean extends AbstractMB {
 			getUserFacade().updateUser(usuario);
 		}
 		loadUsersNaoAutorizados();
+	}
+
+	public String getCnpj() {
+		return cnpj;
+	}
+
+	public void setCnpj(String cnpj) {
+		
+		System.out.println(cnpj);
+		cliente.setCgc(cnpj);
+		this.cnpj = cnpj;
 	}
 
 }

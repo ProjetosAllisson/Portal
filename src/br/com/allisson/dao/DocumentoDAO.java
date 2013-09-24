@@ -11,9 +11,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.faces.context.FacesContext;
-import javax.servlet.http.HttpSession;
-
 import br.com.allisson.factory.ConnectionFactory;
 import br.com.allisson.factory.ServicosDisponiveisFactory;
 import br.com.allisson.modelo.Documento;
@@ -21,7 +18,7 @@ import br.com.allisson.modelo.ServicosDisponiveis;
 import br.com.allisson.modelo.User;
 import br.com.allisson.util.Criptografia;
 
-public class DocumentoDAO implements Serializable{
+public class DocumentoDAO implements Serializable {
 
 	/**
 	 * 
@@ -31,10 +28,15 @@ public class DocumentoDAO implements Serializable{
 	private final Connection connection;
 	private final ServicosDisponiveis servicos;
 
+	private User usuario = new User();
+
 	public DocumentoDAO() {
 		try {
 			this.connection = new ConnectionFactory().getConnection();
 			this.servicos = new ServicosDisponiveisFactory().getServicos();
+
+			this.usuario = usuario.DevolveUsuarioSessao();
+
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
@@ -56,37 +58,37 @@ public class DocumentoDAO implements Serializable{
 				+ "         when mov.dt_manif is not null then 'MERCADORIA EM TRANSFERENCIA'"
 				+ "         when mov.dt_manif is null then 'MERCADORIA EM DEPOSITO ORIGEM'"
 				+ "       end ocorrencia, "
-				
+
 				+ "       case "
-                + "        when mov.nr_cto in(select img.nr_cto from stwopetdig img"
-                + "            where img.documento = mov.documento"
-                + "              and img.fil_orig  = mov.fil_orig"
-                + "              and img.nr_cto    = mov.nr_cto) then 'SIM'"
-//                + "              and img.nr_cto    = mov.nr_cto"
-//                + "              and img.serie     = mov.serie) then 'SIM'"
-                + "        else 'NAO'"
-                + "       end imagem " 
+				+ "        when mov.nr_cto in(select img.nr_cto from stwopetdig img"
+				+ "            where img.documento = mov.documento"
+				+ "              and img.fil_orig  = mov.fil_orig"
+				// + "              and img.nr_cto    = mov.nr_cto) then 'SIM'"
+				+ "              and img.nr_cto    = mov.nr_cto"
+				+ "              and img.serie     = mov.serie) then 'SIM'"
+				+ "        else 'NAO'"
+				+ "       end imagem, info.recebedor  "
 
 				+ " from stwopetmov mov "
 
 				+ "left join stwopetnota nf on(mov.documento = nf.documento and mov.fil_orig = nf.fil_orig "
-				+ "                            and mov.nr_cto = nf.nr_cto)"
-				// +
-				// "                            and mov.nr_cto = nf.nr_cto and mov.serie = nf.serie_cto)"
+				// + "                            and mov.nr_cto = nf.nr_cto)"
+				+ "                            and mov.nr_cto = nf.nr_cto and mov.serie = nf.serie_cto)"
 
 				+ "left join stwopetcli remet on(nf.cgc = remet.cgc)"
 
 				+ " left join stwcoltent ent on(ent.documento = mov.documento and ent.fil_orig = mov.fil_orig "
-				//+
-				// "                             and ent.nr_cto = mov.nr_cto and ent.serie = mov.serie)"
-				+ "                             and ent.nr_cto = mov.nr_cto)"
+				+ "                             and ent.nr_cto = mov.nr_cto and ent.serie = mov.serie)"
+				// + "                             and ent.nr_cto = mov.nr_cto)"
 
 				+ "left join stwopetman man on(man.nr_manif = mov.nr_manif)"
 				+ "left join stwopetcli dest on(dest.cgc = mov.cgc_dest)"
 				+ "left join stwopetedi1 edi1 on(edi1.cgc = nf.cgc)"
 				+ "left join stwopetedi3 edi3 on(edi3.chv_ocorrencia = coalesce(edi1.chv_ocorrencia,'PROCEDA')"
 				+ "                              and edi3.cod_ocorrencia = nf.cd_ocorrencia)"
-				+ "left join stwcoltrom rom on(rom.fil_romaneio = ent.fil_romaneio and rom.romaneio = ent.romaneio)";
+				+ "left join stwcoltrom rom on(rom.fil_romaneio = ent.fil_romaneio and rom.romaneio = ent.romaneio)"
+				+ "left join stwopetinfo info on(info.documento = mov.documento and info.fil_orig = mov.fil_orig"
+				+ "                                and info.nr_cto = mov.nr_cto and info.serie = mov.serie)";
 
 	}
 
@@ -100,20 +102,34 @@ public class DocumentoDAO implements Serializable{
 					+ "  and mov.status <> 'CA'";
 
 			if (cliente.equals("remet")) {
-				sql = sql + " and mov.cgc_remet = ?";
+
+				if (usuario.consultaPorGrupoCliente()){
+					sql = sql + "and remet.grupo = ?";
+				} else {
+
+					sql = sql + " and mov.cgc_remet = ?";
+				}
 			}
 
 			if (cliente.equals("dest")) {
-				sql = sql + " and mov.cgc_dest = ?";
+
+				if (usuario.consultaPorGrupoCliente()){
+					sql = sql + "and dest.grupo = ?";
+				} else {
+					sql = sql + " and mov.cgc_dest = ?";
+				}
 			}
 
 			if (cliente.equals("null")) {
-				sql = sql + " and (mov.cgc_remet = ? or mov.cgc_dest = ?)";
-			}
 
-			// if (!cliente.equals("null")) {
-			// sql = sql + " and mov.cgc_"+cliente;
-			// }
+				//if ((usuario.getCliente().getGrupoCliente()) != null) {
+				if (usuario.consultaPorGrupoCliente()){
+					sql = sql + "and (remet.grupo = ? or dest.grupo = ?)";
+				} else {
+					sql = sql + " and (mov.cgc_remet = ? or mov.cgc_dest = ?)";
+				}
+
+			}
 
 			PreparedStatement stm = this.connection.prepareStatement(sql);
 
@@ -122,24 +138,29 @@ public class DocumentoDAO implements Serializable{
 			stm.setDate(2, new java.sql.Date(
 					formataData(dataTermino + " 23:59").getTime()));
 
-			// FacesContext ctx = FacesContext.getCurrentInstance();
-			// HttpSession session = (HttpSession) ctx.getExternalContext()
-			// .getSession(false);
-
-			// stm.setString(3, "16.716.417/0001-95");
-
-			User usuario = DevolveUsuarioSessao(); // (Usuario)
-														// session.getAttribute("usuarioAutenticado");
-
-			// if (!cliente.equals("null")) {
 			if (cliente.equals("null")) {
-				stm.setString(3, usuario.getCliente().getCgc());
-				stm.setString(4, usuario.getCliente().getCgc());
+
+				if (usuario.consultaPorGrupoCliente()){
+					stm.setInt(3, usuario.getCliente().getGrupoCliente()
+							.getGrupo());
+					stm.setInt(4, usuario.getCliente().getGrupoCliente()
+							.getGrupo());
+
+				} else {
+					stm.setString(3, usuario.getCliente().getCgc());
+					stm.setString(4, usuario.getCliente().getCgc());
+				}
+
 			} else {
-				stm.setString(3, usuario.getCliente().getCgc());
+
+				if (usuario.consultaPorGrupoCliente()){
+					stm.setInt(3, usuario.getCliente().getGrupoCliente()
+							.getGrupo());
+				} else {
+					stm.setString(3, usuario.getCliente().getCgc());
+				}
 			}
 
-		//	System.out.println(usuario.getCnpj());
 			ResultSet rs = stm.executeQuery();
 
 			while (rs.next()) {
@@ -164,17 +185,25 @@ public class DocumentoDAO implements Serializable{
 			List<Documento> documentos = new ArrayList<Documento>();
 
 			String sql = selectDados() + "where nf.n_fiscal = ? "
-					+ "  and mov.status <> 'CA'"
-					+ " and (mov.cgc_remet = ? or mov.cgc_dest = ?)";
+					+ "  and mov.status <> 'CA'";
+
+			if (usuario.consultaPorGrupoCliente()){
+				sql = sql + " and (remet.grupo = ? or dest.grupo = ?)";
+			} else {
+				sql = sql + " and (mov.cgc_remet = ? or mov.cgc_dest = ?)";
+			}
 
 			PreparedStatement stm = this.connection.prepareStatement(sql);
 
 			stm.setInt(1, notaFiscal);
 
-			User usuario = DevolveUsuarioSessao();
-
-			stm.setString(2, usuario.getCliente().getCgc());
-			stm.setString(3, usuario.getCliente().getCgc());
+			if (usuario.consultaPorGrupoCliente()){
+				stm.setInt(2, usuario.getCliente().getGrupoCliente().getGrupo());
+				stm.setInt(3, usuario.getCliente().getGrupoCliente().getGrupo());
+			} else {
+				stm.setString(2, usuario.getCliente().getCgc());
+				stm.setString(3, usuario.getCliente().getCgc());
+			}
 
 			ResultSet rs = stm.executeQuery();
 
@@ -196,7 +225,7 @@ public class DocumentoDAO implements Serializable{
 	private Documento populaDocumento(ResultSet rs) throws SQLException {
 
 		Documento documento = new Documento();
-			
+
 		documento.setDocumento(rs.getString("documento"));
 		documento.setDoc(rs.getString("doc"));
 		documento.setFil_orig(rs.getString("fil_orig"));
@@ -216,17 +245,16 @@ public class DocumentoDAO implements Serializable{
 		documento.setDestinatario(rs.getString("destinatario"));
 
 		documento.setOcorrencia(rs.getString("ocorrencia"));
-		
-		
-				
-		if (this.servicos.getComprovanteEntrega().equals(Criptografia.md5("SIM"))){
+
+		if (this.servicos.getComprovanteEntrega().equals(
+				Criptografia.md5("SIM"))) {
 			documento.setTemImagem(rs.getString("imagem").equals("SIM"));
 			System.out.println("Tem Imagem");
-		}
-		else
+		} else
 			documento.setTemImagem(false);
-		
-		
+
+		documento.setRecebedor(rs.getString("recebedor"));
+
 		// popula a data de finalizacao da tarefa, fazendo a conversao
 		/*
 		 * Date data = rs.getDate("dataFinalizacao"); if(data != null) {
@@ -269,7 +297,7 @@ public class DocumentoDAO implements Serializable{
 			stm.setString(2, cpf_cnpj);
 
 			ResultSet rs = stm.executeQuery();
-			
+
 			while (rs.next()) {
 				documentos.add(populaDocumento(rs));
 			}
@@ -285,12 +313,4 @@ public class DocumentoDAO implements Serializable{
 
 	}
 
-	private User DevolveUsuarioSessao() {
-		FacesContext ctx = FacesContext.getCurrentInstance();
-		HttpSession session = (HttpSession) ctx.getExternalContext()
-				.getSession(false);
-
-		return (User) session.getAttribute("usuarioAutenticado");
-
-	}
 }

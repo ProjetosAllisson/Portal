@@ -20,8 +20,6 @@ public class UserBean extends AbstractMB implements Serializable {
 	public static final String INJECTION_NAME = "#{userBean}";
 	
 	private User user;
-	
-	
 	public UserBean() {
 		resetUser();
 	}
@@ -79,6 +77,14 @@ public class UserBean extends AbstractMB implements Serializable {
 	public void setUser(User user) {
 		this.user = user;
 	}
+	
+	
+	public Boolean getConsultaporGrupo() {
+		return this.user.consultaPorGrupoCliente();
+	}
+
+	
+
 	
 	
 	

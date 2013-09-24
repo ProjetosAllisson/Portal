@@ -1,0 +1,152 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/pages/protected/templates/master.xhtml">
+	<ui:define name="divMain">
+
+		<h:form id="formDuplicatas">
+		
+		
+		<p:tabView>
+			<p:tab title="Títulos Pendentes">
+				<p:dataTable id="tableDuplicatas"
+				value="#{duplicatasBean.duplicatasEmAberto}" var="duplicata"
+				rowKey="#{duplicata.id}" selectionMode="single"
+				selection="#{duplicatasBean.duplicataSelecionada}">
+
+				<p:column styleClass="columns">
+
+					<f:facet name="header">
+						<h:outputText value="Fatura" />
+					</f:facet>
+					<h:outputText
+						value="#{duplicata.id.tipo_doc} - #{duplicata.id.fil_orig} - #{duplicata.id.fatura} /#{duplicata.id.ano}" />
+
+
+				</p:column>
+
+
+				<p:column styleClass="columns">
+
+					<f:facet name="header">
+						<h:outputText value="Cliente" />
+					</f:facet>
+					<h:outputText value="#{duplicata.cliente.nome}" />
+				</p:column>
+
+
+
+				<p:column styleClass="columns">
+					<f:facet name="header">
+						<h:outputText value="Emissão" />
+					</f:facet>
+					<h:outputText value="#{duplicata.dt_emissaoFormatada}">
+						<f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-03:00" />
+
+					</h:outputText>
+
+				</p:column>
+
+				<p:column styleClass="columns">
+					<f:facet name="header">
+						<h:outputText value="Vencimento" />
+					</f:facet>
+					<h:outputText value="#{duplicata.dt_venctoFormatada}">
+						<f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-03:00" />
+
+					</h:outputText>
+
+				</p:column>
+
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="Total Fatura" />
+					</f:facet>
+					<h:outputText value="#{duplicata.tot_fatura}">
+
+						<f:convertNumber pattern="#,##0.00"></f:convertNumber>
+					</h:outputText>
+				</p:column>
+
+
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="Desconto" />
+					</f:facet>
+					<h:outputText value="#{duplicata.vlr_desc}">
+
+						<f:convertNumber pattern="#,##0.00"></f:convertNumber>
+					</h:outputText>
+				</p:column>
+
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="Juros" />
+					</f:facet>
+					<h:outputText value="#{duplicata.vlr_juros}">
+
+						<f:convertNumber pattern="#,##0.00"></f:convertNumber>
+					</h:outputText>
+				</p:column>
+
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="Saldo Pagar" />
+					</f:facet>
+					<h:outputText value="#{duplicata.saldoPagar}">
+
+						<f:convertNumber pattern="#,##0.00"></f:convertNumber>
+					</h:outputText>
+				</p:column>
+
+
+
+				<p:column>
+
+					<f:facet name="header">
+						<h:outputText value="Boleto" />
+					</f:facet>
+
+					<h:commandLink value="Visualizar"
+						rendered="#{duplicata.boletoGerado}"
+						action="#{boletosBean.visualizarPdf}" target="_blank">
+
+						<f:setPropertyActionListener
+							target="#{duplicatasBean.duplicataSelecionada}"
+							value="#{duplicata}" />
+					</h:commandLink>
+					
+					<p:spacer width="20" height="10"></p:spacer>
+					
+					<h:commandLink value="Download"
+						rendered="#{duplicata.boletoGerado}"
+						action="#{boletosBean.downloadPdf}">
+
+						<f:setPropertyActionListener
+							target="#{duplicatasBean.duplicataSelecionada}"
+							value="#{duplicata}" />
+					</h:commandLink>
+
+				</p:column>
+
+
+
+
+				</p:dataTable>
+				
+			
+			</p:tab>
+		</p:tabView>		
+			
+
+		</h:form>
+
+	</ui:define>
+</ui:composition>
+</html>

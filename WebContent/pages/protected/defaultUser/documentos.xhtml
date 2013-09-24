@@ -5,197 +5,200 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:p="http://primefaces.org/ui" >
+	xmlns:p="http://primefaces.org/ui">
 
 <h:body>
 	<ui:composition template="/pages/protected/templates/master.xhtml">
-	<ui:define name="divMain">
+		<ui:define name="divMain">
 
-		<h:form id="form">
-
-
-			<p:tabView>
-				<p:tab title="Pesquisa por Período">
-					<h:panelGrid columns="7">
-
-						<h:outputLabel value="Data Inicial" for="txtDataInicio" />
-
-						<p:calendar id="txtDataInicio" pattern="dd/MM/yyyy" locale="pt_BR"
-							value="#{documentosBean.dataInicio}" maxlength="10"
-							style="font-size:12px;heigth=30"
-							converterMessage="Data Invalida. Exemplo 01/01/2013">
-
-						</p:calendar>
-
-						<h:outputLabel value="Data Final" for="txtDataTermino" />
-
-						<p:calendar id="txtDataTermino" pattern="dd/MM/yyyy"
-							locale="pt_BR" value="#{documentosBean.dataTermino}"
-							maxlength="10" style="font-size:12px;width=130">
-						</p:calendar>
-
-						<h:outputLabel value="Posição no Frete" for="selectCliente" />
-						<h:selectOneMenu id="selectCliente"
-							value="#{documentosBean.cliente}">
-							<f:selectItem itemValue="null" itemLabel="Ambas" />
-							<f:selectItem itemValue="remet" itemLabel="Remetente" />
-							<f:selectItem itemValue="dest" itemLabel="Destinatario" />
-						</h:selectOneMenu>
-
-						<p:commandButton value="Pesquisar"
-							style="font-size:12px;width=40%"
-							action="#{documentosBean.DocumentosPorPeriodo}" rendered="#{servDisponiveis.rastreamento()}" update="@form"></p:commandButton>
+			<h:form id="form">
 
 
+				<p:tabView>
+					<p:tab title="Pesquisa por Período">
+						<h:panelGrid columns="7">
 
-					</h:panelGrid>
-				</p:tab>
+							<h:outputLabel value="Data Inicial" for="txtDataInicio" />
 
-				<p:tab title="Pesquisa por Nota Fiscal">
-					<h:panelGrid columns="7">
-						<h:outputLabel value="Nota Fiscal:" for="edtNotaFiscal" />
-						<p:inputText id="edtNotaFiscal"
-							value="#{documentosBean.notafiscal}"
-							converterMessage="Campo nota fiscal é Numérico">
-							<f:convertNumber integerOnly="true" maxIntegerDigits="9" />
-						</p:inputText>
+							<p:calendar id="txtDataInicio" pattern="dd/MM/yyyy"
+								locale="pt_BR" value="#{documentosBean.dataInicio}"
+								maxlength="10" style="font-size:12px;heigth=30"
+								converterMessage="Data Invalida. Exemplo 01/01/2013">
 
-						<p:commandButton value="Pesquisar"
-							style="font-size:12px;width=40%"
-							action="#{documentosBean.DocumentosPorNotaFiscal}" update="@form"></p:commandButton>
+							</p:calendar>
 
-					</h:panelGrid>
-				</p:tab>
-			</p:tabView>
+							<h:outputLabel value="Data Final" for="txtDataTermino" />
+
+							<p:calendar id="txtDataTermino" pattern="dd/MM/yyyy"
+								locale="pt_BR" value="#{documentosBean.dataTermino}"
+								maxlength="10" style="font-size:12px;width=130">
+							</p:calendar>
+
+							<h:outputLabel value="Posição no Frete" for="selectCliente" />
+							<h:selectOneMenu id="selectCliente"
+								value="#{documentosBean.cliente}">
+								<f:selectItem itemValue="null" itemLabel="Ambas" />
+								<f:selectItem itemValue="remet" itemLabel="Remetente" />
+								<f:selectItem itemValue="dest" itemLabel="Destinatario" />
+							</h:selectOneMenu>
+
+							<p:commandButton value="Pesquisar"
+								style="font-size:12px;width=40%"
+								action="#{documentosBean.DocumentosPorPeriodo}"
+								rendered="#{servDisponiveis.rastreamento()}" update="@form"></p:commandButton>
 
 
 
+						</h:panelGrid>
+					</p:tab>
 
-			<p:dataTable value="#{documentosBean.documentos}" paginator="true"
-				paginatorPosition="bottom" rows="20"
-				paginatorTemplate="{CurrentPageReport} {RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
-				rowsPerPageTemplate="3,5,10,15,20" var="documentos"
-				id="gridDocumentos" emptyMessage="Nenhum registro encontrado"
-				rowKey="#{documentos.documento}" selectionMode="single"
-				selection="#{documentosBean.documentoSelecionado}">
-				<f:facet name="header">
+					<p:tab title="Pesquisa por Nota Fiscal">
+						<h:panelGrid columns="7">
+							<h:outputLabel value="Nota Fiscal:" for="edtNotaFiscal" />
+							<p:inputText id="edtNotaFiscal"
+								value="#{documentosBean.notafiscal}"
+								converterMessage="Campo nota fiscal é Numérico">
+								<f:convertNumber integerOnly="true" maxIntegerDigits="9" />
+							</p:inputText>
+
+							<p:commandButton value="Pesquisar"
+								style="font-size:12px;width=40%"
+								action="#{documentosBean.DocumentosPorNotaFiscal}"
+								update="@form"></p:commandButton>
+
+						</h:panelGrid>
+					</p:tab>
+				</p:tabView>
+
+
+
+
+				<p:dataTable value="#{documentosBean.documentos}" paginator="true"
+					paginatorPosition="bottom" rows="20"
+					paginatorTemplate="{CurrentPageReport} {RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+					rowsPerPageTemplate="3,5,10,15,20" var="documentos"
+					id="gridDocumentos" emptyMessage="Nenhum registro encontrado"
+					rowKey="#{documentos.documento}" selectionMode="single"
+					selection="#{documentosBean.documentoSelecionado}">
+					<f:facet name="header">
 			  Lista de Documentos
 			</f:facet>
 
-				<p:column style="font-size:10px;width=40%"
-					sortBy="#{documentos.documento}">
-					<f:facet name="header">
-						<h:outputText value="Documento" />
-					</f:facet>
-					<h:outputText value="#{documentos.documento}" />
-				</p:column>
+					<p:column style="font-size:10px;width=40%"
+						sortBy="#{documentos.documento}">
+						<f:facet name="header">
+							<h:outputText value="Documento" />
+						</f:facet>
+						<h:outputText value="#{documentos.documento}" />
+					</p:column>
 
-				<p:column style="font-size:10px;" sortBy="#{documentos.nota}">
-
-
-					<f:facet name="header">
-						<h:outputText value="NF" />
-					</f:facet>
-					<h:outputText value="#{documentos.nota}">
-						<f:convertNumber pattern="########0" minIntegerDigits="9" />
-					</h:outputText>
-				</p:column>
+					<p:column style="font-size:10px;" sortBy="#{documentos.nota}">
 
 
-				<p:column style="font-size:10px;" sortBy="#{documentos.emissao}">
-					<f:facet name="header">
-						<h:outputText value="Emissão" />
-					</f:facet>
-					<h:outputText value="#{documentos.emissao}">
-						<f:convertDateTime pattern="dd/MM/yy" />
-					</h:outputText>
-
-				</p:column>
-
-				<p:column style="font-size:10px;" sortBy="#{documentos.embarque}"
-					rendered="#{configDocumentosBean.colunaEmbarque}">
-					<f:facet name="header">
-						<h:outputText value="Embarque" />
-					</f:facet>
-					<h:outputText value="#{documentos.embarque}">
-						<f:convertDateTime pattern="dd/MM/yy" />
-					</h:outputText>
-				</p:column>
-
-				<p:column style="font-size:10px;" sortBy="#{documentos.chegada}"
-					rendered="#{configDocumentosBean.colunaChegada}">
-					<f:facet name="header">
-						<h:outputText value="Chegada" />
-					</f:facet>
-					<h:outputText value="#{documentos.chegada}">
-						<f:convertDateTime pattern="dd/MM/yy" />
-					</h:outputText>
-				</p:column>
+						<f:facet name="header">
+							<h:outputText value="NF" />
+						</f:facet>
+						<h:outputText value="#{documentos.nota}">
+							<f:convertNumber pattern="########0" minIntegerDigits="9" />
+						</h:outputText>
+					</p:column>
 
 
-				<p:column style="font-size:10px;" sortBy="#{documentos.saida}">
-					<f:facet name="header">
-						<h:outputText value="Saida p/ Entrega" />
-					</f:facet>
-					<h:outputText value="#{documentos.saida}">
-						<f:convertDateTime pattern="dd/MM/yy hh:mm" />
-					</h:outputText>
-				</p:column>
+					<p:column style="font-size:10px;" sortBy="#{documentos.emissao}">
+						<f:facet name="header">
+							<h:outputText value="Emissão" />
+						</f:facet>
+						<h:outputText value="#{documentos.emissao}">
+							<f:convertDateTime pattern="dd/MM/yy" />
+						</h:outputText>
 
-				<p:column style="font-size:10px;" sortBy="#{documentos.entrega}">
-					<f:facet name="header">
-						<h:outputText value="Entrega" />
-					</f:facet>
-					<h:outputText value="#{documentos.entrega}">
-						<f:convertDateTime pattern="dd/MM/yy" />
-					</h:outputText>
-				</p:column>
+					</p:column>
 
-				<p:column style="font-size:10px;" sortBy="#{documentos.remetente}">
-					<f:facet name="header">
-						<h:outputText value="Remetente" />
-					</f:facet>
-					<h:outputText value="#{documentos.remetente}" />
-				</p:column>
+					<p:column style="font-size:10px;" sortBy="#{documentos.embarque}"
+						rendered="#{configDocumentosBean.colunaEmbarque}">
+						<f:facet name="header">
+							<h:outputText value="Embarque" />
+						</f:facet>
+						<h:outputText value="#{documentos.embarque}">
+							<f:convertDateTime pattern="dd/MM/yy" />
+						</h:outputText>
+					</p:column>
 
-				<p:column style="font-size:10px;"
-					sortBy="#{documentos.destinatario}">
-					<f:facet name="header">
-						<h:outputText value="Destinatário" />
-					</f:facet>
-					<h:outputText value="#{documentos.destinatario}" />
-				</p:column>
+					<p:column style="font-size:10px;" sortBy="#{documentos.chegada}"
+						rendered="#{configDocumentosBean.colunaChegada}">
+						<f:facet name="header">
+							<h:outputText value="Chegada" />
+						</f:facet>
+						<h:outputText value="#{documentos.chegada}">
+							<f:convertDateTime pattern="dd/MM/yy" />
+						</h:outputText>
+					</p:column>
 
-				<p:column style="font-size:10px;">
-					<f:facet name="header">
-						<h:outputText value="Ocorrência" />
-					</f:facet>
-					<h:outputText value="#{documentos.ocorrencia}" />
-				</p:column>
+
+					<p:column style="font-size:10px;" sortBy="#{documentos.saida}">
+						<f:facet name="header">
+							<h:outputText value="Saida p/ Entrega" />
+						</f:facet>
+						<h:outputText value="#{documentos.saida}">
+							<f:convertDateTime pattern="dd/MM/yy hh:mm" />
+						</h:outputText>
+					</p:column>
+
+					<p:column style="font-size:10px;" sortBy="#{documentos.entrega}">
+						<f:facet name="header">
+							<h:outputText value="Entrega" />
+						</f:facet>
+						<h:outputText value="#{documentos.entrega}">
+							<f:convertDateTime pattern="dd/MM/yy" />
+						</h:outputText>
+					</p:column>
+
+					<p:column style="font-size:10px;" sortBy="#{documentos.remetente}">
+						<f:facet name="header">
+							<h:outputText value="Remetente" />
+						</f:facet>
+						<h:outputText value="#{documentos.remetente}" />
+					</p:column>
+
+					<p:column style="font-size:10px;"
+						sortBy="#{documentos.destinatario}">
+						<f:facet name="header">
+							<h:outputText value="Destinatário" />
+						</f:facet>
+						<h:outputText value="#{documentos.destinatario}" />
+					</p:column>
+
+					<p:column style="font-size:10px;">
+						<f:facet name="header">
+							<h:outputText value="Ocorrência" />
+						</f:facet>
+						<h:outputText value="#{documentos.ocorrencia}" />
+					</p:column>
+
+					<p:column style="font-size:10px;">
+						<f:facet name="header">
+							<h:outputText value="Recebedor" />
+						</f:facet>
+						<h:outputText value="#{documentos.recebedor}" />
+					</p:column>
+
+					<p:column styleClass="columns">
+						<p:commandLink title="Comprovante de Entrega"
+							update=":documentosComprovanteForm"
+							onclick="documentosComprovanteWidget.show();"
+							rendered="#{documentos.temImagem}">
+							<f:setPropertyActionListener
+								target="#{documentosBean.documentoSelecionado}"
+								value="#{documentos}">
+							</f:setPropertyActionListener>
+							<p:graphicImage styleClass="semBorda"
+								value="/img/comprovante.png"></p:graphicImage>
+						</p:commandLink>
+					</p:column>
+				</p:dataTable>
 
 
 				<!-- 
-				<p:column style="height: 20px; width: 20px;">
-					<p:commandButton id="selectButton" update=":form:detalhes"
-						oncomplete="documento.show()" icon="ui-icon-image"
-						style="height: 20px; width: 20px; horizontal-align:center;"
-						title="Comprovante de Entrega" rendered="#{documentos.temImagem}">
-					</p:commandButton>
-				</p:column>
-				
-				 -->
-				<p:column styleClass="columns" >
-					<p:commandLink title="Comprovante de Entrega" update=":documentosComprovanteForm" onclick="documentosComprovanteWidget.show();" rendered="#{documentos.temImagem}">
-						<f:setPropertyActionListener target="#{documentosBean.documentoSelecionado}" value="#{documentos}">
-						</f:setPropertyActionListener>
-						<p:graphicImage styleClass="semBorda"
-							value="/img/comprovante.png"></p:graphicImage>
-					</p:commandLink>
-				</p:column>
-			</p:dataTable>
-
-
-			<!-- 
 			<p:dialog header="Comprovante de Entrega" widgetVar="documento"
 				resizable="false" id="produtoDialog" showEffect="fade"
 				hideEffect="explode" modal="true" draggable="true"
@@ -250,13 +253,14 @@
 				</p:scrollPanel>
 			</p:dialog>
             -->
-		</h:form>
-		
-		<ui:include src="/pages/protected/dialogs/documentosComprovante.xhtml"></ui:include>
+			</h:form>
 
-	</ui:define>
+			<ui:include
+				src="/pages/protected/dialogs/documentosComprovante.xhtml"></ui:include>
+
+		</ui:define>
 	</ui:composition>
-	</h:body>
+</h:body>
 </html>
 
 

@@ -6,6 +6,8 @@ import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OrderBy;
@@ -46,8 +48,16 @@ public class Cliente implements Serializable {
 	@OrderBy("nome")
 	private String nome;
 	
+	@Column
+	private String fantasia;
+	
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date ult_acesso;
+	
+	
+	@ManyToOne
+	@JoinColumn(name ="grupo")
+	private ClienteGrupo grupoCliente;
 
 	public String getNome() {
 		return nome;
@@ -82,6 +92,22 @@ public class Cliente implements Serializable {
 			return cliente.getCgc() == cgc;
 		}
 		return false;
+	}
+
+	public ClienteGrupo getGrupoCliente() {
+		return grupoCliente;
+	}
+
+	public void setGrupoCliente(ClienteGrupo grupoCliente) {
+		this.grupoCliente = grupoCliente;
+	}
+
+	public String getFantasia() {
+		return fantasia;
+	}
+
+	public void setFantasia(String fantasia) {
+		this.fantasia = fantasia;
 	}
 	
 	

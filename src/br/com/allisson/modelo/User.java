@@ -3,6 +3,7 @@ package br.com.allisson.modelo;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.faces.context.FacesContext;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -18,15 +19,15 @@ import javax.persistence.OneToOne;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.servlet.http.HttpSession;
 
 import br.com.allisson.util.Criptografia;
 
 @Entity
 @Table(name = "TBL_USUARIO")
 @NamedQueries({
-	@NamedQuery(name = "User.findUser", query = "select u from User u where u.login = :login"),
-	@NamedQuery(name = "User.findAllNaoAutorizados", query = "select u from User u where u.acesso_autorizado = false")
-})
+		@NamedQuery(name = "User.findUser", query = "select u from User u where u.login = :login"),
+		@NamedQuery(name = "User.findAllNaoAutorizados", query = "select u from User u where u.acesso_autorizado = false") })
 public class User implements Serializable {
 
 	/**
@@ -41,13 +42,13 @@ public class User implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 
-	@Column(unique = true,length=80)
+	@Column(unique = true, length = 80)
 	private String login;
-	
+
 	@Column
 	private String senha;
-	
-	//private String cnpj;
+
+	// private String cnpj;
 
 	private String email;
 
@@ -61,17 +62,18 @@ public class User implements Serializable {
 
 	@Transient
 	private Criptografia criptografia = new Criptografia();
-	
+
 	@OneToOne
-	@JoinColumn(name="cnpj")
+	@JoinColumn(name = "cnpj")
 	@OrderBy("nome")
 	private Cliente cliente;
-	
-	
+
 	@OneToMany
-	@JoinColumn(name="cod_usuario")
+	@JoinColumn(name = "cod_usuario")
 	@OrderBy("dt_acesso")
 	private List<Acessos> acessos;
+
+	private Boolean grupoClientes;
 
 	public int getId() {
 		return id;
@@ -90,17 +92,11 @@ public class User implements Serializable {
 		this.senha = this.criptografado;
 	}
 
-	
-	
 	/*
-	public String getCnpj() {
-		return cnpj;
-	}
-
-	public void setCnpj(String cnpj) {
-		this.cnpj = cnpj;
-	}
-*/
+	 * public String getCnpj() { return cnpj; }
+	 * 
+	 * public void setCnpj(String cnpj) { this.cnpj = cnpj; }
+	 */
 	public String getEmail() {
 		return email;
 	}
@@ -163,16 +159,15 @@ public class User implements Serializable {
 	public void setAcessos(List<Acessos> acessos) {
 		this.acessos = acessos;
 	}
-	
-	public int totalAcessos(){
+
+	public int totalAcessos() {
 		return this.acessos.size();
 	}
-	
-	public String userAcessoAutorizado(){
-		if (this.getAcesso_autorizado()==true){
+
+	public String userAcessoAutorizado() {
+		if (this.getAcesso_autorizado() == true) {
 			return "SIM";
-		}
-		else
+		} else
 			return "NÃO";
 	}
 
@@ -182,6 +177,35 @@ public class User implements Serializable {
 
 	public void setRole(Role role) {
 		this.role = role;
+
 	}
 
+	public User DevolveUsuarioSessao() {
+		FacesContext ctx = FacesContext.getCurrentInstance();
+		HttpSession session = (HttpSession) ctx.getExternalContext()
+				.getSession(false);
+
+		return (User) session.getAttribute("usuarioAutenticado");
+
+	}
+
+	public Boolean getGrupoClientes() {
+		return grupoClientes;
+	}
+
+	public void setGrupoClientes(Boolean grupoClientes) {
+		this.grupoClientes = grupoClientes;
+	}
+
+	public Boolean consultaPorGrupoCliente() {
+
+		if (this.grupoClientes == null) {
+			return false;
+		} else {
+			return (this.grupoClientes == true)
+					&& (this.cliente.getGrupoCliente() != null);
+		}
+	}
+	
+	
 }

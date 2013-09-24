@@ -23,6 +23,7 @@ public class Documento {
 	private HistoricoNf historicoNf;
 	private Date saida;
 	private Boolean temImagem;
+	private String recebedor;
     
 	public String getDocumento() {
 		return documento;
@@ -146,6 +147,12 @@ public class Documento {
 	}
 	public void setTemImagem(Boolean temImagem) {
 		this.temImagem = temImagem;
+	}
+	public String getRecebedor() {
+		return recebedor;
+	}
+	public void setRecebedor(String recebedor) {
+		this.recebedor = recebedor;
 	}
 	
 	

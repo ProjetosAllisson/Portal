@@ -61,26 +61,19 @@
 
 					</p:inputText>
 					<p:watermark for="email" value="Email Address *" />
-
-
-
+					
+					<h:outputText value="Considera grupo de clientes para consulta ?" />
+					<p:selectBooleanButton
+						value="#{usuariosBean.usuario.grupoClientes}"
+						onLabel="Sim" offLabel="Não" onIcon="ui-icon-check"
+						offIcon="ui-icon-close"></p:selectBooleanButton>
+					
 				</p:panelGrid>
-
-
-
-
-
-
-
 
 				<p:separator></p:separator>
 
-
 				<p:panelGrid columns="4" width="100%" style="text-align:right"
 					styleClass="semBorda">
-
-
-
 					<p:spacer width="400" height="10"></p:spacer>
 					<p:commandButton id="cmdInserir" value="Inclui" icon="ui-icon-circle-check"
 						ajax="false" title="Confirma Inclusão"
@@ -95,15 +88,8 @@
 						onclick="usuariosInsertDialogWidget.hide();" type="button" />
 
 				</p:panelGrid>
-
-
-
 			</p:fieldset>
-
 		</h:form>
-
-
-
 	</p:dialog>
 
 

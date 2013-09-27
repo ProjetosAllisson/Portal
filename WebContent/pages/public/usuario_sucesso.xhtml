@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
-<ui:composition template="WEB-INF/templates/templateNovo.xhtml"
+<ui:composition template="/WEB-INF/templates/templateNovo.xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
@@ -10,7 +10,9 @@
 <ui:define name="conteudo">
 
 <h:form>
-         Usuario cadastrado com sucesso. <h:commandLink value="Login" action="login" />
+         <h:outputText value="Usuario cadastrado com sucesso." style="font-size:18px;width=130" />
+          <br />
+         <h:outputText value="Aguarde a liberação de seu acesso!"  style="font-size:18px;width=130"/>
 </h:form>
 </ui:define>
 </ui:composition>

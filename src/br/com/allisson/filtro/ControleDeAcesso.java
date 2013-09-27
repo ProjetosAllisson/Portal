@@ -81,7 +81,7 @@ public class ControleDeAcesso implements Filter {
 				&& !url.endsWith("consultaPublicaCpf.jsf")
 				&& !url.endsWith("consultaPublicaCnpj.jsf")
 				&& !url.endsWith("usuario.jsf")
-				
+				&& !url.endsWith("usuario_sucesso.jsf")
 				
 				&& !url.endsWith("javax.faces.resource/layout/layout.css.jsf")
 				&& !url.endsWith("javax.faces.resource/watermark/watermark.css.jsf")

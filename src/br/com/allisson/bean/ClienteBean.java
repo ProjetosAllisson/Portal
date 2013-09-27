@@ -33,12 +33,6 @@ public class ClienteBean {
 	}
 
 	public void localizaCliente(String cliente) {
-		
-		
-		System.out.println("localizando cliente");
-		
-		
-		
 		setCliente(getClienteFacade().localiza(cliente));
 
 		this.setDisabled(getCliente() == null);

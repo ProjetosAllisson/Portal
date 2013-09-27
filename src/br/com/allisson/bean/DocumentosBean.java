@@ -313,7 +313,6 @@ public class DocumentosBean {
 	
 	
 	public String acesso() {
-		System.out.println("tentando acessar a pagina");
 		return "paginas/protected/defaultUser/documentos.jsf";
 	}
 	

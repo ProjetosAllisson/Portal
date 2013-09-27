@@ -62,6 +62,7 @@ public class UsuariosBean extends AbstractMB {
 		} else {
 			usuario.setRole(Role.USER);
 			usuario.setAcesso_autorizado(false);
+			usuario.setGrupoClientes(false);
 
 			getUserFacade().createUser(usuario);
 
@@ -86,17 +87,7 @@ public class UsuariosBean extends AbstractMB {
 
 	}
 
-	public void cadastra() throws IOException {
-		// return "usuario";
-
-		System.out.println("Usuariooo");
-		
-		FacesContext.getCurrentInstance().getExternalContext().getSessionMap()
-				.put("usuarioBean", new UsuariosBean());
-		FacesContext.getCurrentInstance().getExternalContext()
-				.redirect("usuario.jsf");
-
-	}
+	
 
 	public User getUsuario() {
 		return usuario;
@@ -217,8 +208,6 @@ public class UsuariosBean extends AbstractMB {
 	}
 
 	public void setCnpj(String cnpj) {
-		
-		System.out.println(cnpj);
 		cliente.setCgc(cnpj);
 		this.cnpj = cnpj;
 	}

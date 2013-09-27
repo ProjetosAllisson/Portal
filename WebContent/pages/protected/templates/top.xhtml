@@ -68,12 +68,12 @@
 					<p:spacer with ="40" height="10"></p:spacer>
 					
 					<c:if test="${userBean.consultaporGrupo == false}">
-						<h:outputText value=" #{userBean.user.cliente.fantasia}" />
+						<h:outputText value="Filtragem através do Cliente -  #{userBean.user.cliente.fantasia}" />
 					</c:if>
 					
 					 
 					<c:if test="${userBean.consultaporGrupo}">
-						<h:outputText value=" #{userBean.user.cliente.grupoCliente.descricao}" />
+						<h:outputText value="Filtragem através do Grupo de Cliente - #{userBean.user.cliente.grupoCliente.descricao}" />
 					</c:if>
 				</h:form>
 			

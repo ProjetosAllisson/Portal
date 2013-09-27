@@ -14,9 +14,9 @@
 		
 		
 		<p:tabView>
-			<p:tab title="Títulos Pendentes">
+			<p:tab title="Títulos em Aberto">
 				<p:dataTable id="tableDuplicatas"
-				value="#{duplicatasBean.duplicatasEmAberto}" var="duplicata"
+				value="#{duplicatasBean.duplicatasEmAberto}" var="duplicata" emptyMessage="Parabéns. Nenhum Título em Aberto."
 				rowKey="#{duplicata.id}" selectionMode="single"
 				selection="#{duplicatasBean.duplicataSelecionada}">
 

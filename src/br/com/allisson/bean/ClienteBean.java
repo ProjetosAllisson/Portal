@@ -7,6 +7,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 
+import org.brazilutils.br.cpfcnpj.CpfCnpj;
+
 import br.com.allisson.facade.ClienteFacade;
 import br.com.allisson.modelo.Cliente;
 
@@ -25,16 +27,33 @@ public class ClienteBean {
 	private String nomeCliente;
 
 	private boolean disabled = true;
-	
-	private void resetClientes(){
+
+	private void resetClientes() {
 		clientes = new ArrayList<Cliente>();
-		this.nomeCliente ="";
-		//clienteSelecionado = new Cliente();
+		this.nomeCliente = "";
+		// clienteSelecionado = new Cliente();
 	}
 
 	public void localizaCliente(String cliente) {
-		setCliente(getClienteFacade().localiza(cliente));
+		if (!cliente.equals("")) {
 
+			CpfCnpj cpf = new CpfCnpj();
+
+			cpf.setCpfCnpj(cliente);
+
+			if (cpf.isCpf()) {
+				System.out.println(cpf.toString());
+				setCliente(getClienteFacade().localiza(cpf.toString()));
+
+			} else {
+				if (cpf.isCnpj()) {
+
+					setCliente(getClienteFacade().localiza(cpf.toString()));
+				}
+			}
+
+			// setCliente(getClienteFacade().localiza(cliente));
+		}
 		this.setDisabled(getCliente() == null);
 	}
 
@@ -71,7 +90,7 @@ public class ClienteBean {
 	}
 
 	public List<Cliente> localizaClientes() {
-		if (!getNomeCliente().equals("")) {
+		if (!getNomeCliente().equals("") && (getNomeCliente().length() > 4)) {
 			setClientes(getClienteFacade().allClientesPorNome(getNomeCliente()));
 		}
 
@@ -115,11 +134,9 @@ public class ClienteBean {
 		if (this.clienteSelecionado != null) {
 			this.setDisabled(false);
 			this.usuariosBean.setCliente(this.clienteSelecionado);
-			
+
 			resetClientes();
 		}
 	}
 
-	
-	
 }

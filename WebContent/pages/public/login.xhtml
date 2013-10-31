@@ -37,29 +37,39 @@ body {
 						<h:panelGroup style="display:block; text-align:center">
 
 							<p:panelGrid columns="2" >
-							<h:outputLabel for="usuario" value="Usuário: " />
+								<h:outputLabel for="usuario" value="Usuário: " />
 
-							<p:focus>
-								<p:inputText value="#{loginBean.usuario}" id="usuario"
-									required="true" label="usuario" />
-							</p:focus>
+								<p:focus>
+									<p:inputText value="#{loginBean.usuario}" id="usuario"
+										required="true" label="usuario" />
+								</p:focus>
 
-							<h:outputLabel for="senha" value="Senha:" />
-							<p:password value="#{loginBean.senha}" id="senha" required="true"
-								label="senha" />
+								<h:outputLabel for="senha" value="Senha:" />
+								<p:password value="#{loginBean.senha}" id="senha" required="true"
+									label="senha" />
 
-</p:panelGrid>                            
-							 <p:commandButton id="btnLogin" value="Login" update=":growl"
-								icon="ui-icon-check" action="#{loginBean.autentica}">
-							</p:commandButton>
+								</p:panelGrid>                            
+								
+								
+								
+							 	<p:commandButton id="btnLogin" value="Login" update=":growl"
+									icon="ui-icon-check" action="#{loginBean.autentica}">
+								</p:commandButton>
 							
 
+								<br></br>
+								<br></br>
+								<br></br>
 
+								<h:commandLink value="Caso não possua Login. Solicite seu cadastro aqui." action="/pages/public/usuario.jsf" 
+				                			    immediate="true"/>  
+						
 						</h:panelGroup>
+
+						
 					</h:panelGrid>
 
 					<br></br>
-
 				</p:panel>
 			</h:form>
 		</h:body>

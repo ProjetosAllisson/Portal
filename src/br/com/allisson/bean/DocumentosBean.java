@@ -18,12 +18,27 @@ import javax.servlet.ServletContext;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 
+
+
 import br.com.allisson.dao.DocumentoDAO;
 import br.com.allisson.dao.HistoricoDAO;
 import br.com.allisson.facade.ComprovanteEntregaFacade;
 import br.com.allisson.modelo.ComprovanteEntrega;
 import br.com.allisson.modelo.Documento;
 import br.com.allisson.modelo.HistoricoNf;
+
+
+
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFCellStyle;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.hssf.util.HSSFColor;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.IndexedColors;
+import org.apache.poi.ss.usermodel.Row;
 
 @ManagedBean(name = "documentosBean")
 @SessionScoped
@@ -295,26 +310,43 @@ public class DocumentosBean {
 	public StreamedContent getFile() {
 		InputStream stream = ((ServletContext) FacesContext
 				.getCurrentInstance().getExternalContext().getContext())
-				.getResourceAsStream("/temp/"+documentoSelecionado.getNr_cto()+".jpg");
+				.getResourceAsStream("/temp/"
+						+ documentoSelecionado.getNr_cto() + ".jpg");
 		file = new DefaultStreamedContent(stream, "image/jpg",
-				documentoSelecionado.getNr_cto()+".jpg");
+				documentoSelecionado.getNr_cto() + ".jpg");
 		return file;
 	}
-	
-	
+
 	public StreamedContent getFileVerso() {
 		InputStream stream = ((ServletContext) FacesContext
 				.getCurrentInstance().getExternalContext().getContext())
-				.getResourceAsStream("/temp/"+documentoSelecionado.getNr_cto()+"V.jpg");
+				.getResourceAsStream("/temp/"
+						+ documentoSelecionado.getNr_cto() + "V.jpg");
 		file = new DefaultStreamedContent(stream, "image/jpg",
-				documentoSelecionado.getNr_cto()+"V.jpg");
+				documentoSelecionado.getNr_cto() + "V.jpg");
 		return file;
 	}
-	
-	
+
 	public String acesso() {
 		return "paginas/protected/defaultUser/documentos.jsf";
 	}
-	
+
+	public void postProcessXLS(Object document) {
+
+		HSSFWorkbook wb = (HSSFWorkbook) document;
+		HSSFSheet sheet = wb.getSheetAt(0);
+		HSSFRow header = sheet.getRow(0);
+		
+		HSSFCellStyle cellStyle = wb.createCellStyle();  
+		cellStyle.setFillForegroundColor(HSSFColor.GREEN.index);
+		cellStyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
+		
+		for(int i=0; i < header.getPhysicalNumberOfCells();i++) {
+			HSSFCell cell = header.getCell(i);
+			
+			cell.setCellStyle(cellStyle);
+		}
+
+	}
 
 }

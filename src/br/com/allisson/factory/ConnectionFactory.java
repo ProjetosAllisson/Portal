@@ -55,6 +55,7 @@ public class ConnectionFactory {
 		//File file = new File("C:/Portal/Portal v.5/portal/src/conexao.properties");
 		
 		
+		
 		InputStream is = getClass().getClassLoader().getResourceAsStream("conexao.properties"); 
 		Properties prop = new Properties();
 				

@@ -17,6 +17,16 @@
 				<p:panel header="Cadastro de Usuário">
 
 
+					<p:panel header ="Tipo de Pessoa" >
+						<h:selectOneRadio id="cpf-cnpj"
+							value="#{usuariosBean.campoBooleanControle}"
+							title="Selecione qual tipo de Pessoa deseja inserir Jurídca ou Física.">
+							<f:selectItem itemLabel="Jurídica" itemValue="#{true}" />
+							<f:selectItem itemLabel="Física" itemValue="#{false}" />
+							<p:ajax update="documento, CPF" event="change" />
+						</h:selectOneRadio>
+					</p:panel>
+
 					<p:panelGrid columns="3" styleClass="semBorda">
 
 
@@ -34,9 +44,18 @@
 
 						<br></br>
 
-						<h:outputLabel for="txtCnpj" value="Cnpj:" />
-						<p:inputMask mask="99.999.999/9999-99" id="txtCnpj"
-							value="#{usuariosBean.cnpj}">
+
+
+
+
+						<h:outputLabel id="documento"
+							value="#{usuariosBean.campoBooleanControle ? 'Cnpj' : 'Cpf'}" />
+						<p:inputMask id="CPF" size="20" value="#{usuariosBean.cnpj}"
+							mask="#{usuariosBean.campoBooleanControle ? '99.999.999/9999-99' : '999.999.999-99'}"
+							required="true"
+							requiredMessage="Campo obrigatório não preenchido"
+							title="#{usuariosBean.campoBooleanControle ? 'Informe o Cnpj.' : 'Informe o Cpf.'}">
+
 
 							<p:ajax event="keyup"
 								listener="#{clienteBean.localizaCliente(usuariosBean.cliente.cgc)}"
@@ -44,6 +63,18 @@
 
 						</p:inputMask>
 
+
+						<!-- 
+						<h:outputLabel for="txtCnpj" value="Cpf / Cnpj:" />
+						<p:inputMask id="txtCnpj" maxlength="14"
+							value="#{usuariosBean.cnpj}">
+
+							<p:ajax event="keyup"
+								listener="#{clienteBean.localizaCliente(usuariosBean.cliente.cgc)}"
+								update="incluiUsuario,nomeCliente"></p:ajax>
+
+						</p:inputMask>
+						 -->
 
 						<h:outputText id="nomeCliente" value="#{clienteBean.cliente.nome}" />
 
@@ -65,7 +96,7 @@
 
 
 					</p:panelGrid>
-					
+
 
 
 				</p:panel>

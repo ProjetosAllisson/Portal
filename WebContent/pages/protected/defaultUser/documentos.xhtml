@@ -5,7 +5,9 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:p="http://primefaces.org/ui">
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:opt="http://primefaces.prime.com.tr/optimus"
+	xmlns:pe="http://primefaces.org/ui/extensions">
 
 <h:body>
 	<ui:composition template="/pages/protected/templates/master.xhtml">
@@ -106,7 +108,7 @@
 
 					<p:column style="font-size:10px;" sortBy="#{documentos.emissao}">
 						<f:facet name="header">
-							<h:outputText value="Emissão" />
+							<h:outputText value="Emissao" />
 						</f:facet>
 						<h:outputText value="#{documentos.emissao}">
 							<f:convertDateTime pattern="dd/MM/yy" />
@@ -163,14 +165,14 @@
 					<p:column style="font-size:10px;"
 						sortBy="#{documentos.destinatario}">
 						<f:facet name="header">
-							<h:outputText value="Destinatário" />
+							<h:outputText value="Destinatario" />
 						</f:facet>
 						<h:outputText value="#{documentos.destinatario}" />
 					</p:column>
 
 					<p:column style="font-size:10px;">
 						<f:facet name="header">
-							<h:outputText value="Ocorrência" />
+							<h:outputText value="Ocorrencia" />
 						</f:facet>
 						<h:outputText value="#{documentos.ocorrencia}" />
 					</p:column>
@@ -253,6 +255,49 @@
 				</p:scrollPanel>
 			</p:dialog>
             -->
+
+
+
+
+				<h:panelGrid columns="1">
+
+					<p:panel header="Exportar Listagem">
+
+
+						<p:commandLink id="excel" ajax="false" >
+
+							<p:graphicImage styleClass="semBorda"
+								value="/img/excel.png" title="Exportar para Excel"></p:graphicImage>
+							<pe:exporter type="xlsx" target="gridDocumentos"
+								fileName="Documentos" facetBackground="#BEBEBE"
+								facetFontSize="8" facetFontColor="#FFFAFA" facetFontStyle="BOLD"
+								fontName="Courier New" cellFontColor="#F0FFFF" cellFontSize="6"
+								cellFontStyle="NORMAL" />
+
+						</p:commandLink>
+
+
+
+						<p:commandLink id="pdf" ajax="false" >
+
+							<p:graphicImage styleClass="semBorda"
+								value="/img/adobe_pdf_document_01.png" title="Exportar para PDF" ></p:graphicImage>
+
+							<pe:exporter type="pdf" target="gridDocumentos" 
+								fileName="Documentos" orientation="Landscape"
+								facetBackground="#565656" facetFontSize="8"
+								facetFontColor="#FFFAFA" facetFontStyle="BOLD"
+								cellFontColor="#000000" cellFontSize="7" cellFontStyle="NORMAL" />
+
+						</p:commandLink>
+
+
+
+					</p:panel>
+				</h:panelGrid>
+
+
+
 			</h:form>
 
 			<ui:include

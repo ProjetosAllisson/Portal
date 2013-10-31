@@ -28,6 +28,8 @@ public class UsuariosBean extends AbstractMB {
 
 	private Cliente cliente;
 	private String cnpj;
+	
+	private boolean campoBooleanControle;
 
 	public UsuariosBean() {
 		resetUser();
@@ -204,12 +206,21 @@ public class UsuariosBean extends AbstractMB {
 	}
 
 	public String getCnpj() {
+		
 		return cnpj;
 	}
 
 	public void setCnpj(String cnpj) {
 		cliente.setCgc(cnpj);
 		this.cnpj = cnpj;
+	}
+
+	public boolean isCampoBooleanControle() {
+		return campoBooleanControle;
+	}
+
+	public void setCampoBooleanControle(boolean campoBooleanControle) {
+		this.campoBooleanControle = campoBooleanControle;
 	}
 
 }

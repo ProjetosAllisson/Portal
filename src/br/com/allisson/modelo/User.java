@@ -149,6 +149,7 @@ public class User implements Serializable {
 	}
 
 	public void setCliente(Cliente cliente) {
+		System.out.println(cliente.getNome()+cliente.getCgc());
 		this.cliente = cliente;
 	}
 

@@ -18,9 +18,9 @@ import javax.persistence.Transient;
 
 @Entity
 @Table(name = "STWFATTCOB")
-@NamedQueries({ @NamedQuery(name = "Duplicata.EmAberto", query = "select u from Duplicata u where u.cliente.cgc =:cgc and u.dt_pagto is null "
+@NamedQueries({ @NamedQuery(name = "Duplicata.EmAberto", query = "select u from Duplicata u where u.cliente.cgc =:cgc and u.dt_pagto is null and u.status = 'DG' "
 		+ "order by u.dt_vencto"), 
-				@NamedQuery(name = "Duplicata.EmAbertoGrupo", query ="select u from Duplicata u where u.cliente.grupoCliente.grupo =:grupo and u.dt_pagto is null "
+				@NamedQuery(name = "Duplicata.EmAbertoGrupo", query ="select u from Duplicata u where u.cliente.grupoCliente.grupo =:grupo and u.dt_pagto is null and u.status = 'DG' "
 		+ "order by u.dt_vencto"),})
 public class Duplicata {
 
@@ -57,6 +57,9 @@ public class Duplicata {
 
 	@Transient
 	private boolean boletoGerado;
+	
+	@Column
+	private String status;
 
 	@Override
 	public boolean equals(Object obj) {

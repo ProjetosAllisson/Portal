@@ -9,7 +9,7 @@
 <h:body>
 
 	<p:dialog widgetVar="usuariosUpdateDialogWidget"
-		id="usuariosUpdateDialogId" height="250" width="700" modal="true" appendToBody="true"
+		id="usuariosUpdateDialogId" height="250" width="700" modal="true" appendTo="@(body)"
 		closable="true" draggable="false" resizable="false">
 		<h:form id="usuariosUpdateDialogForm" prependId="false">
 			<p:fieldset legend="Edição  -  #{usuariosBean.usuarioSelecionado.login}">

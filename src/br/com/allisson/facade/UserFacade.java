@@ -1,9 +1,14 @@
 package br.com.allisson.facade;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import br.com.allisson.dao.EmpresaDAO;
 import br.com.allisson.dao.UserDAO;
+import br.com.allisson.modelo.Empresa;
+import br.com.allisson.modelo.Mensagem;
 import br.com.allisson.modelo.User;
+import br.com.allisson.util.EmailUtils;
 
 public class UserFacade {
 	private UserDAO userDAO = new UserDAO();
@@ -24,6 +29,96 @@ public class UserFacade {
 		userDAO.beginTransaction();
 		userDAO.save(user);
 		userDAO.commit();
+		
+		
+		List<String> corpoEmail = new ArrayList<String>();
+		
+		
+		if (!user.getEmail().equals("")) {
+			
+			
+			EmpresaDAO empresaDao = new EmpresaDAO();
+			Empresa empresa = new Empresa();
+			
+			empresa = empresaDao.DadosTransportadora();
+			
+
+			Mensagem msgCliente = new Mensagem();
+
+			msgCliente.setTitulo("Portal de Serviços Web. Cadastro Efetuado.");
+			msgCliente.setDestino(user.getEmail());
+
+			corpoEmail.clear();
+			corpoEmail.add("Este é um e-mail automático. Não é necessário respondê-lo");
+			corpoEmail.add("");
+			corpoEmail.add("");
+
+			corpoEmail.add("Seja bem vindo(a), "+user.getCliente().getNome());
+			corpoEmail.add("");
+
+			
+			corpoEmail.add("Você efetuou com sucesso o seu cadastro!"); 
+			
+			corpoEmail.add("");
+			
+			corpoEmail.add("AGUARDE A LIBERAÇÃO DE SEU ACESSO.");
+			
+			corpoEmail.add("");
+			
+			corpoEmail.add(empresa.getNome());
+
+			msgCliente
+					.setMensagens(corpoEmail);
+			
+				  
+			try {
+				// Executa aqui o codigo perigoso, que dá exceção
+				EmailUtils.enviarEmail(msgCliente);
+			} catch (Exception e) {
+				// Depois grava no contexto do Faces
+
+			}
+			
+			
+			
+		}
+		
+		
+		if (ContaEmailFacade.getDadosContaEmail()!=null){
+			Mensagem msgAdmin = new Mensagem();
+			
+			msgAdmin.setTitulo("Conta criada com sucesso");
+			msgAdmin.setDestino(ContaEmailFacade.getDadosContaEmail().getEmailadmin());
+			
+			
+			corpoEmail.clear();
+			corpoEmail.add("Ola,");
+			corpoEmail.add("");
+			corpoEmail.add("Cliente: "
+					+ user.getCliente().getNome());
+			corpoEmail.add("Login: "
+					+ user.getLogin());
+			corpoEmail.add("");
+			corpoEmail.add("Efetuou cadastro no Portal Web. Necessário autorização para Acesso.");
+			
+			msgAdmin.setMensagens(corpoEmail);
+			
+			
+			try {
+				// Executa aqui o codigo perigoso, que dá exceção
+				EmailUtils.enviarEmail(msgAdmin);
+			} catch (Exception e) {
+				// Depois grava no contexto do Faces
+
+			}
+
+		}
+		
+			
+		
+		
+		
+		
 	}
 	
 	public boolean isExists(String login){

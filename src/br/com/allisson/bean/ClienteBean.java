@@ -44,14 +44,18 @@ public class ClienteBean {
 			if (cpf.isCpf()) {
 				System.out.println(cpf.toString());
 				setCliente(getClienteFacade().localiza(cpf.toString()));
+				usuariosBean.setCliente(getCliente());
 
 			} else {
 				if (cpf.isCnpj()) {
 
 					setCliente(getClienteFacade().localiza(cpf.toString()));
+					usuariosBean.setCliente(getCliente());
 				}
 			}
 
+			
+			
 			// setCliente(getClienteFacade().localiza(cliente));
 		}
 		this.setDisabled(getCliente() == null);

@@ -14,6 +14,8 @@ public class ClienteFacade {
 		
 		Cliente cliente = clienteDAO.findCliente(cnpj);
 		
+		System.out.println(cliente.getNome());
+		
 		return cliente;
 		
 	}

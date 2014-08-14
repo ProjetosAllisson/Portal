@@ -47,16 +47,8 @@ public class UserBean extends AbstractMB implements Serializable {
 		
 		getRequest().getSession().invalidate();
 		
-		try {
-			FacesContext.getCurrentInstance().getExternalContext()
-					.redirect("/portal/pages/public/login.jsf");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
 		return "/pages/public/login.jsf";
-		//return "login.jsf";
+		
 	}
 
 	private HttpServletRequest getRequest() {

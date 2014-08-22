@@ -9,6 +9,8 @@ public class Geral implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	
+	private static String CaminhoURL;
+	
 	public static String LimpaString(String sString, String sSujeiras){
 		
 		String result = null;
@@ -17,5 +19,15 @@ public class Geral implements Serializable {
 		
 		return result;
 	}
+
+	public static String getCaminhoURL() {
+		return CaminhoURL;
+	}
+
+	public static void setCaminhoURL(String caminhoURL) {
+		CaminhoURL = caminhoURL;
+	}
+	
+	
 
 }

@@ -1,0 +1,25 @@
+	<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<f:metadata>
+		                   
+		<f:viewParam name="903DAEF4110B5F2D2F0D5A4DB00A124A29DF27FADB5C4216AC3D47438B9878CE" value="#{autorizarAcessoURLBean.parametroUser}"/>
+	</f:metadata>
+
+	<h:body>
+		<h:form>
+			<h:outputText rendered="#{autorizarAcessoURLBean.autorizado}" value="Acesso autorizado para #{autorizarAcessoURLBean.usuario.login}" />
+			
+			<h:outputText rendered="#{autorizarAcessoURLBean.autorizado==false}" value="Não foi possível efetuar autorização, acesse o portal." />
+		</h:form>
+
+	</h:body>
+</h:head>
+</html>

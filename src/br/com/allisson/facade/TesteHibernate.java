@@ -130,6 +130,33 @@ public class TesteHibernate {
 	 * 
 	 */
 		
+		
+        Criptografia criptografia = new Criptografia();
+		
+		
+		
+		String crip;//280
+		crip = criptografia.md5("idUser");
+		
+		System.out.println(crip);
+		
+		crip = criptografia.md5("1");
+		
+		
+		
+		
+		crip = criptografia.criptografa("5498", 25);
+		System.out.println("Cript :"+crip);
+		
+		
+		crip = criptografia.descriptografa("NPQ", 25);
+		System.out.println("Descrp :"+crip);
+		
+		
 	}
+	
+	
+	
+	
 
 }

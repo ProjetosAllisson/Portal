@@ -8,10 +8,11 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
 
-
 <h:body>
+		
 
 	<ui:composition template="/pages/protected/templates/master.xhtml">
+	
 		<ui:define name="divMain">
 
 
@@ -25,11 +26,15 @@
 						<br></br>
 					    <h:outputText value="Endereço de Email: *" />
 						<p:focus>
-							<p:inputText value="#{contaEmailBean.dadosConta.hostname}" size="50" required="true" requiredMessage="Informe Endereço de E-mail"/>
+							<p:inputText value="#{contaEmailBean.dadosConta.hostname}"
+							onkeypress="if(event.keyCode===13){document.getElementById('contaEmailForm:user').focus();return false;}" 
+							
+							size="50" required="true" requiredMessage="Informe Endereço de E-mail"/>
 						</p:focus>
 						
 						<h:outputText value="Nome de Usuário: *" />
-						<p:inputText value="#{contaEmailBean.dadosConta.username}" size="50" required="true" requiredMessage="Informe o nome do usuário"/>
+						<p:inputText id="user" value="#{contaEmailBean.dadosConta.username}" onkeydown="pular" 
+						size="50" required="true" requiredMessage="Informe o nome do usuário"/>
 											
 						<h:outputText value="Senha: *" />
 						<p:password value="#{contaEmailBean.dadosConta.password}" required="true" requiredMessage="Informe a senha" redisplay="true"/>

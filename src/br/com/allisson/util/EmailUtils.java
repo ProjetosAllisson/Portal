@@ -11,6 +11,8 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import org.apache.commons.mail.HtmlEmail;
+
 import br.com.allisson.facade.ContaEmailFacade;
 import br.com.allisson.modelo.Mensagem;
 
@@ -86,5 +88,55 @@ public class EmailUtils {
 			throw new RuntimeException(e);
 		}
 	}
+	
+	
+	
+	
+	public static boolean enviaEmailHtml(Mensagem mensagem) {
+		
+		if (ContaEmailFacade.getDadosContaEmail() != null){
+			HOSTNAME = ContaEmailFacade.getDadosContaEmail().getHostname();
+			USERNAME = ContaEmailFacade.getDadosContaEmail().getUsername();
+			PASSWORD = ContaEmailFacade.getDadosContaEmail().getPassword();
+			PORTA    = ContaEmailFacade.getDadosContaEmail().getPorta();
+			SMTP     = ContaEmailFacade.getDadosContaEmail().getSmtp();
+		}
+		
+		
+		
+		
+        try {  
+            HtmlEmail email = new HtmlEmail();  
+            email.setHostName(SMTP); // o servidor SMTP para envio do e-mail  
+            email.addTo(mensagem.getDestino(), mensagem.getDestino());  
+              
+            email.setSmtpPort(587);
+                       
+            email.setAuthentication( USERNAME, PASSWORD);  
+            email.setFrom(HOSTNAME, HOSTNAME); // remetente  
+            email.setSubject(mensagem.getTitulo()); // assunto do e-mail
+            
+            
+            String msg = "";
+			for (String msgs : mensagem.getMensagens()) {
+				
+				msg = msg + msgs+"\r\n";
+					
+			}
+            
+			email.setHtmlMsg(msg); //conteudo do e-mail  
+            email.setCharset("UTF-8");  //formatação do email  
+            email.setDebug(true);  
+            email.send(); //envia o e-mail  
+              
+            return true;  
+        } catch (Exception e) {  
+            e.printStackTrace();  
+            return false;  
+        }  
+    }  
+	
+	
+	
 
 }

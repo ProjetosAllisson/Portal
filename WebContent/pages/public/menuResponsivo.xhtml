@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+    <h:outputStylesheet library="css" name="responsiveMenu.css" />
+	<h:body>
+		<h:form styleClass="menuFont">
+		
+			<!-- menu component -->
+            <p:menu model="#{menuBean.menuModel}"  styleClass="horizontalmenu" />
+            
+            <!-- menubar component -->
+            <p:menubar model="#{menuBean.menuModel}" styleClass="verticalmenu"/>
+
+
+
+			<p:dataGrid value="#{documentosBean.documentos}" var="documentos" columns="1">
+					
+					
+					<p:panel header="#{documentos.documento}">
+						<p:panelGrid columns="5">
+							<h:outputText value="Nota Fiscal"/>
+								<h:outputText value="#{documentos.nota}"/>
+								
+							<p:spacer />	
+								
+							<h:outputText value="Emissão"/>
+								<h:outputText value="#{documentos.emissao}">
+									<f:convertDateTime pattern="dd/MM/yy" />
+								</h:outputText>
+							
+							
+							<h:outputText value="Embarque"></h:outputText>
+							<h:outputText value="#{documentos.embarque}">
+									<f:convertDateTime pattern="dd/MM/yy" />
+							</h:outputText>
+							
+						
+						
+						</p:panelGrid>
+					
+					
+					
+					</p:panel>
+					
+					
+					
+								
+			</p:dataGrid>
+			
+		</h:form>
+
+	</h:body>
+</h:head>
+
+</html>

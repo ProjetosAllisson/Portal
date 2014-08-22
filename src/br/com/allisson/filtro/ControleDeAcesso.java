@@ -13,6 +13,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import br.com.allisson.util.Geral;
+
 @WebFilter(servletNames = { "Faces Servlet" })
 public class ControleDeAcesso implements Filter {
 
@@ -36,11 +38,47 @@ public class ControleDeAcesso implements Filter {
 			HttpServletRequest httpReq = (HttpServletRequest) request;
 			HttpServletResponse httpRes = (HttpServletResponse) response;
 			HttpSession session = httpReq.getSession(true);
+			
+			
 			String url = httpReq.getRequestURL().toString();
+			
+			String uri = httpReq.getRequestURI().toString();
 
-			System.out.println(url);
-			//chain.doFilter(request, response);
-
+			if (Geral.getCaminhoURL()==null){
+				
+				String url_principal = "";
+				
+				int index = url.indexOf(uri);
+				int iBarras= 0;
+				if (index > 0){
+					for (int i =0; i< index; i++) {
+						url_principal += url.charAt(i);
+					}
+					
+					for (int i =0; i<uri.length();i++){
+						
+						String barra = "";
+						
+						barra += uri.charAt(i);
+						
+						if(barra.equals("/")){
+							iBarras+=1;
+						}
+																
+						url_principal += uri.charAt(i);
+						
+						if (iBarras==2){
+							break;
+						}
+						
+					}
+				}
+				
+				Geral.setCaminhoURL(url_principal);
+			}
+			
+			System.out.println(Geral.getCaminhoURL());
+			
 			if (session.getAttribute("usuarioAutenticado") == null
 					&& precisaAutenticar(url)) {
 				
@@ -82,6 +120,7 @@ public class ControleDeAcesso implements Filter {
 				&& !url.endsWith("consultaPublicaCnpj.jsf")
 				&& !url.endsWith("usuario.jsf")
 				&& !url.endsWith("usuario_sucesso.jsf")
+				&& !url.endsWith("autorizarAcessoURL.jsf")
 				
 				&& !url.endsWith("javax.faces.resource/layout/layout.css.jsf")
 				&& !url.endsWith("javax.faces.resource/watermark/watermark.css.jsf")

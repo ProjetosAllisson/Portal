@@ -31,5 +31,9 @@ public class UserDAO extends GenericDAO<User> {
 		return super.findAllResult(User.FIND_ALL_USER_NAO_AUTORIZADOS, null);
 		
 	}
+	
+	public List<User> findAllUser(){
+		return super.findAllResult(User.FIND_ALL, null);
+	}
 
 }

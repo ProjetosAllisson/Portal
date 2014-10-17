@@ -27,7 +27,8 @@ import br.com.allisson.util.Criptografia;
 @Table(name = "TBL_USUARIO")
 @NamedQueries({
 		@NamedQuery(name = "User.findUser", query = "select u from User u where u.login = :login"),
-		@NamedQuery(name = "User.findAllNaoAutorizados", query = "select u from User u where u.acesso_autorizado = false") })
+		@NamedQuery(name = "User.findAllNaoAutorizados", query = "select u from User u join fetch u.cliente left join fetch u.acessos  where u.acesso_autorizado = false"),
+		@NamedQuery(name = "User.findAll", query = "select distinct u from User u join fetch u.cliente left join fetch u.acessos order by u.id")})
 public class User implements Serializable {
 
 	/**
@@ -37,6 +38,7 @@ public class User implements Serializable {
 
 	public static final String FIND_USER_LOGIN = "User.findUser";
 	public static final String FIND_ALL_USER_NAO_AUTORIZADOS = "User.findAllNaoAutorizados";
+	public static final String FIND_ALL = "User.findAll";
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -70,7 +72,7 @@ public class User implements Serializable {
 
 	@OneToMany
 	@JoinColumn(name = "cod_usuario")
-	@OrderBy("dt_acesso")
+	@OrderBy("dt_acesso desc")
 	private List<Acessos> acessos;
 
 	private Boolean grupoClientes;

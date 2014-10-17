@@ -39,6 +39,8 @@ public class BoletosBean implements Serializable {
 		try {
 			// Cria um objeto File a partir do caminho especificado
 
+			System.out.println(duplicata.getId().getFil_orig());
+			
 			String caminho = configSatwinfacade.leclausula("FATURAMENTO","Path para Salvar Boletos em PDF", duplicata.getId().getFil_orig());
 			//"c:/portal/"
 			arquivo = caminho+'/'+ Geral.LimpaString(duplicata.getCliente().getCgc(), "[./-]") +
@@ -71,18 +73,22 @@ public class BoletosBean implements Serializable {
 		}
 	}
 
-	public void visualizarPdf() {
+	public String visualizarPdf() {
 
 		this.importarArquivo();
 		
 		this.processaPDF(false);
+		
+		return "";
 
 	}
 	
-	public void downloadPdf(){
+	public String downloadPdf(){
 		this.importarArquivo();
 		
 		this.processaPDF(true);
+		
+		return "";
 	}
 
 	public Duplicata getDuplicata() {

@@ -15,13 +15,11 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.brazilutils.br.cpfcnpj.CpfCnpj;
-
 @Entity
 @Table(name = "STWOPETCLI")
 @NamedQueries({
 	@NamedQuery(name = "Cliente.findCliente", query ="select u from Cliente u where u.cgc = :cgc"),
-	@NamedQuery(name = "Cliente.allClientes", query ="select u from Cliente u where u.ult_acesso is not null and u.ult_acesso between :start and :end "),
+	@NamedQuery(name = "Cliente.allClientes", query ="select u from Cliente u join fetch u.grupoCliente where u.ult_acesso is not null and u.ult_acesso between :start and :end "),
 	@NamedQuery(name = "Cliente.porNomeCliente", query ="select u from Cliente u where u.nome like :nome"),
 })
 

@@ -182,7 +182,7 @@ public class UserFacade {
 	
 	public List<User> listAll(){
 		userDAO.beginTransaction();
-		List<User> result = userDAO.findAll();
+		List<User> result = userDAO.findAllUser();
 		userDAO.closeTransaction();
 		return result;
 	}

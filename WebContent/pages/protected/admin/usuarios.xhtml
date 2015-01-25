@@ -10,34 +10,47 @@
 
 
 <h:body>
+	<ui:composition template="/pages/protected/templates/Layout.xhtml">
+		<ui:define name="titulo">Consuta de Usuários</ui:define>
 
-	<ui:composition template="/pages/protected/templates/master.xhtml">
-		<ui:define name="divMain">
+		<ui:define name="corpo">
 
+			<h1>Consulta de Usuários</h1>
 
 			<h:form id="usuariosForm" rendered="#{userBean.admin}">
 
-				<p:commandLink title="Incluir Usuário"
-					update=":usuariosInsertDialogForm"
-					onclick="usuariosInsertDialogWidget.show();">
+				<p:toolbar>
 
-					<p:graphicImage styleClass="semBorda"
-						value="/img/insertusuario.png"></p:graphicImage>
-				</p:commandLink>
+					<p:toolbarGroup align="left">
+				
 
+						<p:commandLink title="Incluir Usuário"
+							update=":usuariosInsertDialogForm"
+							actionListener="#{usuariosBean.resetUser()}"
+							onclick="PF('usuariosInsertDialogWidget').show()">
 
+							<p:graphicImage styleClass="semBorda"
+								value="/img/insertusuario.png"></p:graphicImage>
+						</p:commandLink>
+
+					</p:toolbarGroup>
+
+				</p:toolbar>
 
 
 
 				<p:dataTable id="usuariosTable" value="#{usuariosBean.allUsers}"
-					style="width: 80%; height: 60%" var="user" paginator="true"
+					rows="20" widgetVar="usersTable"
+					filteredValue="#{usuariosBean.users}"
+					paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+					style="width: 100%; height: 60%" var="user" paginator="true"
 					paginatorPosition="bottom" rowKey="#{user.id}"
 					selection="#{usuariosBean.usuarioSelecionado}"
 					selectionMode="single" emptyMessage="Nenhum registro encontrado">
 
 
 					<p:column id="loginColumn" sortBy="#{user.login}"
-						headerText="Login">
+						filterBy="#{user.login}" headerText="Login">
 
 						<h:outputText value="#{user.login}" />
 					</p:column>
@@ -51,7 +64,7 @@
 					</p:column>
 
 
-					<p:column styleClass="columns" style="width: 15%; height: 15%">
+					<p:column styleClass="columns">
 						<f:facet name="header">
 							<h:outputText value="Cnpj" />
 						</f:facet>
@@ -59,8 +72,7 @@
 					</p:column>
 
 
-					<p:column styleClass="columns" sortBy="#{user.cliente.nome}"
-						style="width: 30%; height: 30%">
+					<p:column styleClass="columns" filterBy="#{user.cliente.nome}">
 						<f:facet name="header">
 							<h:outputText value="Cliente" />
 						</f:facet>
@@ -121,6 +133,13 @@
 						<h:outputText value="#{user.userAcessoAutorizado()}" />
 					</p:column>
 
+					<p:column styleClass="columns" style="width: 1%; height: 1%">
+						<f:facet name="header">
+							<h:outputText value="Perfil" />
+						</f:facet>
+						<h:outputText value="#{user.role.value}" />
+					</p:column>
+
 					<p:column styleClass="columns">
 
 						<f:facet name="header">
@@ -138,7 +157,7 @@
 
 
 				</p:dataTable>
-				
+
 
 			</h:form>
 
@@ -148,8 +167,6 @@
 			<ui:include src="/pages/protected/dialogs/acessosViewDialog.xhtml" />
 			<ui:include src="/pages/protected/dialogs/usuariosNovaSenha.xhtml" />
 
-			<ui:include
-				src="/pages/protected/dialogs/clientesLocalizarDialog.xhtml"></ui:include>
 
 
 		</ui:define>

@@ -1,77 +1,137 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
-<ui:composition template="/WEB-INF/templates/templateNovo.xhtml"
+<html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
 
 
-	<h:head>
-		<title>Portal de Serviços</title>
-		<style type="text/css">
+<h:head>
+	<title>Portal de Serviço</title>
+	<style type="text/css">
 body {
 	background-color: #eeeeee;
 	font-size: 12px
 }
 </style>
-	</h:head>
-
-	<ui:define name="conteudo">
-		<h:body>
 
 
-			<p:growl id="growl" showDetail="true" life="3000"></p:growl>
-			<h:form id="login">
+	<style type="text/css">
+#div {
+	width: 550px; /* Tamanho da Largura da Div */
+	height: 200px; /* Tamanho da Altura da Div */
+	position: absolute;
+	top: 50%;
+	margin-top: -150px;
+	/* ou seja ele pega 50% da altura tela e sobe metade do valor da altura no caso 100 */
+	left: 50%;
+	margin-left: -250px;
+	/* ou seja ele pega 50% da largura tela e diminui  metade do valor da largura no caso 250 */
+	;
+}
+</style>
+</h:head>
+
+
+<h:body>
 
 
 
-				<p:panel header="Portal de Serviço Web"
-					style="position:absolute;left: 120px; top: 90px; width:540px; height: 240px;">
+	<p:growl id="growl" showDetail="true" life="6000"></p:growl>
+	<h:form id="login">
+
+		<!-- 
+		<p:ajaxStatus onstart="statusDialog.show()"
+			onsuccess="statusDialog.hide();"  />
+		<p:dialog modal="true" widgetVar="statusDialog" header="Status"
+			draggable="false" closable="false">
+			<h:graphicImage value="/resources/LoadingProgressBar.gif" />
+		</p:dialog>
+ -->
 
 
-					<h:panelGrid id="panel" columns="3" cellspacing="3">
-						<h:graphicImage library="imagens" name="ilogin.png"
-							style="float:left;" />
+		<div id="div">
+			<p:panel header="Portal do Cliente" style="text-align:center">
 
-						<h:panelGroup style="display:block; text-align:center">
+				<h:panelGrid columns="2">
+					<p:spacer width="210px" height="0" />
+					<p:column>
+						<h:outputLabel style="float:left;font-size:11px"
+							value="Identifique-se para efetuar o seu login e utilizar " />
+						<h:outputLabel style="float:left;font-size:11px"
+							value="os serviços de nosso portal" />
 
-							<p:panelGrid columns="2" >
-								<h:outputLabel for="usuario" value="Usuário: " />
+					</p:column>
+				</h:panelGrid>
+				<h:panelGrid id="panel" columns="2">
+					<h:graphicImage value="/resources/imagens/ilogin.png"
+						style="float:left;" width="200" height="170" />
 
-								<p:focus>
-									<p:inputText value="#{loginBean.usuario}" id="usuario"
-										required="true" label="usuario" />
-								</p:focus>
 
-								<h:outputLabel for="senha" value="Senha:" />
-								<p:password value="#{loginBean.senha}" id="senha" required="true"
-									label="senha" />
+					<h:panelGrid columns="2" cellspacing="10">
+						<h:outputLabel for="usuario" value="Usuário: " />
 
-								</p:panelGrid>                            
-								
-								
-								
-							 	<p:commandButton id="btnLogin" value="Login" update=":growl"
-									icon="ui-icon-check" action="#{loginBean.autentica}">
-								</p:commandButton>
-							
+						<p:column>
+							<p:focus>
+								<p:inputText value="#{loginBean.usuario}" id="usuario"
+									required="true" label="usuario" size="28" />
+							</p:focus>
+						</p:column>
 
-								<br></br>
-								<br></br>
-								<br></br>
+						<h:outputLabel for="senha" value="Senha:" />
+						<p:password value="#{loginBean.senha}" id="senha" required="true"
+							label="senha" size="28" />
 
-								<h:commandLink value="Caso não possua Login. Solicite seu cadastro aqui." action="/pages/public/usuario.jsf" 
-				                			    immediate="true"/>  
-						
-						</h:panelGroup>
+						<br></br>
+						<h:panelGrid columns="2">
 
-						
+							<p:commandButton id="btnLogin" value="Login" update=":growl"
+								icon="ui-icon-check" action="#{loginBean.autentica}"
+								style="float:left">
+							</p:commandButton>
+							<p:commandLink title="Solicite seu cadastro."
+								value="Solicite seu cadastro" update=":usuarioExternoDialogForm"
+								actionListener="#{usuariosBean.resetUser()}"
+								onclick="PF('usuarioExternoDialogWidget').show()"
+								style="float:rigth;font-size:11px" />
+
+
+						</h:panelGrid>
 					</h:panelGrid>
 
-					<br></br>
-				</p:panel>
-			</h:form>
-		</h:body>
-	</ui:define>
-</ui:composition>
+
+
+
+
+
+				</h:panelGrid>
+
+				<h:panelGrid columns="3" style="float:rigth">
+
+					<p:panel>
+						<p:graphicImage value="/img/consultaPublica.png"></p:graphicImage>
+						<h:commandLink value="Consulta Publica"
+							action="/pages/public/consultaPublicaCpf.jsf" immediate="true"
+							style="float:rigth" />
+					</p:panel>
+					<p:column>
+						<p:spacer width="90px" height="0"></p:spacer>
+						<h:outputLink value="http://www.allisson.com.br" target="_blank">
+
+							<h:graphicImage value="/img/logoAllisson.png"
+								style="float:right;" width="160" height="60" />
+						</h:outputLink>
+					</p:column>
+				</h:panelGrid>
+
+
+
+			</p:panel>
+		</div>
+	</h:form>
+
+	<ui:include src="/pages/protected/dialogs/usuarioExternoDialog.xhtml" />
+</h:body>
+
+</html>

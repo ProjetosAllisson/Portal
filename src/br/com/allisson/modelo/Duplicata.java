@@ -63,7 +63,7 @@ public class Duplicata {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (obj instanceof User) {
+		if (obj instanceof Duplicata) {
 			Duplicata duplicata = (Duplicata) obj;
 			return duplicata.getId() == getId();
 		}

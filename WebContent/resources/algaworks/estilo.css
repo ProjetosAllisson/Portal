@@ -1,0 +1,81 @@
+@charset "utf-8";
+
+body {
+	font-size: 12px;
+	font-family: Arial, Helvetica, sans-serif;
+	margin: 0px;
+	font-weight: normal
+}
+
+header {
+	padding: 10px;
+	margin-bottom: 25px;
+	height: 20px;
+	background-color: #bfbfbf;
+	color: #bfbfbf;
+	box-shadow: 0px 20px 20px #bfbfbf
+}
+
+#conteudo {
+	padding: 0px 8px
+}
+
+footer {
+	border-top: 1px solid #ccc;
+	padding: 5px 8px;
+	margin-top: 20px;
+	margin-bottom: 10px
+}
+
+h1 {
+	font-size: 24px;
+	font-weight: 500;
+	padding: 0px;
+	margin: 0px;
+	margin-bottom: 10px
+}
+
+.ajax-status {
+	position: fixed;
+	top: 85px;
+	right: 10px;
+	width: 35px;
+	height: 35px
+}
+
+#login-dialog {
+	width: 260px;
+	margin: auto;
+	margin-top: 150px;
+}
+
+.grid-login {
+	background-color: #f2f2f2;
+	border-radius: 8px;
+	border: 1px solid #ccc;
+	margin-top: 8px;
+	padding: 10px;
+	width: 100%
+}
+
+
+.sem-linha .ui-panelgrid-cell, .sem-linha .ui-widget-content {
+	border: none !important;
+}
+
+#div {
+	width: 520px; /* Tamanho da Largura da Div */
+	height: 200px; /* Tamanho da Altura da Div */
+	position: absolute;
+	top: 50%;
+	margin-top: -150px;
+	/* ou seja ele pega 50% da altura tela e sobe metade do valor da altura no caso 100 */
+	left: 50%;
+	margin-left: -250px;
+	/* ou seja ele pega 50% da largura tela e diminui  metade do valor da largura no caso 250 */
+	;
+}
+
+.columns{
+	font-size:11px;width=40%;
+}

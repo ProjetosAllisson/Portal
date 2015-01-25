@@ -9,14 +9,15 @@
 <h:body>
 
 	<p:dialog widgetVar="usuariosUpdateDialogWidget"
-		id="usuariosUpdateDialogId" height="250" width="700" modal="true" appendTo="@(body)"
-		closable="true" draggable="false" resizable="false">
+		id="usuariosUpdateDialogId" height="300" width="900" modal="true"
+		appendTo="@(body)" closable="true" draggable="false" resizable="false">
 		<h:form id="usuariosUpdateDialogForm" prependId="false">
-			<p:fieldset legend="Edição  -  #{usuariosBean.usuarioSelecionado.login}">
+			<p:fieldset
+				legend="Edição  -  #{usuariosBean.usuarioSelecionado.login}">
 
 				<p:separator></p:separator>
 
-				<p:panelGrid columns="3" styleClass="semBorda">
+				<h:panelGrid columns="3" styleClass="semBorda">
 					<h:outputText value="Acesso Autorizado ?" />
 					<p:selectBooleanButton
 						value="#{usuariosBean.usuarioSelecionado.acesso_autorizado}"
@@ -37,16 +38,39 @@
 
 
 
-					<h:outputText value="Cliente:" />
+					<h:outputText value="Cliente:"  title="Cliente no Nome para Alterar"/>
 
-					 <p:commandLink  title="Localiza Clientes" 
-						onclick="buscaClienteDialogWidget.show();">
-					
-						<h:outputText id="nomeCliente" value="#{usuariosBean.usuarioSelecionado.cliente.nome}" />					
-					
-					</p:commandLink>
-					
-					<br></br> 
+
+
+					<p:inplace label="#{usuariosBean.usuarioSelecionado.cliente.nome}" 
+						effect="slide" editor="true">
+						<p:autoComplete value="#{usuariosBean.usuarioSelecionado.cliente}"
+							style="ui-autocomplete" id="basicPojoCliente"
+							completeMethod="#{usuariosBean.completeCliente}" size="60"
+							immediate="true" var="c" itemLabel="#{c.nome}" itemValue="#{c}"
+							minQueryLength="4" queryDelay="1000" scrollHeight="200"
+							converter="clienteConverter" forceSelection="true"
+							required="true" requiredMessage="Cliente é um campo obrigatório">
+
+
+							<f:facet name="itemtip">
+								<h:panelGrid columns="2" cellpadding="5">
+
+									<h:outputText value="Cgc:" />
+									<h:outputText value="#{c.cgc}" />
+
+									<h:outputText value="Nome" />
+									<h:outputText value="#{c.nome}" />
+								</h:panelGrid>
+							</f:facet>
+
+
+
+						</p:autoComplete>
+					</p:inplace>
+					<br />
+
+					<br></br>
 					<h:outputText value="Considerar grupo de clientes para consulta ?" />
 					<p:selectBooleanButton
 						value="#{usuariosBean.usuarioSelecionado.grupoClientes}"
@@ -55,11 +79,19 @@
 
 					<br></br>
 
-					 
-					  <!-- 
-					  <h:outputText id="nomeCliente" value="#{usuariosBean.usuarioSelecionado.cliente.nome}" />
-					   -->
-				</p:panelGrid>
+
+					<h:outputText value="Perfil" />
+					<p:selectOneMenu id="perfil"
+						value="#{usuariosBean.usuarioSelecionado.role}" immediate="true">
+						<f:selectItem itemLabel="Selecionar" itemValue="" />
+						<f:selectItems value="#{usuariosBean.perfis}" var="p"
+							itemValue="#{p}" itemLabel="#{p.value}" />
+
+					</p:selectOneMenu>
+
+
+
+				</h:panelGrid>
 
 
 
@@ -67,23 +99,24 @@
 				<p:separator></p:separator>
 
 
-				<p:panelGrid columns="4" width="100%" style="text-align:right"
+				<h:panelGrid columns="4" width="100%" style="text-align:right"
 					styleClass="semBorda">
 
 
 
 					<p:spacer width="400" height="10"></p:spacer>
 					<p:commandButton value="Confirma" icon="ui-icon-circle-check"
-						title="Confirma Alteração" action="#{usuariosBean.updateUser()}"
+						title="Confirma Alteração"
+						actionListener="#{usuariosBean.updateUser()}"
 						update=":messageGrowl :usuariosForm:usuariosTable"
-						oncomplete="usuariosUpdateDialogWidget.hide();" />
+						oncomplete="closeDialogIfSucess(xhr, status, args, usuariosUpdateDialogWidget, 'usuariosUpdateDialogId')" />
 
 
 					<p:commandButton value="Cancela" icon="ui-icon-cancel"
 						title="Cancela Alteração" actionListener="#{userBean.resetUser()}"
 						onclick="usuariosUpdateDialogWidget.hide();" type="button" />
 
-				</p:panelGrid>
+				</h:panelGrid>
 
 
 
@@ -95,7 +128,7 @@
 
 		</h:form>
 	</p:dialog>
-	
+
 </h:body>
 
 

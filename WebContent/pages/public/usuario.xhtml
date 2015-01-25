@@ -2,19 +2,23 @@
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 
-<ui:composition template="/WEB-INF/templates/templateNovo.xhtml"
+<html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
 
 
-	<ui:define name="conteudo">
+<h:body>
+
+	<ui:composition template="/pages/protected/templates/Layout.xhtml">
+
+	
+	<ui:define name="corpo">
+		<h1>Solicitação de Acesso ao Portal</h1>
 		<h:form id="form">
-			<h:outputStylesheet library="css" name="master.css"></h:outputStylesheet>
 			<p:growl id="growl" showDetail="true"></p:growl>
 			<center>
-				<p:panel header="Cadastro de Usuário">
 
 
 					<p:panel header ="Tipo de Pessoa" >
@@ -27,7 +31,7 @@
 						</h:selectOneRadio>
 					</p:panel>
 
-					<p:panelGrid columns="3" styleClass="semBorda">
+					<h:panelGrid columns="3" >
 
 
 						<h:outputLabel id="lblLogin" for="txtLogin" value="Login" />
@@ -40,7 +44,7 @@
 						<h:outputLabel for="senha" value="Senha:" />
 						<p:password value="#{usuariosBean.usuario.senha}" id="senha"
 							required="true" label="senha" autocomplete="false"
-							feedback="true" requiredMessage="Senha é campo obrigatório"/>
+							feedback="true" requiredMessage="Senha Ã© campo obrigatÃ³rio"/>
 
 						<br></br>
 
@@ -53,7 +57,7 @@
 						<p:inputMask id="CPF" size="20" value="#{usuariosBean.cnpj}"
 							mask="#{usuariosBean.campoBooleanControle ? '99.999.999/9999-99' : '999.999.999-99'}"
 							required="true"
-							requiredMessage="Campo obrigatório não preenchido"
+							requiredMessage="Campo obrigatÃ³rio nÃ£o preenchido"
 							title="#{usuariosBean.campoBooleanControle ? 'Informe o Cnpj.' : 'Informe o Cpf.'}">
 
 
@@ -64,17 +68,6 @@
 						</p:inputMask>
 
 
-						<!-- 
-						<h:outputLabel for="txtCnpj" value="Cpf / Cnpj:" />
-						<p:inputMask id="txtCnpj" maxlength="14"
-							value="#{usuariosBean.cnpj}">
-
-							<p:ajax event="keyup"
-								listener="#{clienteBean.localizaCliente(usuariosBean.cliente.cgc)}"
-								update="incluiUsuario,nomeCliente"></p:ajax>
-
-						</p:inputMask>
-						 -->
 
 						<h:outputText id="nomeCliente" value="#{clienteBean.cliente.nome}" />
 
@@ -88,20 +81,21 @@
 						<h:outputText value="" />
 
 
-						<p:commandButton id="incluiUsuario" value="Inserir Usuário"
+						<p:commandButton id="incluiUsuario" value="Inserir UsuÃ¡rio"
 							action="#{usuariosBean.InserirUsuarioExterno()}"
 							disabled="#{clienteBean.disabled}" update="@form"></p:commandButton>
 
 
 
 
-					</p:panelGrid>
+					</h:panelGrid>
 
 
 
-				</p:panel>
 			</center>
 		</h:form>
 	</ui:define>
 
 </ui:composition>
+</h:body>
+</html>

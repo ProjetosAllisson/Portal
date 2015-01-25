@@ -11,23 +11,9 @@ import java.util.Date;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.ServletContext;
-
-import org.primefaces.model.DefaultStreamedContent;
-import org.primefaces.model.StreamedContent;
-
-
-
-import br.com.allisson.dao.DocumentoDAO;
-import br.com.allisson.dao.HistoricoDAO;
-import br.com.allisson.facade.ComprovanteEntregaFacade;
-import br.com.allisson.modelo.ComprovanteEntrega;
-import br.com.allisson.modelo.Documento;
-import br.com.allisson.modelo.HistoricoNf;
-
-
 
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
@@ -35,13 +21,18 @@ import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.hssf.util.HSSFColor;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.CellStyle;
-import org.apache.poi.ss.usermodel.IndexedColors;
-import org.apache.poi.ss.usermodel.Row;
+import org.primefaces.event.TabChangeEvent;
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
+
+import br.com.allisson.dao.DocumentoDAO;
+import br.com.allisson.facade.ComprovanteEntregaFacade;
+import br.com.allisson.modelo.ComprovanteEntrega;
+import br.com.allisson.modelo.Documento;
+import br.com.allisson.modelo.HistoricoNf;
 
 @ManagedBean(name = "documentosBean")
-@SessionScoped
+@ViewScoped
 public class DocumentosBean {
 
 	private Documento documento;
@@ -49,7 +40,7 @@ public class DocumentosBean {
 	private DocumentoDAO documentoDao;
 	private List<Documento> documentos;
 	private List<HistoricoNf> historicosnf;
-	private HistoricoDAO historicoDao;
+	
 
 	private Date dataInicio;
 	private Date dataTermino;
@@ -75,6 +66,14 @@ public class DocumentosBean {
 	public DocumentosBean() {
 		documentoDao = new DocumentoDAO();
 		fotoFacade = new ComprovanteEntregaFacade();
+		
+		documentos = documentoDao.listaNotasemAberto();
+	}
+	
+	public void onTabChange(TabChangeEvent event){
+		if (event.getTab().getId().equals("notasEmAberto")){
+			documentos = documentoDao.listaNotasemAberto();
+		}
 	}
 
 	public void consultaPublicaPorCpf() throws IOException {
@@ -104,7 +103,7 @@ public class DocumentosBean {
 		return historicosnf;
 	}
 
-	public void DocumentosPorPeriodo() {
+	public void documentosPorPeriodo() {
 		String data1;// = "01/01/2000";
 		String data2;// = "20/05/2013";
 
@@ -126,20 +125,13 @@ public class DocumentosBean {
 		// return documentos;
 	}
 
-	public void DocumentosPorNotaFiscal() {
+	public void documentosPorNotaFiscal() {
 		System.out.println(this.notafiscal);
 		documentos = documentoDao.listaPorNotaFiscal(this.notafiscal);
 		listaFotoComprovante(documentos);
 	}
 
-	public void OcorrenciaPorNotaFiscal() {
-
-		System.out.println(documento.getCgc());
-		historicosnf = historicoDao.listaHistoricoNf(documento.getCgc(),
-				documento.getSerie(), documento.getNota(),
-				documento.getIndicador());
-	}
-
+	
 	public void ConsultaPublica() {
 		if (this.documentos == null) {
 

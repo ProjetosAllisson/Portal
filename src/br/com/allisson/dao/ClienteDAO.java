@@ -43,7 +43,7 @@ public class ClienteDAO extends GenericDAO<Cliente>{
 			e1.printStackTrace();
 		}
 
-        String strDateTo = "2013/11/02";
+        String strDateTo = "2018/11/02";
         Date dateTo = null;
 		try {
 			dateTo = formatter.parse(strDateTo);
@@ -59,10 +59,22 @@ public class ClienteDAO extends GenericDAO<Cliente>{
 		
 	}
 	
-	public List<Cliente> allClientesPorNome(String nome){
+	public List<Cliente> allClientesPorNome(String nome, Integer grupo){
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		
+		if (grupo > 0){
+			parameters.put("nome", nome+"%");
+			parameters.put("grupo", grupo);
+			
+			return super.findAllResult(Cliente.POR_NOME_GRUPO, parameters);
+		}
+		
+		
+		if (nome.equals("")){
+			return this.allClientes();
+		}
 		parameters.put("nome", nome+"%");
+		
 		
 		return super.findAllResult(Cliente.POR_NOME_CLIENTES, parameters);
 	}

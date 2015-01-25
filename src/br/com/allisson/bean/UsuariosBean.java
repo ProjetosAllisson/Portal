@@ -1,22 +1,25 @@
 package br.com.allisson.bean;
 
-import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
-import javax.faces.context.FacesContext;
+import javax.faces.bean.ViewScoped;
 
+import org.primefaces.model.LazyDataModel;
+
+import br.com.allisson.bean.converter.ClienteConverter;
+import br.com.allisson.facade.ClienteFacade;
 import br.com.allisson.facade.UserFacade;
 import br.com.allisson.modelo.Cliente;
 import br.com.allisson.modelo.Role;
 import br.com.allisson.modelo.User;
 
 @ManagedBean(name = "usuariosBean")
-@SessionScoped
+@ViewScoped
 public class UsuariosBean extends AbstractMB {
 
-	public static final String INJECTION_NAME = "#{usuariosBean}";
+	// public static final String INJECTION_NAME = "#{usuariosBean}";
 
 	private User usuario;
 	private UserFacade userFacade;
@@ -28,20 +31,30 @@ public class UsuariosBean extends AbstractMB {
 
 	private Cliente cliente;
 	private String cnpj;
-	
+
+	private Cliente clienteSelecionado = new Cliente();
+	private ClienteFacade clienteFacade;
+
 	private boolean campoBooleanControle;
+
+	private LazyDataModel<User> lazyModel;
 
 	public UsuariosBean() {
 		resetUser();
+		this.completeCliente("");
 	}
 
-	public void InserirUsuario() {
-		usuario.setCliente(cliente);
+	public String InserirUsuario() {
+
+		// System.out.println(clienteSelecionado.getNome());
+
+		usuario.setCliente(clienteSelecionado);
 
 		if (getUserFacade().isExists(usuario.getLogin()) == true) {
 			displayErrorMessageToUser("Registro Duplicado. O Usuário que você esta inserindo ja existe");
 		} else {
-			usuario.setRole(Role.USER);
+
+			usuario.setRole(usuarioSelecionado.getRole());
 
 			getUserFacade().createUser(usuario);
 
@@ -51,15 +64,15 @@ public class UsuariosBean extends AbstractMB {
 			displayInfoMessageToUser("Usuário inserido com sucesso");
 
 		}
-		
+		return "";
 	}
-	
-	
-	public void InserirUsuarioExterno(){
+
+	public String InserirUsuarioExterno() {
 
 		usuario.setCliente(cliente);
-		
+
 		if (getUserFacade().isExists(usuario.getLogin()) == true) {
+			keepDialogOpen();
 			displayErrorMessageToUser("Registro Duplicado. O Usuário que você esta inserindo ja existe");
 		} else {
 			usuario.setRole(Role.USER);
@@ -67,30 +80,30 @@ public class UsuariosBean extends AbstractMB {
 			usuario.setGrupoClientes(false);
 
 			getUserFacade().createUser(usuario);
+
+			closeDialog();
+			displayInfoMessageToUser("Usuário inserido com sucesso. Aguarde Liberação");
 			
 			resetUser();
-			loadUsers();
+			//loadUsers();
 
-			displayInfoMessageToUser("Usuário inserido com sucesso");
+
 			
-					
-			
+/*
+ * 
 			try {
 				FacesContext.getCurrentInstance().getExternalContext()
 						.redirect("usuario_sucesso.jsf");
 
 			} catch (IOException e) {
 				e.printStackTrace();
-			}
-
+			}*/
 
 		}
 		
-		
+		return "";
 
 	}
-
-	
 
 	public User getUsuario() {
 		return usuario;
@@ -119,10 +132,10 @@ public class UsuariosBean extends AbstractMB {
 	}
 
 	public List<User> getAllUsers() {
-		// if (users == null) {
-		loadUsers();
-		// }
-		return users;
+		if (getUsers() == null) {
+			loadUsers();
+		 }
+		return getUsers();
 	}
 
 	public List<User> getAllUsersNaoAutorizados() {
@@ -136,7 +149,7 @@ public class UsuariosBean extends AbstractMB {
 	}
 
 	private void loadUsers() {
-		users = getUserFacade().listAll();
+		setUsers(getUserFacade().listAll());
 
 	}
 
@@ -148,11 +161,11 @@ public class UsuariosBean extends AbstractMB {
 		usuario = new User();
 		usuarioSelecionado = new User();
 		cliente = new Cliente();
+		// clienteSelecionado = new Cliente();
 	}
 
 	public void deleteUser() {
 		try {
-			System.out.println("Usuario" + usuarioSelecionado.getLogin());
 			getUserFacade().deleteUser(usuarioSelecionado);
 			closeDialog();
 			displayInfoMessageToUser("Excluído com sucesso");
@@ -167,12 +180,18 @@ public class UsuariosBean extends AbstractMB {
 
 	public void updateUser() {
 		try {
+
 			getUserFacade().updateUser(usuarioSelecionado);
-			
-			if (usuarioSelecionado.getAcesso_autorizado()){
-				getUserFacade().enviarEmailAcessoAutorizado(usuarioSelecionado);
+
+			if (usuarioSelecionado.getAcesso_autorizado()) {
+				try {
+				    getUserFacade().enviarEmailAcessoAutorizado(usuarioSelecionado);
+				} catch (Exception e) {
+					System.out.println(e.getMessage());
+				}
+
 			}
-			
+
 			closeDialog();
 			displayInfoMessageToUser("Alterado com Sucesso");
 			loadUsers();
@@ -192,6 +211,10 @@ public class UsuariosBean extends AbstractMB {
 	}
 
 	public void setUsuarioSelecionado(User usuarioSelecionado) {
+		if ((usuarioSelecionado != null)
+				&& (!usuarioSelecionado.getCliente().getNome().equals(""))) {
+			this.completeCliente(usuarioSelecionado.getCliente().getNome());
+		}
 		this.usuarioSelecionado = usuarioSelecionado;
 	}
 
@@ -205,25 +228,22 @@ public class UsuariosBean extends AbstractMB {
 
 	public void autorizaUsuarios() {
 		for (User usuario : getUsuariosSelecionados()) {
-			
-			
+
 			getUserFacade().autorizaUsuario(usuario);
-			
+
 			/*
-			usuario.setAcesso_autorizado(true);
-			getUserFacade().updateUser(usuario);
-			
-			
-			getUserFacade().enviarEmailAcessoAutorizado(usuario);
-			*/
+			 * usuario.setAcesso_autorizado(true);
+			 * getUserFacade().updateUser(usuario);
+			 * 
+			 * 
+			 * getUserFacade().enviarEmailAcessoAutorizado(usuario);
+			 */
 		}
 		loadUsersNaoAutorizados();
 	}
 
-	
-	
 	public String getCnpj() {
-		
+
 		return cnpj;
 	}
 
@@ -238,6 +258,53 @@ public class UsuariosBean extends AbstractMB {
 
 	public void setCampoBooleanControle(boolean campoBooleanControle) {
 		this.campoBooleanControle = campoBooleanControle;
+	}
+
+	
+
+	
+	public Cliente getClienteSelecionado() {
+		return clienteSelecionado;
+	}
+
+	public void setClienteSelecionado(Cliente clienteSelecionado) {
+		this.clienteSelecionado = clienteSelecionado;
+	}
+
+	public List<Cliente> completeCliente(String query) {
+
+		List<Cliente> clientes = new ArrayList<Cliente>();
+
+		// if(!query.equals("")){
+		clientes.addAll(getClienteFacade().allClientesPorNome(query));
+		// }
+
+		ClienteConverter.setDB(clientes);
+
+		return clientes;
+	}
+
+	public ClienteFacade getClienteFacade() {
+		if (clienteFacade == null) {
+			clienteFacade = new ClienteFacade();
+		}
+		return clienteFacade;
+	}
+
+	public void setClienteFacade(ClienteFacade clienteFacade) {
+		this.clienteFacade = clienteFacade;
+	}
+
+	public Role[] getPerfis() {
+		return Role.values();
+	}
+
+	public List<User> getUsers() {
+		return users;
+	}
+
+	public void setUsers(List<User> users) {
+		this.users = users;
 	}
 
 }

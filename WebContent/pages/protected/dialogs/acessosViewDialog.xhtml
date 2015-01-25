@@ -11,13 +11,13 @@
 <h:body>
 
 	<p:dialog widgetVar="acessosViewDialogWidget" id="acessosViewDialogId" appendTo="@(body)"
-		height="600" width="500" modal="true" closable="true">
+		height="550" width="500" modal="true" closable="true">
 		<h:form id="acessosViewDialogForm" prependId="false">
 
 			<p:dataTable id="acessosTable" paginator="true" paginatorPosition="bottom"
-     			rows="20"
+     			rows="15"
 				value="#{usuariosBean.usuarioSelecionado.acessos}" var="acesso"
-				rowsPerPageTemplate="5,10,15,20"
+				rowsPerPageTemplate="5,10,15"
 				emptyMessage="Nenhum registro encontrado">
 
 				<p:column styleClass="columns">

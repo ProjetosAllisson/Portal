@@ -48,7 +48,7 @@ public class DocumentoDAO implements Serializable {
 				+ "    nf.documento doc, nf.fil_orig, cast(nf.nr_cto as integer) nr_cto,"
 				+ "    nf.cgc, nf.serie, cast(nf.indicador as integer) indicador,"
 				+ "       cast(nf.n_fiscal as integer) nota, nf.emissao, nf.entrega, remet.nome remetente, "
-				+ "       dest.nome destinatario, mov.dt_manif embarque, man.dt_chegada chegada, rom.dt_saida,"
+				+ "       dest.nome destinatario, mov.dt_emissao embarque, man.dt_chegada chegada, rom.dt_saida,"
 
 				+ "       case "
 				+ "         when nf.entrega is not null then edi3.ocorrencia"
@@ -103,7 +103,7 @@ public class DocumentoDAO implements Serializable {
 
 			if (cliente.equals("remet")) {
 
-				if (usuario.consultaPorGrupoCliente()){
+				if (usuario.consultaPorGrupoCliente()) {
 					sql = sql + "and remet.grupo = ?";
 				} else {
 
@@ -113,7 +113,7 @@ public class DocumentoDAO implements Serializable {
 
 			if (cliente.equals("dest")) {
 
-				if (usuario.consultaPorGrupoCliente()){
+				if (usuario.consultaPorGrupoCliente()) {
 					sql = sql + "and dest.grupo = ?";
 				} else {
 					sql = sql + " and mov.cgc_dest = ?";
@@ -122,8 +122,8 @@ public class DocumentoDAO implements Serializable {
 
 			if (cliente.equals("null")) {
 
-				//if ((usuario.getCliente().getGrupoCliente()) != null) {
-				if (usuario.consultaPorGrupoCliente()){
+				// if ((usuario.getCliente().getGrupoCliente()) != null) {
+				if (usuario.consultaPorGrupoCliente()) {
 					sql = sql + "and (remet.grupo = ? or dest.grupo = ?)";
 				} else {
 					sql = sql + " and (mov.cgc_remet = ? or mov.cgc_dest = ?)";
@@ -140,7 +140,7 @@ public class DocumentoDAO implements Serializable {
 
 			if (cliente.equals("null")) {
 
-				if (usuario.consultaPorGrupoCliente()){
+				if (usuario.consultaPorGrupoCliente()) {
 					stm.setInt(3, usuario.getCliente().getGrupoCliente()
 							.getGrupo());
 					stm.setInt(4, usuario.getCliente().getGrupoCliente()
@@ -153,7 +153,7 @@ public class DocumentoDAO implements Serializable {
 
 			} else {
 
-				if (usuario.consultaPorGrupoCliente()){
+				if (usuario.consultaPorGrupoCliente()) {
 					stm.setInt(3, usuario.getCliente().getGrupoCliente()
 							.getGrupo());
 				} else {
@@ -187,7 +187,7 @@ public class DocumentoDAO implements Serializable {
 			String sql = selectDados() + "where nf.n_fiscal = ? "
 					+ "  and mov.status <> 'CA'";
 
-			if (usuario.consultaPorGrupoCliente()){
+			if (usuario.consultaPorGrupoCliente()) {
 				sql = sql + " and (remet.grupo = ? or dest.grupo = ?)";
 			} else {
 				sql = sql + " and (mov.cgc_remet = ? or mov.cgc_dest = ?)";
@@ -197,12 +197,61 @@ public class DocumentoDAO implements Serializable {
 
 			stm.setInt(1, notaFiscal);
 
-			if (usuario.consultaPorGrupoCliente()){
+			if (usuario.consultaPorGrupoCliente()) {
 				stm.setInt(2, usuario.getCliente().getGrupoCliente().getGrupo());
 				stm.setInt(3, usuario.getCliente().getGrupoCliente().getGrupo());
 			} else {
 				stm.setString(2, usuario.getCliente().getCgc());
 				stm.setString(3, usuario.getCliente().getCgc());
+			}
+
+			ResultSet rs = stm.executeQuery();
+
+			while (rs.next()) {
+				documentos.add(populaDocumento(rs));
+			}
+
+			rs.close();
+			stm.close();
+
+			return documentos;
+
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+
+	}
+
+	public List<Documento> listaNotasemAberto() {
+		try {
+
+			List<Documento> documentos = new ArrayList<Documento>();
+			
+			if (usuario==null){
+				return documentos;
+			}
+
+			String sql = selectDados() + " where nf.entrega is null "
+					+ "  and (mov.status <> 'CA')"
+					+ "  and (mov.dt_emissao >= current_timestamp -30)";
+
+			if (usuario.consultaPorGrupoCliente()) {
+				sql = sql + "and (remet.grupo = ? or dest.grupo = ?)";
+			} else {
+				sql = sql + " and (mov.cgc_remet = ? or mov.cgc_dest = ?)";
+			}
+
+			//System.out.println(sql);
+			
+			PreparedStatement stm = this.connection.prepareStatement(sql);
+
+			if (usuario.consultaPorGrupoCliente()) {
+				stm.setInt(1, usuario.getCliente().getGrupoCliente().getGrupo());
+				stm.setInt(2, usuario.getCliente().getGrupoCliente().getGrupo());
+
+			} else {
+				stm.setString(1, usuario.getCliente().getCgc());
+				stm.setString(2, usuario.getCliente().getCgc());
 			}
 
 			ResultSet rs = stm.executeQuery();
@@ -248,8 +297,13 @@ public class DocumentoDAO implements Serializable {
 
 		if (this.servicos.getComprovanteEntrega().equals(
 				Criptografia.md5("SIM"))) {
-			documento.setTemImagem(rs.getString("imagem").equals("SIM"));
-			System.out.println("Tem Imagem");
+			
+			if (rs.getString("imagem")!=null){
+			
+				documento.setTemImagem(rs.getString("imagem").equals("SIM"));
+				System.out.println("Tem Imagem");
+			}
+			
 		} else
 			documento.setTemImagem(false);
 

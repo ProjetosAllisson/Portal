@@ -25,8 +25,23 @@ public class ServicosDisponiveisBean {
 						
 		return (this.getServico().getRastreamento().equals(Criptografia.md5("SIM")));
 	}
+	
+	public boolean financeiro(){
+		if (this.getServico().getFinanceiro()==null){
+			return true;
+		}
+		return (this.getServico().getFinanceiro().equals(Criptografia.md5("SIM")));
+	}
 
 	public void setServico(ServicosDisponiveis servico) {
 		this.servico = servico;
+	}
+	
+	public boolean coleta(){
+		if (this.getServico().getColeta()==null){
+			return false;
+		}
+		
+		return (this.getServico().getColeta().equals(Criptografia.md5("SIM")));
 	}
 }

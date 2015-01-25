@@ -4,10 +4,12 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.faces.context.FacesContext;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -21,6 +23,10 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.servlet.http.HttpSession;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
+import br.com.allisson.modelo.coleta.Coleta;
 import br.com.allisson.util.Criptografia;
 
 @Entity
@@ -65,15 +71,20 @@ public class User implements Serializable {
 	@Transient
 	private Criptografia criptografia = new Criptografia();
 
-	@OneToOne
-	@JoinColumn(name = "cnpj")
+	@OneToOne(fetch=FetchType.EAGER)
+	@JoinColumn(name = "cnpj",updatable=true)
 	@OrderBy("nome")
 	private Cliente cliente;
 
-	@OneToMany
-	@JoinColumn(name = "cod_usuario")
+	@OneToMany(fetch=FetchType.EAGER,cascade=CascadeType.REMOVE)
+	@JoinColumn(name = "cod_usuario",updatable=true)
 	@OrderBy("dt_acesso desc")
 	private List<Acessos> acessos;
+	
+	@OneToMany(mappedBy="user", targetEntity = Coleta.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@Fetch(FetchMode.SUBSELECT)
+	@OrderBy("emissao desc")
+	private List<Coleta> coletas;
 
 	private Boolean grupoClientes;
 
@@ -175,11 +186,19 @@ public class User implements Serializable {
 	}
 
 	public Role getRole() {
+		//if(role==null){
+			//return Role.USER;
+		//}
 		return role;
 	}
 
 	public void setRole(Role role) {
-		this.role = role;
+		//if (role == null){
+			//this.role = Role.USER;
+		//}else{
+			this.role = role;	
+		//}
+		
 
 	}
 
@@ -209,6 +228,16 @@ public class User implements Serializable {
 					&& (this.cliente.getGrupoCliente() != null);
 		}
 	}
+
+	public List<Coleta> getColetas() {
+		return coletas;
+	}
+
+	public void setColetas(List<Coleta> coletas) {
+		this.coletas = coletas;
+	}
+
+	
 	
 	
 }

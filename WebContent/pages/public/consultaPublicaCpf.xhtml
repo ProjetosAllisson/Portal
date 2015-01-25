@@ -10,8 +10,9 @@
 
 
 
-<ui:composition template="/WEB-INF/templates/templateNovo.xhtml">
-	<ui:define name="conteudo">
+<ui:composition template="/pages/protected/templates/Layout.xhtml">
+	<ui:define name="corpo">
+		<h1>Consulta Pública</h1>
 		<h:form id="form">
 			<!--Ajax com status customizado -->
 			<p:ajaxStatus onstart="statusDialog.show()"
@@ -23,20 +24,55 @@
 
 			<p:growl showDetail="true"></p:growl>
 
-			<p:panel header="Consulta Publica">
+			
+			
+					<p:panel header ="Tipo de Pessoa" >
+						<h:selectOneRadio id="cpf-cnpj"
+							value="#{usuariosBean.campoBooleanControle}"
+							title="Selecione qual tipo de Pessoa deseja inserir Jurídca ou Física.">
+							<f:selectItem itemLabel="Jurídica" itemValue="#{true}" />
+							<f:selectItem itemLabel="Física" itemValue="#{false}" />
+							<p:ajax update="documento, CPF" event="change" />
+						</h:selectOneRadio>
+					</p:panel>
+			
+			
+			
+			
 				<h:panelGrid columns="3">
-					<h:outputLabel value="Informe o Cpf" for="txtNome" />
+					
+					
+					
+					<h:outputLabel id="documento"
+							value="#{usuariosBean.campoBooleanControle ? 'Cnpj' : 'Cpf'}" />
+					
+					
+					
+					
 					<p:focus>
-						<p:inputMask mask="999.999.999-99" id="txtNome"
-							value="#{documentosBean.cpf_cnpj}"></p:inputMask>
+							
+							
+						<p:inputMask id="CPF" size="20" value="#{documentosBean.cpf_cnpj}"
+							mask="#{usuariosBean.campoBooleanControle ? '99.999.999/9999-99' : '999.999.999-99'}"
+							required="true"
+							requiredMessage="Campo obrigatÃ³rio nÃ£o preenchido"
+							title="#{usuariosBean.campoBooleanControle ? 'Informe o Cnpj.' : 'Informe o Cpf.'}">
+
+
+						
+						</p:inputMask>
+							
+							
+							
+							
 					</p:focus>
 					<p:commandButton value="Pesquisar" style="font-size:12px;width=40%"
-						action="#{documentosBean.ConsultaPublica}" update="@form"></p:commandButton>
+						actionListener="#{documentosBean.ConsultaPublica}" update="gridDocumentos"></p:commandButton>
 				</h:panelGrid>
 
-			</p:panel>
+			
 
-			<p:dataTable value="#{documentosBean.documentos}" paginator="true"
+			<p:dataTable  value="#{documentosBean.documentos}" paginator="true"
 				paginatorPosition="bottom" rows="10"
 				paginatorTemplate="{CurrentPageReport} {RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
 				rowsPerPageTemplate="3,5,10,15,20" var="documentos"

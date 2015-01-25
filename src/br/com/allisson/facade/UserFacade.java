@@ -214,7 +214,6 @@ public class UserFacade {
 	}
 	
 	public void updateUser(User user){
-		
 		userDAO.beginTransaction();
 		userDAO.update(user);
 		

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+<h:head>
+	<meta charset="UTF-8" />
+	<title><ui:insert name="titulo">Portal de Serviços</ui:insert></title>
+
+	<h:outputStylesheet library="algaworks" name="estilo.css" />
+
+	<h:outputScript library="js" name="jscodes.js" />
+	<h:outputScript library="js" name="enter.js" />
+</h:head>
+<h:body>
+
+	<p:growl showDetail="true"></p:growl>
+
+	<header>
+		<h:outputLink value="http://www.allisson.com.br" target="_blank">
+			<h:graphicImage value="/img/logoAllisson.png"
+				width="140" height="40" />
+			
+		</h:outputLink>
+	</header>
+
+	<h:form>
+		<p:ajaxStatus onstart="statusDialog.show()"
+			onsuccess="statusDialog.hide();" />
+		<p:dialog modal="true" widgetVar="statusDialog" header="Status"
+			draggable="false" closable="false">
+			<h:graphicImage value="/resources/LoadingProgressBar.gif" />
+		</p:dialog>
+		<p:menubar style="margin-top: -20px; margin-bottom: 10px">
+
+
+			<p:submenu label="Consultas"
+				rendered="#{userBean.admin or userBean.defaultUser}">
+				<p:menuitem value="Rastreamento" icon="ui-icon-search"
+					outcome="/pages/protected/defaultUser/documentos.jsf"
+					rendered="#{servDisponiveis.rastreamento()}" />
+				<p:menuitem value="Financeiro" icon="ui-icon-search"
+					outcome="/pages/protected/defaultUser/duplicatas.jsf"
+					rendered="#{servDisponiveis.financeiro()}" />
+			</p:submenu>
+
+			<p:submenu label="Processos" rendered="false">
+				<p:menuitem value="Solicitação de Coleta" icon="ui-icon-newwin"
+					outcome="/pages/protected/defaultUser/coleta.jsf" />
+
+			</p:submenu>
+
+			<p:submenu label="Administrador" rendered="#{userBean.admin}">
+				<p:menuitem value="Todos os Usuarios" icon="ui-icon-person"
+					outcome="/pages/protected/admin/usuarios.jsf" />
+				<p:menuitem value="Autorizar Usuários" icon="ui-icon-person"
+					outcome="/pages/protected/admin/usuariosAutorizar.jsf" />
+				<p:menuitem value="Conta de Email" icon="ui-icon-mail-closed"
+					outcome="/pages/protected/admin/contaEmail.jsf" />
+			</p:submenu>
+			<p:submenu label="Minha conta">
+
+				<p:menuitem value="Login" icon="ui-icon-key"
+					outcome="/pages/public/login.jsf"
+					rendered="#{loginBean.logado==false}" />
+				<p:menuitem value="Sair" icon="ui-icon-power"
+					action="#{loginBean.logOut()}" rendered="#{loginBean.logado}" />
+			</p:submenu>
+
+			<f:facet name="options">
+				<center>
+					<p:commandLink action="/pages/protected/index.jsf"
+						title="Pagina inicial" immediate="true" ajax="false"
+						rendered="#{userBean.admin or userBean.defaultUser}">
+
+						<h:outputText value="Olá #{userBean.user.login}, seja Bem Vindo!"
+							style="font-size:12px;width=40%" />
+					</p:commandLink>
+				</center>
+
+				<c:if test="${userBean.consultaporGrupo == false}">
+					<h:outputText
+						value="Filtragem através do Cliente -  #{userBean.user.cliente.fantasia}"
+						rendered="#{userBean.admin or userBean.defaultUser}" />
+				</c:if>
+
+
+				<c:if test="${userBean.consultaporGrupo}">
+					<h:outputText
+						value="Filtragem através do Grupo de Cliente - #{userBean.user.cliente.grupoCliente.descricao}"
+						rendered="#{userBean.admin or userBean.defaultUser}" />
+				</c:if>
+
+			</f:facet>
+
+		</p:menubar>
+
+
+
+	</h:form>
+
+
+
+	<div id="conteudo">
+		<p:growl id="messageGrowl" />
+		<ui:insert name="corpo"></ui:insert>
+	</div>
+
+	<footer>
+		<ui:include src="bottom.xhtml"></ui:include>
+	</footer>
+
+
+
+
+</h:body>
+</html>

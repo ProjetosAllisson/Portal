@@ -1,18 +1,22 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
-<ui:composition template="/WEB-INF/templates/templateNovo.xhtml"
+<ui:composition template="/pages/protected/templates/Layout.xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
 
-<ui:define name="conteudo">
+	<ui:define name="corpo">
 
-<h:form>
-         <h:outputText value="Usuario cadastrado com sucesso." style="font-size:18px;width=130" />
-          <br />
-         <h:outputText value="Aguarde a liberação de seu acesso!"  style="font-size:18px;width=130"/>
-</h:form>
-</ui:define>
+		<h:form>
+			<center>
+				<h:outputText value="Usuario cadastrado com sucesso."
+					style="font-size:18px;width=130" />
+				<br />
+				<h:outputText value="Aguarde a liberação de seu acesso!"
+					style="font-size:18px;width=130" />
+			</center>
+		</h:form>
+	</ui:define>
 </ui:composition>

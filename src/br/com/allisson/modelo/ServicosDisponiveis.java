@@ -36,6 +36,8 @@ public class ServicosDisponiveis implements Serializable {
 
 	private String rastreamento;
 	private String comprovanteEntrega;
+	private String financeiro;
+	private String coleta;
 
 	public String getRastreamento() {
 		return rastreamento;
@@ -54,6 +56,24 @@ public class ServicosDisponiveis implements Serializable {
 	public void setComprovanteEntrega(String comprovanteEntrega) {
 		this.criptografado = Criptografia.md5(comprovanteEntrega);
 		this.comprovanteEntrega = this.criptografado;
+	}
+
+	public String getFinanceiro() {
+		return financeiro;
+	}
+
+	public void setFinanceiro(String financeiro) {
+		this.criptografado = Criptografia.md5(financeiro);
+		this.financeiro = this.criptografado;
+	}
+
+	public String getColeta() {
+		return coleta;
+	}
+
+	public void setColeta(String coleta) {
+		this.criptografado = Criptografia.md5(coleta);
+		this.coleta = this.criptografado;
 	}
 
 }

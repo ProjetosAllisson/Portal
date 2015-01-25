@@ -1,9 +1,12 @@
 package br.com.allisson.facade;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import br.com.allisson.dao.ClienteDAO;
 import br.com.allisson.modelo.Cliente;
+import br.com.allisson.modelo.Role;
+import br.com.allisson.modelo.User;
 
 public class ClienteFacade {
 	
@@ -34,9 +37,24 @@ public class ClienteFacade {
 	public List<Cliente> allClientesPorNome(String nome){
 		clienteDAO.beginTransaction();
 		
-		List<Cliente> result = clienteDAO.allClientesPorNome(nome);
+		User usuario = new User();
+		usuario = usuario.DevolveUsuarioSessao();
+		
+		List<Cliente> result = new ArrayList<Cliente>();
+		
+		if (usuario == null){
+			return result;
+		}
+		
+		if ((usuario.getRole().equals(Role.USER)) && (usuario.getCliente().getGrupoCliente()!=null)) {
+			result = clienteDAO.allClientesPorNome(nome.toUpperCase(),usuario.getCliente().getGrupoCliente().getGrupo());	
+		}else {
+			result = clienteDAO.allClientesPorNome(nome.toUpperCase(),0);
+		}
+		
 		
 		clienteDAO.closeTransaction();
+		
 		
 		return result;
 	}

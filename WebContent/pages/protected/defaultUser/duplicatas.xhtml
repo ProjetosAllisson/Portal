@@ -7,14 +7,12 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
 
-<ui:composition template="/pages/protected/templates/master.xhtml">
-	<ui:define name="divMain">
-
+<ui:composition template="/pages/protected/templates/Layout.xhtml">
+	<ui:define name="corpo">
+		<h1>Títulos em Aberto</h1>
 		<h:form id="formDuplicatas">
 		
 		
-		<p:tabView>
-			<p:tab title="Títulos em Aberto">
 				<p:dataTable id="tableDuplicatas"
 				value="#{duplicatasBean.duplicatasEmAberto}" var="duplicata" emptyMessage="Parabéns. Nenhum Título em Aberto."
 				rowKey="#{duplicata.id}" selectionMode="single"
@@ -141,8 +139,6 @@
 				</p:dataTable>
 				
 			
-			</p:tab>
-		</p:tabView>		
 			
 
 		</h:form>

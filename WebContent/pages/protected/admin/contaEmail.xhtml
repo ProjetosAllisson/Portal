@@ -11,14 +11,16 @@
 <h:body>
 		
 
-	<ui:composition template="/pages/protected/templates/master.xhtml">
-	
-		<ui:define name="divMain">
+	<ui:composition template="/pages/protected/templates/Layout.xhtml">
+		<ui:define name="titulo">Cadastro de Conta de Email</ui:define>
+		<ui:define name="corpo">
 
+			<h1>Cadastro de Conta de Email</h1>
 
 			<h:form id="contaEmailForm" rendered="#{userBean.admin}">
 
-				<p:panel header="Cadastro de Conta de Email">
+				
+				<p:panel >
 					<h:panelGrid columns="2" cellpadding="5">
 					
 				
@@ -66,7 +68,7 @@
 							update="@form"></h:commandButton>
 					
 				</p:panel>				
-
+				
 
 
 

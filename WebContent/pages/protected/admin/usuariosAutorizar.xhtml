@@ -7,8 +7,10 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
 
-<ui:composition template="/pages/protected/templates/master.xhtml">
-	<ui:define name="divMain">
+<ui:composition template="/pages/protected/templates/Layout.xhtml">
+	<ui:define name="titulo">Autorizar Usuários</ui:define>
+	<ui:define name="corpo">
+		<h1>Autorizar Usuários</h1>
 
 		<h:form id="usuariosAutorizarForm" rendered="#{userBean.admin}">
 			<p:dataTable id="usuariosAutorizarTable" var="user"
@@ -31,7 +33,7 @@
 				</p:column>
 
 			</p:dataTable>
-			<p:commandButton id="multiAutorizarButton" title="Auor" value="Autorizar" ajax="false" update=":usuariosAutorizarTable"  
+			<p:commandButton id="multiAutorizarButton" title="Auor" value="Autorizar" update="usuariosAutorizarTable" 
 				action="#{usuariosBean.autorizaUsuarios}">
 				
 				</p:commandButton>

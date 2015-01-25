@@ -139,6 +139,7 @@ abstract class GenericDAO<T> implements Serializable {
             
             System.out.println("Selecao"+namedQuery);
             
+            
             result = query.getResultList();
             
             System.out.println("Encontrou!!");

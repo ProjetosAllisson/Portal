@@ -4,8 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 
 import org.brazilutils.br.cpfcnpj.CpfCnpj;
 
@@ -13,11 +12,11 @@ import br.com.allisson.facade.ClienteFacade;
 import br.com.allisson.modelo.Cliente;
 
 @ManagedBean(name = "clienteBean")
-@SessionScoped
+@ViewScoped
 public class ClienteBean {
 
-	@ManagedProperty(value = UsuariosBean.INJECTION_NAME)
-	private UsuariosBean usuariosBean;
+	//@ManagedProperty(value = UsuariosBean.INJECTION_NAME)
+	//private UsuariosBean usuariosBean;
 
 	private Cliente cliente;
 	private List<Cliente> clientes;
@@ -44,13 +43,13 @@ public class ClienteBean {
 			if (cpf.isCpf()) {
 				System.out.println(cpf.toString());
 				setCliente(getClienteFacade().localiza(cpf.toString()));
-				usuariosBean.setCliente(getCliente());
+				//usuariosBean.setCliente(getCliente());
 
 			} else {
 				if (cpf.isCnpj()) {
 
 					setCliente(getClienteFacade().localiza(cpf.toString()));
-					usuariosBean.setCliente(getCliente());
+					//usuariosBean.setCliente(getCliente());
 				}
 			}
 
@@ -109,13 +108,13 @@ public class ClienteBean {
 		this.nomeCliente = nomeCliente.toUpperCase();
 	}
 
-	public UsuariosBean getUsuariosBean() {
-		return usuariosBean;
-	}
+	//public UsuariosBean getUsuariosBean() {
+		//return usuariosBean;
+	//}
 
-	public void setUsuariosBean(UsuariosBean usuariosBean) {
-		this.usuariosBean = usuariosBean;
-	}
+	//public void setUsuariosBean(UsuariosBean usuariosBean) {
+		//this.usuariosBean = usuariosBean;
+	//}
 
 	public List<Cliente> getClientes() {
 		return clientes;
@@ -137,7 +136,7 @@ public class ClienteBean {
 		this.setDisabled(true);
 		if (this.clienteSelecionado != null) {
 			this.setDisabled(false);
-			this.usuariosBean.setCliente(this.clienteSelecionado);
+			//this.usuariosBean.setCliente(this.clienteSelecionado);
 
 			resetClientes();
 		}

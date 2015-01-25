@@ -1,0 +1,104 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:body>
+
+	<p:dialog widgetVar="usuarioExternoDialogWidget"
+		id="usuarioExternoDialogId" height="300px" width="700px" modal="true"
+		appendTo="@(body)" closable="true" draggable="false" resizable="false">
+		<h:form id="usuarioExternoDialogForm">
+			<p:fieldset legend="Inserindo Usuário">
+
+				<p:separator></p:separator>
+
+				<center>
+					<h:panelGrid columns="3">
+
+						<h:outputLabel value="Tipo de Pessoa" />
+						<h:selectOneRadio id="cpf-cnpj"
+							value="#{usuariosBean.campoBooleanControle}"
+							title="Selecione qual tipo de Pessoa deseja inserir Jurídca ou Física.">
+							<f:selectItem itemLabel="Jurídica" itemValue="#{true}" />
+							<f:selectItem itemLabel="Física" itemValue="#{false}" />
+							<p:ajax update="documento, CPF" event="change" />
+						</h:selectOneRadio>
+						<br></br>
+
+
+						<h:outputLabel id="lblLogin" for="txtLogin" value="Login" />
+						<p:inputText id="txtLogin" value="#{usuariosBean.usuario.login}"
+							size="20" maxlength="20" required="true"
+							requiredMessage="Informe o Login" />
+
+						<br></br>
+						<h:outputLabel for="senha" value="Senha:" />
+						<p:password value="#{usuariosBean.usuario.senha}" id="senha"
+							required="true" label="senha" autocomplete="false"
+							feedback="true" requiredMessage="Senha Ã© campo obrigatÃ³rio" />
+
+						<br></br>
+
+
+						<h:outputLabel id="documento"
+							value="#{usuariosBean.campoBooleanControle ? 'Cnpj' : 'Cpf'}" />
+						<p:inputMask id="CPF" size="20" value="#{usuariosBean.cnpj}"
+							mask="#{usuariosBean.campoBooleanControle ? '99.999.999/9999-99' : '999.999.999-99'}"
+							required="true"
+							requiredMessage="Campo obrigatÃ³rio nÃ£o preenchido"
+							title="#{usuariosBean.campoBooleanControle ? 'Informe o Cnpj.' : 'Informe o Cpf.'}">
+
+
+							<p:ajax event="keyup"
+								listener="#{clienteBean.localizaCliente(usuariosBean.cliente.cgc)}"
+								update="incluiUsuario,nomeCliente"></p:ajax>
+
+						</p:inputMask>
+
+
+
+						<h:outputText id="nomeCliente" value="#{clienteBean.cliente.nome}" />
+
+						<h:outputText value="E-mail" />
+						<p:inputText id="email" label="email" size="40"
+							value="#{usuariosBean.usuario.email}">
+						</p:inputText>
+						<p:watermark for="email" value="Endereço de e-mail *" />
+
+						<h:outputText value="" />
+
+
+					</h:panelGrid>
+				</center>
+				<p:separator></p:separator>
+
+				<h:panelGrid columns="4" width="100%" style="text-align:right">
+					<p:spacer width="200" height="1"></p:spacer>
+
+					<p:commandButton id="incluiUsuario" value="Inserir Usuário"
+						actionListener="#{usuariosBean.InserirUsuarioExterno}"
+						disabled="#{clienteBean.disabled}" update=":growl"
+						oncomplete="if (!args.validationFailed) {usuarioExternoDialogWidget.hide();}" />
+
+
+					<p:commandButton value="Cancela" icon="ui-icon-cancel"
+						title="Cancela Inclusão"
+						actionListener="#{usuariosBean.resetUser()}"
+						onclick="PF('usuarioExternoDialogWidget').hide();" type="button" />
+
+				</h:panelGrid>
+
+			</p:fieldset>
+		</h:form>
+	</p:dialog>
+
+
+</h:body>
+
+
+
+</html>

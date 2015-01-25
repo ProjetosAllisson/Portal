@@ -18,7 +18,7 @@
 				legend="Novo Login/Senha  -  #{usuariosBean.usuarioSelecionado.login}">
 				<p:separator></p:separator>
 
-				<p:panelGrid columns="3" styleClass="semBorda">
+				<h:panelGrid columns="3" styleClass="semBorda">
 					<h:outputText value="Login" />
 
 					<p:inputText value="#{usuariosBean.usuarioSelecionado.login}"
@@ -41,20 +41,20 @@
 					<br></br>
 					
 				 -->
-				</p:panelGrid>
+				</h:panelGrid>
 
 				<p:separator></p:separator>
 
 
-				<p:panelGrid columns="4" width="100%" style="text-align:right"
+				<h:panelGrid columns="4" width="100%" style="text-align:right"
 					styleClass="semBorda">
 
 
 
 					<p:spacer width="100" height="10"></p:spacer>
 					<p:commandButton value="Confirma" icon="ui-icon-circle-check"
-						title="Confirma Alteração" action="#{usuariosBean.updateUser()}"
-						update="usuariosNovaSenhaForm" ajax="false" 
+						title="Confirma Alteração" actionListener="#{usuariosBean.updateUser()}"
+						update="usuariosNovaSenhaForm"  
 						oncomplete="closeDialogIfSucess(xhr, status, args, usuariosNovaSenhaWidget, 'usuariosNovaSenhaId')" />
 
 
@@ -62,7 +62,7 @@
 						title="Cancela Alteração" actionListener="#{userBean.resetUser()}" update="@form"
 						onclick="usuariosNovaSenhaWidget.hide();" type="button" />
 
-				</p:panelGrid>
+				</h:panelGrid>
 
 			</p:fieldset>
 

@@ -5,9 +5,10 @@ import java.io.IOException;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.RequestScoped;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.primefaces.context.RequestContext;
@@ -18,7 +19,7 @@ import br.com.allisson.modelo.User;
 import br.com.allisson.util.Criptografia;
 
 @ManagedBean(name = "loginBean")
-@RequestScoped
+@SessionScoped
 public class LoginBean extends AbstractMB {
 
 	@ManagedProperty(value = UserBean.INJECTION_NAME)
@@ -32,9 +33,7 @@ public class LoginBean extends AbstractMB {
 
 	private HttpSession session;
 
-	private int tempoSessao = 20; // minutos
-	private int fimSessao = 20;// segundos
-
+	
 	private boolean logado = false;
 
 	@PostConstruct
@@ -79,6 +78,9 @@ public class LoginBean extends AbstractMB {
 		this.autenticacao();
 
 		if (logado) {
+			
+			return "/pages/protected/index.jsf?faces-redirect=true";
+			/*
 			try {
 				FacesContext.getCurrentInstance().getExternalContext()
 						.redirect("../protected/index.jsf");
@@ -87,43 +89,22 @@ public class LoginBean extends AbstractMB {
 				e.printStackTrace();
 			}
 
+			*/
 		}
 		return null;
 
 	}
 
-	public void autenticaLoginFrame() {
+	public String autenticaLoginFrame() {
 
 		this.autenticacao();
 		
-		if (logado) {
-			try {
-				FacesContext.getCurrentInstance().getExternalContext()
-						.redirect("../protected/index.jsf");
+		if (logado) 
+			return "/pages/protected/index.jsf?faces-redirect=true";
 
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-
-		}else {
-
-			try {
-				FacesContext.getCurrentInstance().getExternalContext()
-						.redirect("loginSemAcesso.jsf");
-
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-
-			FacesContext fc = FacesContext.getCurrentInstance();
-			ExternalContext ec = fc.getExternalContext();
-			HttpSession session = (HttpSession) ec.getSession(false);
-
-			session.removeAttribute("usuarioAutenticado");
-			session.invalidate();
-
-		}
-
+		else
+			return "loginSemAcesso.jsf?faces-redirect=true";
+		
 	}
 
 	private void autenticacao() {
@@ -164,63 +145,34 @@ public class LoginBean extends AbstractMB {
 
 	}
 
-	public void registraSaida() {
+	private HttpServletRequest getRequest() {
+		return (HttpServletRequest) FacesContext.getCurrentInstance()
+				.getExternalContext().getRequest();
+	}
+	
+	
+	public String logOut() {
 		FacesContext fc = FacesContext.getCurrentInstance();
 		ExternalContext ec = fc.getExternalContext();
 		HttpSession session = (HttpSession) ec.getSession(false);
 
 		session.removeAttribute("usuarioAutenticado");
 		session.invalidate();
-
-		try {
-			FacesContext.getCurrentInstance().getExternalContext()
-					.redirect("login.jsf");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
+		
+		getRequest().getSession().invalidate();
+		
+		userBean = null;
+		
+		
+		logado=false;
+		
+		return "/pages/public/login.jsf?faces-redirect=true";
+		
 	}
 
-	public void decrementar() {
-		tempoSessao--;
-		if (tempoSessao == 0) {
-			try {
-				FacesContext.getCurrentInstance().getExternalContext()
-						.redirect("sessaoExpirada.jsf");
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			// this.registraSaida(); //redirecionar para a pagina de sessão
-			// expirada
-		}
-
-	}
-
-	public int getTempoSessao() {
-		return tempoSessao;
-	}
-
-	public void setTempoSessao(int tempoSessao) {
-		this.tempoSessao = tempoSessao;
-	}
-
-	public void decrementarFimSessao() {
-		fimSessao--;
-		if (fimSessao == 0) {
-			this.registraSaida();
-		}
-	}
-
-	public int getFimSessao() {
-		return fimSessao;
-	}
-
-	public void setFimSessao(int fimSessao) {
-		this.fimSessao = fimSessao;
-	}
-
+		
+	
+	
 	public boolean isLogado() {
 		return logado;
 	}

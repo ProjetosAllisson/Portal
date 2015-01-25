@@ -10,7 +10,7 @@
 
 
 	<p:dialog widgetVar="usuariosInsertDialogWidget"
-		id="usuariosInsertDialogId" height="380" width="800" modal="true"
+		id="usuariosInsertDialogId" height="380px" width="900px" modal="true"
 		appendTo="@(body)" closable="true" draggable="false"
 		resizable="false">
 		<h:form id="usuariosInsertDialogForm">
@@ -18,28 +18,41 @@
 
 				<p:separator></p:separator>
 
-				<p:panelGrid columns="3" styleClass="semBorda">
+				<h:panelGrid columns="3" >
 					<h:outputText value="Login" />
 
-					<p:inputText value="#{usuariosBean.usuario.login}" required="true"
-						maxlength="20" requiredMessage="Login obrigatório"></p:inputText>
+					<p:inputText id="login" value="#{usuariosBean.usuario.login}" required="true"
+						maxlength="20" requiredMessage="Login obrigatório" ></p:inputText>
 
 					<br></br>
 					<h:outputLabel for="senha" value="Senha:" />
 					<p:password value="#{usuariosBean.usuario.senha}" id="senha"
-						required="true" label="senha" autocomplete="false" feedback="true"
+						required="true" label="senha" autocomplete="false" feedback="true" 
 						requiredMessage="Senha é campo obrigatório" />
 					<br></br>
 
 
 					<br></br>
 
-					<p:commandLink value="Busca Cliente" title="Localiza Clientes" 
-						onclick="buscaClienteDialogWidget.show();">
-						 
-					</p:commandLink>
+					<h:outputText value="Informe o nome do Cliente" />
 					
-					<h:outputText id="nomeCliente" value="#{clienteBean.clienteSelecionado.nome}" />
+					<p:autoComplete value="#{usuariosBean.clienteSelecionado}" 
+					     id="basicPojoCliente" completeMethod="#{usuariosBean.completeCliente}" size="80" immediate="true"  
+					     var="c" itemLabel="#{c.nome}"  itemValue="#{c}" converter="clienteConverter" forceSelection="true" minQueryLength="4" queryDelay="1000" scrollHeight="200"
+					     required="true" requiredMessage="Cliente é um campo obrigatório">
+					     
+					     <f:facet name="itemtip">
+							<h:panelGrid columns="2" cellpadding="5">
+								
+								<h:outputText value="Cgc:" />
+								<h:outputText value="#{c.cgc}" />
+
+								<h:outputText value="Nome" />
+								<h:outputText value="#{c.nome}" />
+							</h:panelGrid>
+						</f:facet>
+
+					 </p:autoComplete>    
 					<br />
 
 					<h:outputText value="Acesso Autorizado ?" />
@@ -49,6 +62,17 @@
 
 					<br></br>
 
+
+
+					
+					
+					<h:outputText value="Perfil" />
+					<p:selectOneMenu id="perfil" value="#{usuariosBean.usuarioSelecionado.role}" immediate="true">
+						<f:selectItem itemLabel="Selecionar" itemValue=""/>
+						<f:selectItems value="#{usuariosBean.perfis}" var="p" itemValue="#{p}" itemLabel="#{p.value}"/>
+					
+					</p:selectOneMenu>
+					<br></br>
 
 
 					<h:outputText value="E-mail" />
@@ -68,26 +92,26 @@
 						onLabel="Sim" offLabel="Não" onIcon="ui-icon-check"
 						offIcon="ui-icon-close"></p:selectBooleanButton>
 					
-				</p:panelGrid>
+				</h:panelGrid>
 
 				<p:separator></p:separator>
 
-				<p:panelGrid columns="4" width="100%" style="text-align:right"
+				<h:panelGrid columns="4" width="100%" style="text-align:right"
 					styleClass="semBorda">
 					<p:spacer width="400" height="10"></p:spacer>
 					<p:commandButton id="cmdInserir" value="Inclui" icon="ui-icon-circle-check"
-						ajax="false" title="Confirma Inclusão"
+						title="Confirma Inclusão"
 						action="#{usuariosBean.InserirUsuario}"
 						update=":messageGrowl :usuariosForm:usuariosTable"
-						oncomplete="usuariosInsertDialogWidget.hide();" disabled="#{clienteBean.disabled}"/>
+						oncomplete="closeDialogIfSucess(xhr, status, args, usuariosInsertDialogWidget, 'usuariosInsertDialogId')" />
 
 
 					<p:commandButton value="Cancela" icon="ui-icon-cancel"
 						title="Cancela Inclusão"
 						actionListener="#{usuariosBean.resetUser()}"
-						onclick="usuariosInsertDialogWidget.hide();" type="button" />
+						onclick="PF('usuariosInsertDialogWidget').hide();" type="button" />
 
-				</p:panelGrid>
+				</h:panelGrid>
 			</p:fieldset>
 		</h:form>
 	</p:dialog>

@@ -18,7 +18,6 @@ import br.com.allisson.util.Geral;
 @WebFilter(servletNames = { "Faces Servlet" })
 public class ControleDeAcesso implements Filter {
 
-
 	@Override
 	public void destroy() {
 		// TODO Auto-generated method stub
@@ -29,62 +28,58 @@ public class ControleDeAcesso implements Filter {
 	public void doFilter(ServletRequest request, ServletResponse response,
 			FilterChain chain) throws IOException, ServletException {
 
-		// HttpServletRequest req = (HttpServletRequest) request;
-		// HttpSession session = req.getSession();
-
-		// System.out.println(req.getRequestURI());
-
+		
 		try {
 			HttpServletRequest httpReq = (HttpServletRequest) request;
-			HttpServletResponse httpRes = (HttpServletResponse) response;
 			HttpSession session = httpReq.getSession(true);
-			
-			
+
 			String url = httpReq.getRequestURL().toString();
-			
+
 			String uri = httpReq.getRequestURI().toString();
 
-			if (Geral.getCaminhoURL()==null){
-				
+			if (Geral.getCaminhoURL() == null) {
+
 				String url_principal = "";
-				
+
 				int index = url.indexOf(uri);
-				int iBarras= 0;
-				if (index > 0){
-					for (int i =0; i< index; i++) {
+				int iBarras = 0;
+				if (index > 0) {
+					for (int i = 0; i < index; i++) {
 						url_principal += url.charAt(i);
 					}
-					
-					for (int i =0; i<uri.length();i++){
-						
+
+					for (int i = 0; i < uri.length(); i++) {
+
 						String barra = "";
-						
+
 						barra += uri.charAt(i);
-						
-						if(barra.equals("/")){
-							iBarras+=1;
+
+						if (barra.equals("/")) {
+							iBarras += 1;
 						}
-																
+
 						url_principal += uri.charAt(i);
-						
-						if (iBarras==2){
+
+						if (iBarras == 2) {
 							break;
 						}
-						
+
 					}
 				}
-				
+
 				Geral.setCaminhoURL(url_principal);
 			}
-			
+
 			System.out.println(Geral.getCaminhoURL());
-			
+
 			if (session.getAttribute("usuarioAutenticado") == null
 					&& precisaAutenticar(url)) {
-				
-				System.out.println(httpReq.getContextPath());
-				
-				httpRes.sendRedirect(httpReq.getContextPath() + "/pages/public/login.jsf");
+
+				String contextPath = ((HttpServletRequest) request)
+						.getContextPath();
+				((HttpServletResponse) response).sendRedirect(contextPath
+						+ "/pages/public/login.jsf");
+
 			} else {
 				chain.doFilter(request, response);
 			}
@@ -92,18 +87,26 @@ public class ControleDeAcesso implements Filter {
 			e.printStackTrace();
 		}
 
-	
 	}
 
 	private boolean precisaAutenticar(String url) {
 
+		
 		return !url.endsWith("javax.faces.resource/theme.css.jsf")
 				&& !url.endsWith("http://primefaces.org/ui")
-				
+
 				&& !url.endsWith("http://superfish.com/ws/sf_main.jsp")
-				
+
 				&& !url.endsWith("javax.faces.resource/ilogin.png.jsf")
-				&& !url.endsWith("javax.faces.resource/primefaces.css.jsf")
+				&& !url.contains("javax.faces.resource/primefaces.css.jsf")
+
+				&& !url.contains("primefaces.css.jsf")
+				&& !url.contains("primefaces.js")
+				&& !url.contains("jquery-plugins.js")
+				&& !url.contains("watermark.js")
+				&& !url.contains("watermark.css")
+				&& !url.contains("password-meter")
+
 				&& !url.endsWith("javax.faces.resource/images/header.png.jsf")
 				&& !url.endsWith("javax.faces.resource/master.css.jsf")
 				&& !url.endsWith("javax.faces.resource/images/ui-icons_72a7cf_256x240.png.jsf")
@@ -111,24 +114,25 @@ public class ControleDeAcesso implements Filter {
 				&& !url.endsWith("javax.faces.resource/layout/layout.css.jsf")
 				&& !url.endsWith("javax.faces.resource/style.css.jsf")
 				&& !url.endsWith("javax.faces.resource/theme.css.jsf")
-				&& !url.contains("login.jsf") && !url.endsWith(".css")
+				&& !url.contains("login.jsf")
+				&& !url.endsWith(".css")
 				&& !url.contains("loginFrame.jsf")
 				&& !url.contains("loginSemAcesso.jsf")
-				&& !url.endsWith(".js") && !url.endsWith(".jpg")
-				&& !url.endsWith(".gif") && !url.endsWith(".js.jsf")
+				&& !url.endsWith(".js")
+				&& !url.endsWith(".jpg")
+				&& !url.endsWith(".gif")
+				&& !url.endsWith(".js.jsf")
 				&& !url.endsWith("consultaPublicaCpf.jsf")
 				&& !url.endsWith("consultaPublicaCnpj.jsf")
 				&& !url.endsWith("usuario.jsf")
 				&& !url.endsWith("usuario_sucesso.jsf")
 				&& !url.endsWith("autorizarAcessoURL.jsf")
-				
+
 				&& !url.endsWith("javax.faces.resource/layout/layout.css.jsf")
 				&& !url.endsWith("javax.faces.resource/watermark/watermark.css.jsf")
 				&& !url.endsWith("javax.faces.resource/normalize.css.jsf")
-				&& !url.endsWith("javax.faces.resource/jquery/jquery.js.jsf")
-				
+				&& !url.contains("jquery.js.jsf")
 
-				
 				&& !url.endsWith("javax.faces.resource/resources/imagens/bg.gif");
 
 	}

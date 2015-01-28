@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.event.ActionEvent;
 
 import org.brazilutils.br.cpfcnpj.CpfCnpj;
 
@@ -33,6 +34,10 @@ public class ClienteBean {
 		// clienteSelecionado = new Cliente();
 	}
 
+	public void resetCliente(ActionEvent event){
+		cliente = new Cliente();
+	}
+	
 	public void localizaCliente(String cliente) {
 		if (!cliente.equals("")) {
 

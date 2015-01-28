@@ -6,8 +6,6 @@ import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
-import org.primefaces.model.LazyDataModel;
-
 import br.com.allisson.bean.converter.ClienteConverter;
 import br.com.allisson.facade.ClienteFacade;
 import br.com.allisson.facade.UserFacade;
@@ -37,9 +35,9 @@ public class UsuariosBean extends AbstractMB {
 
 	private boolean campoBooleanControle;
 
-	private LazyDataModel<User> lazyModel;
-
+	
 	public UsuariosBean() {
+		this.cnpj ="";
 		resetUser();
 		this.completeCliente("");
 	}

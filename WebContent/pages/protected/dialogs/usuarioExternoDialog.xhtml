@@ -17,7 +17,7 @@
 				<p:separator></p:separator>
 
 				<center>
-					<h:panelGrid columns="3">
+					<h:panelGrid columns="2">
 
 						<h:outputLabel value="Tipo de Pessoa" />
 						<h:selectOneRadio id="cpf-cnpj"
@@ -27,7 +27,6 @@
 							<f:selectItem itemLabel="Física" itemValue="#{false}" />
 							<p:ajax update="documento, CPF" event="change" />
 						</h:selectOneRadio>
-						<br></br>
 
 
 						<h:outputLabel id="lblLogin" for="txtLogin" value="Login" />
@@ -35,14 +34,13 @@
 							size="20" maxlength="20" required="true"
 							requiredMessage="Informe o Login" />
 
-						<br></br>
+						
 						<h:outputLabel for="senha" value="Senha:" />
 						<p:password value="#{usuariosBean.usuario.senha}" id="senha"
 							required="true" label="senha" autocomplete="false"
 							feedback="true" requiredMessage="Senha Ã© campo obrigatÃ³rio" />
 
-						<br></br>
-
+						
 
 						<h:outputLabel id="documento"
 							value="#{usuariosBean.campoBooleanControle ? 'Cnpj' : 'Cpf'}" />
@@ -60,7 +58,7 @@
 						</p:inputMask>
 
 
-
+						<br></br>
 						<h:outputText id="nomeCliente" value="#{clienteBean.cliente.nome}" />
 
 						<h:outputText value="E-mail" />
@@ -69,8 +67,7 @@
 						</p:inputText>
 						<p:watermark for="email" value="Endereço de e-mail *" />
 
-						<h:outputText value="" />
-
+						
 
 					</h:panelGrid>
 				</center>
@@ -87,7 +84,7 @@
 
 					<p:commandButton value="Cancela" icon="ui-icon-cancel"
 						title="Cancela Inclusão"
-						actionListener="#{usuariosBean.resetUser()}"
+						actionListener="#{clienteBean.resetCliente}" update=":growl"
 						onclick="PF('usuarioExternoDialogWidget').hide();" type="button" />
 
 				</h:panelGrid>

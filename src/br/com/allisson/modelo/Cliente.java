@@ -29,7 +29,7 @@ import br.com.allisson.modelo.coleta.Coleta;
 @NamedQueries({
 	@NamedQuery(name = "Cliente.findCliente", query ="select u from Cliente u where u.cgc = :cgc"),
 	@NamedQuery(name = "Cliente.allClientes", query ="select u from Cliente u join fetch u.grupoCliente where u.ult_acesso is not null and u.ult_acesso between :start and :end "),
-	@NamedQuery(name = "Cliente.porNomeCliente", query ="select u from Cliente u where u.nome like :nome"),
+	@NamedQuery(name = "Cliente.porNomeCliente", query ="select u from Cliente u where u.nome like :nome or u.fantasia like :nome"),
 	@NamedQuery(name = "Cliente.porNomeGrupo"  , query ="select u from Cliente u where u.nome like :nome and u.grupoCliente.grupo =:grupo order by u.nome"),
 })
 

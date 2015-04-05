@@ -21,7 +21,7 @@ abstract class GenericDAO<T> implements Serializable {
 	
 	private static final EntityManagerFactory emf = Persistence.createEntityManagerFactory("Portal");
 	
-	private EntityManager em;
+	public static EntityManager em;
 	
 	private Class<T> entityClass;
 	
@@ -127,6 +127,7 @@ abstract class GenericDAO<T> implements Serializable {
         List<T> result = null;
  
         try {
+        	 System.out.println("Selecao"+namedQuery);
             Query query = em.createNamedQuery(namedQuery);
  
             
@@ -137,7 +138,7 @@ abstract class GenericDAO<T> implements Serializable {
             }
  
             
-            System.out.println("Selecao"+namedQuery);
+           
             
             
             result = query.getResultList();
@@ -165,5 +166,8 @@ abstract class GenericDAO<T> implements Serializable {
             query.setParameter(entry.getKey(), entry.getValue());
         }
     }
+    
+	
+
 	
 }

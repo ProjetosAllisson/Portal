@@ -15,14 +15,16 @@
 
 		<ui:define name="corpo">
 
-			<h1>Consulta de Usuários</h1>
+			<p:panel>
+					<h1>Consulta de Usuários</h1>
+				</p:panel>
 
 			<h:form id="usuariosForm" rendered="#{userBean.admin}">
 
 				<p:toolbar>
 
 					<p:toolbarGroup align="left">
-				
+
 
 						<p:commandLink title="Incluir Usuário"
 							update=":usuariosInsertDialogForm"

@@ -62,12 +62,24 @@ public class DocumentosBean {
 	/*
 	 * 
 	 */
+	
+	//private DocumentoViewFacade documentoViewFacade = new DocumentoViewFacade();
 
 	public DocumentosBean() {
 		documentoDao = new DocumentoDAO();
 		fotoFacade = new ComprovanteEntregaFacade();
 		
-		documentos = documentoDao.listaNotasemAberto();
+		//documentos = documentoDao.listaNotasemAberto();
+		//listaFotoComprovante(documentos);
+		
+		
+		//List<DocumentoView> documentosView = new ArrayList<DocumentoView>();
+		
+		//documentosView.addAll(documentoViewFacade.notasEmAberto());
+		
+		//for (DocumentoView doc : documentosView) {
+			//System.out.println(doc.getId().getDocumento()+"  "+doc.getSaida_entrega().getTime());
+		//}
 	}
 	
 	public void onTabChange(TabChangeEvent event){
@@ -133,11 +145,7 @@ public class DocumentosBean {
 
 	
 	public void ConsultaPublica() {
-		if (this.documentos == null) {
-
-			documentos = documentoDao.listaConsultaPublica(this.cpf_cnpj);
-
-		}
+		documentos = documentoDao.listaConsultaPublica(this.cpf_cnpj);
 	}
 
 	public Documento getDocumento() {

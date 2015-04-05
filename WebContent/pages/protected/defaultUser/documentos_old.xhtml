@@ -1,0 +1,260 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+
+<h:body>
+	<ui:composition template="/pages/protected/templates/Layout.xhtml">
+		<ui:define name="corpo">
+
+			<h:form id="form">
+
+
+				<p:tabView>
+					<p:ajax event="tabChange" listener="#{documentosBean.onTabChange}"
+						update=":form:gridDocumentos"></p:ajax>
+					<p:tab title="Notas em Transito" id="notasEmAberto">
+						<h1>Notas em Transito</h1>
+					</p:tab>
+					<p:tab title="Pesquisa por Período">
+						<h:panelGrid columns="7">
+
+							<h:outputLabel value="Data Inicial" for="txtDataInicio" />
+
+							<p:calendar id="txtDataInicio" pattern="dd/MM/yyyy"
+								locale="pt_BR" value="#{documentosBean.dataInicio}"
+								maxlength="10" style="font-size:12px;heigth=30"
+								converterMessage="Data Invalida. Exemplo 01/01/2013">
+
+							</p:calendar>
+
+							<h:outputLabel value="Data Final" for="txtDataTermino" />
+
+							<p:calendar id="txtDataTermino" pattern="dd/MM/yyyy"
+								locale="pt_BR" value="#{documentosBean.dataTermino}"
+								maxlength="10" style="font-size:12px;width=130">
+							</p:calendar>
+
+							<h:outputLabel value="Posição no Frete" for="selectCliente" />
+							<h:selectOneMenu id="selectCliente"
+								value="#{documentosBean.cliente}">
+								<f:selectItem itemValue="null" itemLabel="Ambas" />
+								<f:selectItem itemValue="remet" itemLabel="Remetente" />
+								<f:selectItem itemValue="dest" itemLabel="Destinatario" />
+							</h:selectOneMenu>
+
+							<p:commandButton value="Pesquisar"
+								style="font-size:12px;width=40%"
+								action="#{documentosBean.documentosPorPeriodo}"
+								rendered="#{servDisponiveis.rastreamento()}"
+								update=":form:gridDocumentos"></p:commandButton>
+
+
+
+						</h:panelGrid>
+					</p:tab>
+
+					<p:tab title="Pesquisa por Nota Fiscal">
+						<h:panelGrid columns="7">
+							<h:outputLabel value="Nota Fiscal:" for="edtNotaFiscal" />
+							<p:inputText id="edtNotaFiscal"
+								value="#{documentosBean.notafiscal}"
+								converterMessage="Campo nota fiscal é Numérico">
+								<f:convertNumber integerOnly="true" maxIntegerDigits="9" />
+							</p:inputText>
+
+							<p:commandButton value="Pesquisar"
+								style="font-size:12px;width=40%"
+								action="#{documentosBean.documentosPorNotaFiscal}"
+								update=":form:gridDocumentos"></p:commandButton>
+
+						</h:panelGrid>
+					</p:tab>
+				</p:tabView>
+
+
+
+
+				<p:dataTable value="#{documentosBean.documentos}" paginator="true"
+					paginatorPosition="bottom" rows="20"
+					paginatorTemplate="{CurrentPageReport} {RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+					rowsPerPageTemplate="3,5,10,15,20" var="documentos"
+					id="gridDocumentos" emptyMessage="Nenhum registro encontrado"
+					rowKey="#{documentos.documento}" selectionMode="single"
+					selection="#{documentosBean.documentoSelecionado}">
+					<f:facet name="header">
+			 			 Lista de Documentos
+					</f:facet>
+
+					<p:column style="font-size:11px;width=40%"
+						sortBy="#{documentos.documento}">
+						<f:facet name="header">
+							<h:outputText value="Documento" />
+						</f:facet>
+						<h:outputText value="#{documentos.documento}" />
+					</p:column>
+
+					<p:column style="font-size:11px;" sortBy="#{documentos.nota}">
+
+
+						<f:facet name="header">
+							<h:outputText value="NF" />
+						</f:facet>
+						<h:outputText value="#{documentos.nota}">
+							<f:convertNumber pattern="########0" minIntegerDigits="9" />
+						</h:outputText>
+					</p:column>
+
+
+					<p:column style="font-size:11px;" sortBy="#{documentos.emissao}">
+						<f:facet name="header">
+							<h:outputText value="Emissao Nf" />
+						</f:facet>
+						<h:outputText value="#{documentos.emissao}">
+							<f:convertDateTime pattern="dd/MM/yy" />
+						</h:outputText>
+
+					</p:column>
+
+					<p:column style="font-size:11px;" sortBy="#{documentos.embarque}"
+						rendered="#{configDocumentosBean.colunaEmbarque}">
+						<f:facet name="header">
+							<h:outputText value="Embarque" />
+						</f:facet>
+						<h:outputText value="#{documentos.embarque}">
+							<f:convertDateTime pattern="dd/MM/yy" />
+						</h:outputText>
+					</p:column>
+
+					<p:column style="font-size:11px;" sortBy="#{documentos.chegada}"
+						rendered="#{configDocumentosBean.colunaChegada}">
+						<f:facet name="header">
+							<h:outputText value="Chegada" />
+						</f:facet>
+						<h:outputText value="#{documentos.chegada}">
+							<f:convertDateTime pattern="dd/MM/yy" />
+						</h:outputText>
+					</p:column>
+
+
+					<p:column style="font-size:11px;" sortBy="#{documentos.saida}">
+						<f:facet name="header">
+							<h:outputText value="Saida para Entrega" />
+						</f:facet>
+						<h:outputText value="#{documentos.saida}">
+							<f:convertDateTime pattern="dd/MM/yy hh:mm" />
+						</h:outputText>
+					</p:column>
+
+					<p:column style="font-size:11px;" sortBy="#{documentos.entrega}">
+						<f:facet name="header">
+							<h:outputText value="Entrega" />
+						</f:facet>
+						<h:outputText value="#{documentos.entrega}">
+							<f:convertDateTime pattern="dd/MM/yy" />
+						</h:outputText>
+					</p:column>
+
+					<p:column style="font-size:11px;" sortBy="#{documentos.remetente}">
+						<f:facet name="header">
+							<h:outputText value="Remetente" />
+						</f:facet>
+						<h:outputText value="#{documentos.remetente}" />
+					</p:column>
+
+					<p:column style="font-size:11px;"
+						sortBy="#{documentos.destinatario}">
+						<f:facet name="header">
+							<h:outputText value="Destinatario" />
+						</f:facet>
+						<h:outputText value="#{documentos.destinatario}" />
+					</p:column>
+
+					<p:column style="font-size:11px;">
+						<f:facet name="header">
+							<h:outputText value="Ocorrencia" />
+						</f:facet>
+						<h:outputText value="#{documentos.ocorrencia}" />
+					</p:column>
+
+					<p:column style="font-size:11px;">
+						<f:facet name="header">
+							<h:outputText value="Recebedor" />
+						</f:facet>
+						<h:outputText value="#{documentos.recebedor}" />
+					</p:column>
+
+					<p:column styleClass="columns">
+						<p:commandLink title="Comprovante de Entrega"
+							update=":documentosComprovanteForm"
+							onclick="documentosComprovanteWidget.show();"
+							rendered="#{documentos.temImagem}">
+							<f:setPropertyActionListener
+								target="#{documentosBean.documentoSelecionado}"
+								value="#{documentos}">
+							</f:setPropertyActionListener>
+							<p:graphicImage styleClass="semBorda"
+								value="/img/comprovante.png"></p:graphicImage>
+						</p:commandLink>
+					</p:column>
+				</p:dataTable>
+
+
+
+
+
+				<h:panelGrid columns="1">
+
+					<p:panel header="Exportar Listagem">
+
+
+						<p:commandLink id="excel" ajax="false">
+
+							<p:graphicImage styleClass="semBorda" value="/img/excel.png"
+								title="Exportar para Excel"></p:graphicImage>
+							<pe:exporter type="xlsx" target="gridDocumentos"
+								fileName="Documentos" facetBackground="#BEBEBE"
+								facetFontSize="8" facetFontColor="#FFFAFA" facetFontStyle="BOLD"
+								fontName="Courier New" cellFontColor="#F0FFFF" cellFontSize="6"
+								cellFontStyle="NORMAL" />
+
+						</p:commandLink>
+
+
+
+						<p:commandLink id="pdf" ajax="false">
+
+							<p:graphicImage styleClass="semBorda"
+								value="/img/adobe_pdf_document_01.png" title="Exportar para PDF"></p:graphicImage>
+
+							<pe:exporter type="pdf" target="gridDocumentos"
+								fileName="Documentos" orientation="Landscape"
+								facetBackground="#565656" facetFontSize="8"
+								facetFontColor="#FFFAFA" facetFontStyle="BOLD"
+								cellFontColor="#000000" cellFontSize="7" cellFontStyle="NORMAL" />
+
+						</p:commandLink>
+
+
+
+					</p:panel>
+				</h:panelGrid>
+
+
+
+			</h:form>
+
+			<ui:include
+				src="/pages/protected/dialogs/documentosComprovante.xhtml"></ui:include>
+
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>
+
+

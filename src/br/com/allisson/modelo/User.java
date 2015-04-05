@@ -33,7 +33,7 @@ import br.com.allisson.util.Criptografia;
 @Table(name = "TBL_USUARIO")
 @NamedQueries({
 		@NamedQuery(name = "User.findUser", query = "select u from User u where u.login = :login"),
-		@NamedQuery(name = "User.findAllNaoAutorizados", query = "select u from User u join fetch u.cliente left join fetch u.acessos  where u.acesso_autorizado = false"),
+		@NamedQuery(name = "User.findAllNaoAutorizados", query = "select distinct u from User u join fetch u.cliente left join fetch u.acessos  where u.acesso_autorizado = false"),
 		@NamedQuery(name = "User.findAll", query = "select distinct u from User u join fetch u.cliente left join fetch u.acessos order by u.id")})
 public class User implements Serializable {
 

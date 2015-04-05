@@ -48,7 +48,7 @@ public class DocumentoDAO implements Serializable {
 				+ "    nf.documento doc, nf.fil_orig, cast(nf.nr_cto as integer) nr_cto,"
 				+ "    nf.cgc, nf.serie, cast(nf.indicador as integer) indicador,"
 				+ "       cast(nf.n_fiscal as integer) nota, nf.emissao, nf.entrega, remet.nome remetente, "
-				+ "       dest.nome destinatario, mov.dt_emissao embarque, man.dt_chegada chegada, rom.dt_saida,"
+				+ "       dest.nome destinatario, mov.dt_manif embarque, man.dt_chegada chegada, rom.dt_saida,"
 
 				+ "       case "
 				+ "         when nf.entrega is not null then edi3.ocorrencia"
@@ -126,7 +126,7 @@ public class DocumentoDAO implements Serializable {
 				if (usuario.consultaPorGrupoCliente()) {
 					sql = sql + "and (remet.grupo = ? or dest.grupo = ?)";
 				} else {
-					sql = sql + " and (mov.cgc_remet = ? or mov.cgc_dest = ?)";
+					sql = sql + " and (mov.cgc_remet = ? or mov.cgc_dest = ? or mov.cgc_consig = ?)";
 				}
 
 			}
@@ -149,6 +149,7 @@ public class DocumentoDAO implements Serializable {
 				} else {
 					stm.setString(3, usuario.getCliente().getCgc());
 					stm.setString(4, usuario.getCliente().getCgc());
+					stm.setString(5, usuario.getCliente().getCgc());
 				}
 
 			} else {
@@ -190,7 +191,7 @@ public class DocumentoDAO implements Serializable {
 			if (usuario.consultaPorGrupoCliente()) {
 				sql = sql + " and (remet.grupo = ? or dest.grupo = ?)";
 			} else {
-				sql = sql + " and (mov.cgc_remet = ? or mov.cgc_dest = ?)";
+				sql = sql + " and (mov.cgc_remet = ? or mov.cgc_dest = ? or mov.cgc_consig = ?)";
 			}
 
 			PreparedStatement stm = this.connection.prepareStatement(sql);
@@ -203,6 +204,7 @@ public class DocumentoDAO implements Serializable {
 			} else {
 				stm.setString(2, usuario.getCliente().getCgc());
 				stm.setString(3, usuario.getCliente().getCgc());
+				stm.setString(4, usuario.getCliente().getCgc());
 			}
 
 			ResultSet rs = stm.executeQuery();
@@ -289,6 +291,8 @@ public class DocumentoDAO implements Serializable {
 		documento.setChegada(rs.getDate("chegada"));
 		documento.setEntrega(rs.getDate("entrega"));
 		documento.setSaida(rs.getDate("dt_saida"));
+		
+		System.out.println("Saida.."+ rs.getDate("dt_saida"));
 
 		documento.setRemetente(rs.getString("remetente"));
 		documento.setDestinatario(rs.getString("destinatario"));

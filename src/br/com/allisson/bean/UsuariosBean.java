@@ -237,6 +237,7 @@ public class UsuariosBean extends AbstractMB {
 			 * getUserFacade().enviarEmailAcessoAutorizado(usuario);
 			 */
 		}
+		displayInfoMessageToUser("Login(s) Autorizado(s) com Sucesso");
 		loadUsersNaoAutorizados();
 	}
 

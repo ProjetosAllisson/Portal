@@ -31,17 +31,20 @@
 
 			</p:toolbar>
 
+			<p:fieldset>
+				<h:outputText value=" ***  Pagador do Frete" />
+			</p:fieldset>
+
 			<p:dataTable id="dataTableColetas" var="c" editable="true"
 				value="#{coletaBean.coletas}" paginator="true" rows="10"
-				rowsPerPageTemplate="5,10,15,20"
-				selection="#{coletaBean.coletaSelecionada}" selectionMode="single"
-				rowKey="#{c.id}">
+				rowsPerPageTemplate="5,10,15,20" rowKey="#{c.id}"
+				selectionMode="single" selection="#{coletaBean.coletaSelecionada}">
 
 				<!-- 
 				<p:column headerText="Ações">
 					<p:commandLink title="Editar Coleta" update=":formColeta"
 						onclick="dialogColeta.show();"
-						actionListener="#{coletaBean.alterar}">
+						action="#{coletaBean.alterar}">
 						<f:setPropertyActionListener value="#{c}"
 							target="#{coletaBean.coletaSelecionada}" />
 						<p:graphicImage styleClass="semBorda" value="/img/editar.png"></p:graphicImage>
@@ -57,37 +60,32 @@
 					<h:outputText value="#{c.id}" />
 				</p:column>
 
+				<p:column headerText="Status">
+					<h:outputText value="SOLICITAÇÃO EFETUADA"
+						rendered="#{c.vlrCobrado ==0 and c.autorizada=='NAO'}" />
+					<h:outputText value="AGUARDANDO APROVAÇÃO"
+						rendered="#{c.vlrCobrado >0 and c.autorizada=='NAO'}" />
+					<h:outputText value="EM ABERTO" rendered="#{c.autorizada=='SIM'}" />
+				</p:column>
+
 				<p:column headerText="Solicitada Por">
 					<h:outputText value="#{c.user.login}" />
 				</p:column>
 
 				<p:column headerText="Remetente" styleClass="columns">
+					<h:outputText value=" *** " rendered="#{c.tipoFrete=='CIF'}" />
 					<h:outputText value="#{c.remetente.nome}" />
 				</p:column>
 
 				<p:column headerText="Destinatário" styleClass="columns">
+					<h:outputText value=" *** " rendered="#{c.tipoFrete=='FOB'}" />
 					<h:outputText value="#{c.destinatario.nome}" />
 				</p:column>
 
-				<p:column headerText="Frete" styleClass="columns">
-					<h:outputText value="#{c.tipoFrete}" />
-				</p:column>
-
-				<p:column headerText="Total Cobrada"
-					rendered="#{userBean.defaultUser}">
-					<h:outputText value="#{c.vlrCobrado}">
-						<f:convertNumber currencySymbol="R$" type="currency"
-							locale="pt_BR" />
-					</h:outputText>
-				</p:column>
-
-				<p:column headerText="Valorizar" width="50" 
+				
+				<p:column headerText="Valorizar" width="50"
 					rendered="#{userBean.admin}">
-					<p:rowEditor id="editorValorizar" />
-					
-					
-					
-					
+					<p:rowEditor id="editorValorizar" rendered="#{c.autorizada=='NAO'}" />
 
 				</p:column>
 				<p:column headerText="Total Cobrado" rendered="#{userBean.admin}">
@@ -113,7 +111,7 @@
 
 				<p:column headerText="Autorizar" width="40"
 					rendered="#{userBean.defaultUser}">
-					<p:rowEditor />
+					<p:rowEditor rendered="#{c.autorizada=='NAO' and c.vlrCobrado>0}" />
 
 				</p:column>
 
@@ -164,7 +162,7 @@
 								completeMethod="#{coletaBean.completeCliente}" size="80" var="c"
 								itemLabel="#{c.nome}" itemValue="#{c}"
 								converter="clienteConverter" forceSelection="true"
-								minQueryLength="4" queryDelay="1000" scrollHeight="200"
+								minQueryLength="3" queryDelay="1000" scrollHeight="200"
 								required="true"
 								requiredMessage="Remetente é um campo obrigatório"
 								dropdown="true">
@@ -185,7 +183,7 @@
 
 							</p:autoComplete>
 
-							<p:watermark value="Informe o nome do Cliente"
+							<p:watermark value="Informe o nome ou fantasia do Cliente"
 								for="basicPojoClienteInsert" />
 						</h:panelGroup>
 
@@ -198,7 +196,7 @@
 									completeMethod="#{coletaBean.completeCliente}" size="80"
 									var="c" itemLabel="#{c.nome}" itemValue="#{c}"
 									converter="clienteConverter" forceSelection="true"
-									minQueryLength="4" queryDelay="1000" scrollHeight="200"
+									minQueryLength="3" queryDelay="1000" scrollHeight="200"
 									required="true" dropdown="true"
 									requiredMessage="Remetente é um campo obrigatório">
 
@@ -218,7 +216,7 @@
 
 								</p:autoComplete>
 							</p:inplace>
-							<p:watermark value="Informe o nome do Cliente"
+							<p:watermark value="Informe o nome ou fantasia do Cliente"
 								for="basicPojoClienteEdit" />
 						</h:panelGroup>
 
@@ -242,7 +240,7 @@
 								completeMethod="#{coletaBean.completeDestinatario}" size="80"
 								immediate="true" var="c" itemLabel="#{c.nome}" itemValue="#{c}"
 								converter="destinatarioConverter" forceSelection="true"
-								minQueryLength="4" queryDelay="1000" scrollHeight="200"
+								minQueryLength="3" queryDelay="1000" scrollHeight="200"
 								required="true" dropdown="true"
 								requiredMessage="Destinatario é um campo obrigatório">
 
@@ -261,7 +259,7 @@
 								</f:facet>
 
 							</p:autoComplete>
-							<p:watermark value="Informe o nome do Cliente"
+							<p:watermark value="Informe o nome ou fantasia do Cliente"
 								for="basicPojoClienteDest" />
 						</h:panelGroup>
 
@@ -275,7 +273,7 @@
 									completeMethod="#{coletaBean.completeCliente}" size="80"
 									var="c" itemLabel="#{c.nome}" itemValue="#{c}"
 									converter="clienteConverter" forceSelection="true"
-									minQueryLength="4" queryDelay="1000" scrollHeight="200"
+									minQueryLength="3" queryDelay="1000" scrollHeight="200"
 									required="true" dropdown="true"
 									requiredMessage="Destinatário é um campo obrigatório">
 
@@ -295,7 +293,7 @@
 
 								</p:autoComplete>
 							</p:inplace>
-							<p:watermark value="Informe o nome do Cliente"
+							<p:watermark value="Informe o nome ou fantasia do Cliente"
 								for="basicPojoDestEdit" />
 						</h:panelGroup>
 
@@ -306,11 +304,11 @@
 
 
 					<h:panelGrid columns="1">
-						<p:fieldset legend="Tipo de Frete">
+						<p:fieldset legend="Pagador do Frete">
 							<p:selectOneRadio id="tipoFrete"
 								value="#{coletaBean.coletaSelecionada.tipoFrete}">
-								<f:selectItem itemLabel="Cif" itemValue="CIF" />
-								<f:selectItem itemLabel="Fob" itemValue="FOB" />
+								<f:selectItem itemLabel="Remetente" itemValue="CIF" />
+								<f:selectItem itemLabel="Destinatário" itemValue="FOB" />
 							</p:selectOneRadio>
 						</p:fieldset>
 					</h:panelGrid>
@@ -329,7 +327,7 @@
 
 					<h:panelGrid columns="12">
 						<h:outputLabel value="Nota Fiscal " for="nf" />
-						<h:outputLabel value=""/>
+						<h:outputLabel value="" />
 						<h:outputLabel value="Vlr.Nota Fiscal" />
 						<h:outputLabel value="Altura" />
 						<h:outputLabel value="Comp." />
@@ -349,8 +347,8 @@
 
 
 						</p:inputMask>
-						
-						
+
+
 						<p:spacer></p:spacer>
 						<p:selectOneMenu rendered="false">
 							<f:selectItem itemLabel="Selecione" itemValue="" />
@@ -379,7 +377,7 @@
 							style="width:100px" decimalPlaces="3" />
 
 						<p:commandButton value="Add" action="#{coletaBean.reinit}"
-							update=":messageGrowl, :formColeta:coletas">
+							update=":messageGrowl, :formColeta:coletas, :formColeta:pnlNota">
 							<p:collector unique="true" value="#{coletaBean.item}"
 								addTo="#{coletaBean.coletaItens}"></p:collector>
 
@@ -473,7 +471,7 @@
 						oncomplete="if (!args.validationFailed) {dialogColeta.hide();}" />
 
 					<p:commandButton value="Alterar"
-						rendered="#{coletaBean.coletaSelecionada.id>0}"
+						rendered="#{coletaBean.coletaSelecionada.id>0 and coletaBean.coletaSelecionada.vlrCobrado==0}"
 						actionListener="#{coletaBean.alterarColeta}"
 						update=":messageGrowl, :form:dataTableColetas"
 						oncomplete="closeDialogIfSucess(xhr, status, args, dialogColeta, 'dialogColetaId')" />

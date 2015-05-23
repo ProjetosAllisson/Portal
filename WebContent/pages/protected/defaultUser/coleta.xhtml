@@ -52,20 +52,43 @@
 					</p:commandLink>
 				</p:column>
  -->
+				<p:column headerText="Excluir">
+					<p:commandLink title="Exclui Coleta"
+						update=":coletaDeleteDialogForm"
+						onclick="coletaDeleteDialogWidget.show();"
+						rendered="#{c.autorizada=='NAO'}">
+						<f:setPropertyActionListener
+							target="#{coletaBean.coletaSelecionada}" value="#{c}" />
+
+						<p:graphicImage styleClass="semBorda" value="/img/excluir.png"></p:graphicImage>
+
+					</p:commandLink>
+				</p:column>
+
+
 
 				<p:ajax event="rowEdit" listener="#{coletaBean.valorizar}"
 					update="dataTableColetas"></p:ajax>
 
-				<p:column headerText="Coleta" styleClass="columns">
+				<p:column headerText="Pedido" styleClass="columns">
 					<h:outputText value="#{c.id}" />
+				</p:column>
+				
+				<p:column headerText="Coleta">
+					<h:outputText value="#{c.fil_coleta} - #{c.nr_coleta}" rendered="#{c.nr_coleta>0}" />
 				</p:column>
 
 				<p:column headerText="Status">
 					<h:outputText value="SOLICITAÇÃO EFETUADA"
-						rendered="#{c.vlrCobrado ==0 and c.autorizada=='NAO'}" />
+						rendered="#{c.vlrCobrado ==0 and c.autorizada=='NAO' and c.status ==null}" />
+					
 					<h:outputText value="AGUARDANDO APROVAÇÃO"
-						rendered="#{c.vlrCobrado >0 and c.autorizada=='NAO'}" />
-					<h:outputText value="EM ABERTO" rendered="#{c.autorizada=='SIM'}" />
+						rendered="#{c.vlrCobrado >0 and c.autorizada=='NAO' and c.status ==null}" />
+						
+					<h:outputText value="#{c.status}" rendered="#{c.status !=null}" />	
+						
+					
+					
 				</p:column>
 
 				<p:column headerText="Solicitada Por">
@@ -82,7 +105,7 @@
 					<h:outputText value="#{c.destinatario.nome}" />
 				</p:column>
 
-				
+
 				<p:column headerText="Valorizar" width="50"
 					rendered="#{userBean.admin}">
 					<p:rowEditor id="editorValorizar" rendered="#{c.autorizada=='NAO'}" />
@@ -109,14 +132,14 @@
 					<h:outputText value="#{c.autorizada}" />
 				</p:column>
 
-				<p:column headerText="Autorizar" width="40"
-					rendered="#{userBean.defaultUser}">
+				<p:column headerText="Autorizar" width="40">
+
 					<p:rowEditor rendered="#{c.autorizada=='NAO' and c.vlrCobrado>0}" />
 
 				</p:column>
 
-				<p:column headerText="Autorizado" width="80"
-					rendered="#{userBean.defaultUser}">
+				<p:column headerText="Autorizado" width="80">
+
 					<p:cellEditor>
 						<f:facet name="output">
 							<h:outputText value="#{c.autorizada}" />
@@ -452,7 +475,7 @@
 
 
 						<p:column headerText="Ação" width="20">
-							<p:commandLink value="Remover" update="coletas">
+							<p:commandLink value="Remover" update=":formColeta:coletas">
 								<p:collector unique="true" value="#{col}"
 									removeFrom="#{coletaBean.coletaItens}" />
 							</p:commandLink>
@@ -484,6 +507,7 @@
 			</h:form>
 		</p:dialog>
 
-
+	<ui:include src="/pages/protected/dialogs/coletaDeleteDialog.xhtml" />	
 	</ui:define>
+	
 </ui:composition>

@@ -174,6 +174,22 @@ public class ColetaBean extends AbstractMB implements Serializable {
 		loadColetas();
 	}
 	
+	public void deleteColeta(){
+		try{
+			coletaFacade.deleteColeta(coletaSelecionada);
+			
+			closeDialog();
+			displayInfoMessageToUser("Excluído com sucesso");
+			loadColetas();
+			
+			
+		}catch(Exception e){
+			keepDialogOpen();
+			displayErrorMessageToUser(e.getMessage());
+			e.printStackTrace();
+		}
+	}
+	
 	
 	public String reinit(){
 		

@@ -1,4 +1,4 @@
-package br.com.allisson.modelo.coleta;
+	package br.com.allisson.modelo.coleta;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -24,6 +24,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
@@ -90,6 +91,14 @@ public class Coleta implements Serializable{
 	private ColetaAutorizadaEnum autorizada; 
 	
 	
+	@Column(insertable=false,updatable=false, columnDefinition="VARCHAR(3)")
+	private String fil_coleta;
+	
+	@Column(insertable=false,updatable=false)
+	private Integer nr_coleta;
+	
+	@Column(insertable=false,updatable=false, columnDefinition="VARCHAR(17)")
+	private String status;
 	
 	
 	//@OneToOne(fetch=FetchType.LAZY)
@@ -190,6 +199,30 @@ public class Coleta implements Serializable{
 
 	public void setAutorizada(ColetaAutorizadaEnum autorizada) {
 		this.autorizada = autorizada;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public Integer getNr_coleta() {
+		return nr_coleta;
+	}
+
+	public void setNr_coleta(Integer nr_coleta) {
+		this.nr_coleta = nr_coleta;
+	}
+
+	public String getFil_coleta() {
+		return fil_coleta;
+	}
+
+	public void setFil_coleta(String fil_coleta) {
+		this.fil_coleta = fil_coleta;
 	}
 
 }

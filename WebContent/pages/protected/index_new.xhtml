@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html">
+
+<h:head>
+
+	<meta http-equiv="X-UA-Compatible" content="IE=8" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+	<script src="javax.faces.resource/primefaces.js.jsf?ln=primefaces"
+		type="text/javascript"></script>
+
+</h:head>
+
+<h:body>
+	<ui:composition
+		template="/pages/protected/templates/template_initial.xhtml">
+		<ui:define name="nav_bar">
+			<ui:include src="/pages/protected/templates/top_bootstrap.xhtml" />
+			
+		</ui:define>
+
+		<ui:define name="container">
+			<div class="row">
+				<ui:include
+				src="/pages/protected/templates/consulta_e_cadastro.xhtml" />
+				<span>#{index.message}</span>
+			</div>
+		</ui:define>
+		<ui:define name="title">        
+            Bem-vindo ao Portal        
+    </ui:define>
+	</ui:composition>
+</h:body>
+</html>

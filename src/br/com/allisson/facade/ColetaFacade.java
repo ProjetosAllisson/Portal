@@ -35,5 +35,12 @@ public class ColetaFacade {
 		coletaDao.update(coleta);
 		coletaDao.commitAndCloseTransaction();
 	}
+	
+	public void deleteColeta(Coleta coleta){
+		coletaDao.beginTransaction();
+		Coleta persistedColeta = coletaDao.findReferenceOnly(coleta.getId()); 
+		coletaDao.delete(persistedColeta);
+		coletaDao.commitAndCloseTransaction();
+	}
 
 }

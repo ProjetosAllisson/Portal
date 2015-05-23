@@ -31,6 +31,11 @@ body {
 	;
 }
 </style>
+
+ 	<!-- define a viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta charset="utf-8"/>
+	<h:outputStylesheet library="algaworks" name="bootstrap.min.css" />
 </h:head>
 
 
@@ -51,7 +56,8 @@ body {
  -->
 
 
-		<div id="div">
+		<div id="div" class="container">
+			<div class="col-xs-12">
 			<p:panel header="Portal do Cliente" style="text-align:center">
 
 				<h:panelGrid columns="2">
@@ -128,6 +134,7 @@ body {
 
 
 			</p:panel>
+			</div>
 		</div>
 	</h:form>
 

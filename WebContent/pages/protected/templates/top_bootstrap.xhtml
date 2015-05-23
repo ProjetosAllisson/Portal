@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:body>
+	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+		<div class="container-fluid">
+			<div class="navbar-header">
+
+				<button type="button" class="navbar-toggle" data-toggle="collapse"
+					data-target="#menu-navegacao">
+
+					<span class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+
+				</button>
+
+
+				<a class="navbar-brand logo_navbar" href="http://allisson.com.br"
+					target="_blank"><h:graphicImage value="/img/logoAllisson.png"
+						width="140" height="40" /></a>
+
+			</div>
+
+			<div class="collapse navbar-collapse" id="menu-navegacao">
+
+				<ul class="nav navbar-nav">
+
+					<!-- <c:if test="${loginBean.logado}"> -->
+					<li class="dropdown"><a href="#" class="dropdown-toggle"
+						data-toggle="dropdown">Consultas <span class="caret"></span></a>
+						<ul class="dropdown-menu" role="menu">
+
+							<li><a href="http://allisson.com.br">Rastreamento</a></li>
+							<li class="divider"></li>
+							<li><a href="http://allisson.com.br">Financeiro</a></li>
+						</ul></li>
+					<!-- </c:if> -->
+
+
+
+
+					<!--<c:if test="${userBean.admin}"> -->
+					<li class="dropdown"><a href="#" class="dropdown-toggle"
+						data-toggle="dropdown">Administrador<span class="caret"></span></a>
+						<ul class="dropdown-menu" role="menu">
+							<li><a href="#">Todos os Usuários</a></li>
+							<li><a href="#">Autorizar Usuários</a></li>
+							<li class="divider" />
+							<li><a href="#">Conta de Email</a></li>
+						</ul></li>
+					<!--</c:if> -->
+
+
+				</ul>
+
+
+			</div>
+
+
+
+		</div>
+	</nav>
+
+	<div class="divslider">
+		<div class="container">
+			<div class="col-xs-12">
+				<div id="sliderprincipal" class="carousel slide"
+					data-ride="carousel">
+
+					<ol class="carousel-indicators">
+						<li data-target="#sliderprincipal" data-slide-to="0"
+							class="active"></li>
+						<li data-target="#sliderprincipal" data-slide-to="1"></li>
+						<li data-target="#sliderprincipal" data-slide-to="2"></li>
+					</ol>
+
+					<div class="carousel-inner" role="listbox">
+						<div class="item active">
+							<h:graphicImage value="/img/slider/slider1.jpg" alt="Imagem slider 1" />
+						</div>
+
+						<div class="item">
+							<h:graphicImage value="/img/slider/slider2.jpg" alt="Imagem slider 2" />
+						</div>
+
+
+						<div class="item">
+							<h:graphicImage value="/img/slider/slider3.jpg" alt="Imagem slider 3" />
+						</div>
+
+
+					</div>
+
+					<a class="left carousel-control" href="#sliderprincipal"
+						role="button" data-slide="prev"> <span
+						class="glyphicon glyphicon-chevron-left"></span> <span
+						class="sr-only">Anterior</span>
+					</a> <a class="right carousel-control" href="#sliderprincipal"
+						role="button" data-slide="next"> <span
+						class="glyphicon glyphicon-chevron-right"></span> <span
+						class="sr-only">Proximo</span>
+					</a>
+
+				</div>
+			</div>
+		</div>
+	</div>
+</h:body>
+</html>

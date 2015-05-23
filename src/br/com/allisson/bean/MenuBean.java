@@ -57,5 +57,9 @@ public class MenuBean {
 		this.menuModel = menuModel;
 	}
 	
+	public void teste (){
+		System.out.println("Teste");;
+	}
+	
 
 }

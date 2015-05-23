@@ -235,6 +235,12 @@
 							<p:graphicImage styleClass="semBorda"
 								value="/img/comprovante.png"></p:graphicImage>
 						</h:commandLink>
+						
+						<h:outputLink value="#{documentos.comprovante_link}" target="_blank" rendered="#{documentos.comprovante_link!=null}">
+							<p:graphicImage styleClass="semBorda"
+								value="/img/comprovante.png"></p:graphicImage>
+
+						</h:outputLink>
 
 					</p:column>
 
@@ -254,7 +260,7 @@
 						<p:spacer width="20" />
 
 						<h:commandLink value="Dacte"
-							rendered="#{documentos.cte_dacte_path!=null}" title="Download"
+							rendered="#{documentos.cte_dacte_nome!=null}" title="Download"
 							action="#{arquivosBean.download(documentos.cte_dacte_path,documentos.cte_dacte_nome,'pdf')}">
 
 						</h:commandLink>

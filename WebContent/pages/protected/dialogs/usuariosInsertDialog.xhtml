@@ -109,7 +109,7 @@
 					<p:commandButton value="Cancela" icon="ui-icon-cancel"
 						title="Cancela Inclusão"
 						actionListener="#{usuariosBean.resetUser()}"
-						onclick="PF('usuariosInsertDialogWidget').hide();" type="button" />
+						onclick="PF('usuariosInsertDialogWidget').hide();" type="button" process="@this"/>
 
 				</h:panelGrid>
 			</p:fieldset>

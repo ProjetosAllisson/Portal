@@ -117,7 +117,8 @@ public class ColetaBean extends AbstractMB implements Serializable {
 
 	public void incluir(){
 		coletaSelecionada = new Coleta();
-		coletaSelecionada.setTipoFrete(TipoFrete.CIF);
+		coletaSelecionada.setRemetente(usuario.getCliente());
+		coletaSelecionada.setTipoFrete(TipoFrete.FOB);
 		item = new ColetaItem();
 		coletaItens = new ArrayList<ColetaItem>();
 	}
@@ -304,6 +305,14 @@ public class ColetaBean extends AbstractMB implements Serializable {
 
 	public void setUsuario(User usuario) {
 		this.usuario = usuario;
+	}
+	
+	public void fatorKg(){
+		BigDecimal multiplica = new BigDecimal(item.getVolumes());
+		BigDecimal kgs = new BigDecimal(0);
+		
+		kgs = multiplica.multiply(new BigDecimal(30));
+		this.item.setKgsCubado(kgs);
 	}
 	
 	

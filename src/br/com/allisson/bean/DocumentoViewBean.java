@@ -5,8 +5,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -16,7 +16,6 @@ import javax.servlet.ServletContext;
 import org.primefaces.event.TabChangeEvent;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.LazyDataModel;
-import org.primefaces.model.SortOrder;
 import org.primefaces.model.StreamedContent;
 
 import br.com.allisson.dao.DocumentoViewDAO;
@@ -32,14 +31,18 @@ public class DocumentoViewBean {
 
 	private DocumentoViewDAO docViewDao = new DocumentoViewDAO();
 	private DocumentoView documentoSelecionado;
+	
+	private List<DocumentoView> documentos = new ArrayList<DocumentoView>();
 
+	
+	/*
 	public DocumentoViewBean() {
 		model = new LazyDataModel<DocumentoView>() {
 
 			/**
 			 * 
 			 */
-			private static final long serialVersionUID = 1L;
+		/*	private static final long serialVersionUID = 1L;
 
 			@Override
 			public List<DocumentoView> load(int first, int pageSize,
@@ -61,11 +64,18 @@ public class DocumentoViewBean {
 
 	}
 	
+	*/
 	public void onTabChange(TabChangeEvent event){
 		filtro = new FiltroDocumento();
+		documentos = new ArrayList<DocumentoView>();
 		if (!event.getTab().getId().equals("notasEmAberto")){
 			//filtro.setDataInicio(new Date());
 		}
+	}
+	
+	public void pesquisar(){
+		docViewDao.beginTransaction();
+		documentos = docViewDao.filtrados(getFiltro());
 	}
 
 	public void exibeComprovante() {
@@ -162,5 +172,11 @@ public class DocumentoViewBean {
 	public void setFiltro(FiltroDocumento filtro) {
 		this.filtro = filtro;
 	}
+
+	public List<DocumentoView> getDocumentos() {
+		return documentos;
+	}
+
+	
 
 }

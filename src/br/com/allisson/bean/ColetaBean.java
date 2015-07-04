@@ -3,6 +3,7 @@ package br.com.allisson.bean;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 
@@ -135,7 +136,10 @@ public class ColetaBean extends AbstractMB implements Serializable {
 		
 		coletaSelecionada.setItensColeta(coletaItens);
 		coletaSelecionada.setUser(getUsuario());
-		coletaSelecionada.setEmissao(new GregorianCalendar());
+		
+		Calendar c = Calendar.getInstance();
+		coletaSelecionada.setEmissao(c);
+		System.out.println(c.getTime());
 		coletaSelecionada.setAutorizada(ColetaAutorizadaEnum.NAO);
 		coletaSelecionada.setVlrCobrado(new BigDecimal(0));
 		

@@ -73,6 +73,12 @@
 				<p:column headerText="Pedido" styleClass="columns">
 					<h:outputText value="#{c.id}" />
 				</p:column>
+				
+				<p:column headerText="Solicitação" styleClass="columns">
+					<h:outputText value="#{c.emissao.getTime()}">
+						<f:convertDateTime pattern="dd/MM/yy HH:mm" timeZone="America/Sao_Paulo"/>
+					</h:outputText>
+				</p:column>
 
 				<p:column headerText="Coleta">
 					<h:outputText value="#{c.fil_coleta} - #{c.nr_coleta}"

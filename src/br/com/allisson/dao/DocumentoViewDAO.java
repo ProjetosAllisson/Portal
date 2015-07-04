@@ -36,8 +36,8 @@ public class DocumentoViewDAO extends GenericDAO<DocumentoView> {
 		
 		
 		Criteria criteria = criarCriteriaParaFiltro(filtro);
-		criteria.setFirstResult(filtro.getPrimeiroRegistro());
-		criteria.setMaxResults(filtro.getQuantidadeRegistros());
+		//criteria.setFirstResult(filtro.getPrimeiroRegistro());
+		//criteria.setMaxResults(filtro.getQuantidadeRegistros());
 		
 		if (filtro.isAscendente() && filtro.getPropriedadeOrdenacao() != null) {
 			criteria.addOrder(Order.asc(filtro.getPropriedadeOrdenacao()));

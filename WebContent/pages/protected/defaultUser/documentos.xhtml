@@ -16,19 +16,22 @@
 
 				<p:tabView>
 					<p:ajax event="tabChange" listener="#{docsViewBean.onTabChange}"
-						update=":form:gridDocumentos txtDataInicio txtDataTermino edtNotaFiscal" />
+						update=":form:gridDocumentos txtDataInicio txtDataTermino edtNotaFiscal" process="@this" />
 					<p:tab title="Notas em Transito" id="notasEmAberto">
 						<h1>Notas em Transito</h1>
+						
+						<p:commandButton value="Consultar" action="#{docsViewBean.pesquisar()}" update=":form:gridDocumentos"
+								/>
 					</p:tab>
 
 					<p:tab title="Pesquisa por Período">
 
-						<p:panelGrid columns="5">
+						<h:panelGrid columns="5">
 							<h:outputLabel value="Data Inicial" for="txtDataInicio" />
 
 							<p:calendar id="txtDataInicio" pattern="dd/MM/yyyy"
 								locale="pt_BR" value="#{docsViewBean.filtro.dataInicio}"
-								maxlength="10" style="font-size:12px;heigth=30"
+								maxlength="10" style="font-size:12px;heigth=30" 
 								converterMessage="Data Invalida. Exemplo 01/01/2013">
 
 							</p:calendar>
@@ -40,13 +43,13 @@
 								maxlength="10" style="font-size:12px;width=130">
 							</p:calendar>
 
-							<p:commandButton value="Consultar" update=":form:gridDocumentos"
-								process="@form" />
-						</p:panelGrid>
+							<p:commandButton value="Consultar" action="#{docsViewBean.pesquisar()}" update=":form:gridDocumentos"
+								 />
+						</h:panelGrid>
 					</p:tab>
 
 					<p:tab title="Pesquisa por Nota Fiscal">
-						<p:panelGrid columns="3">
+						<h:panelGrid columns="3">
 							<h:outputLabel value="Nota Fiscal:" for="edtNotaFiscal" />
 							<p:inputText id="edtNotaFiscal"
 								value="#{docsViewBean.filtro.nota_fiscal}"
@@ -54,9 +57,9 @@
 								<f:convertNumber integerOnly="true" maxIntegerDigits="9" />
 							</p:inputText>
 
-							<p:commandButton value="Consultar" update=":form:gridDocumentos"
-								process="@form" />
-						</p:panelGrid>
+							<p:commandButton value="Consultar" action="#{docsViewBean.pesquisar()}" update=":form:gridDocumentos"
+								 />
+						</h:panelGrid>
 
 
 					</p:tab>
@@ -75,7 +78,7 @@
 								fileName="Documentos" facetBackground="#BEBEBE"
 								facetFontSize="8" facetFontColor="#FFFAFA" facetFontStyle="BOLD"
 								fontName="Courier New" cellFontColor="#F0FFFF" cellFontSize="6"
-								cellFontStyle="NORMAL" />
+								cellFontStyle="NORMAL"  />
 
 						</p:commandLink>
 
@@ -83,7 +86,7 @@
 
 							<p:graphicImage styleClass="semBorda"
 								value="/img/adobe_pdf_document_01.png" title="Exportar para PDF"></p:graphicImage>
-
+							
 							<pe:exporter type="pdf" target="gridDocumentos"
 								fileName="Documentos" orientation="Landscape"
 								facetBackground="#565656" facetFontSize="8"
@@ -94,7 +97,7 @@
 					</p:toolbarGroup>
 				</p:toolbar>
 
-				<p:dataTable value="#{docsViewBean.model}" lazy="true"
+				<p:dataTable value="#{docsViewBean.documentos}" 
 					var="documentos" paginator="true" paginatorPosition="bottom"
 					rows="30" id="gridDocumentos"
 					emptyMessage="Nenhum registro encontrado">
@@ -215,7 +218,7 @@
 						<h:outputText value="#{documentos.recebedor}" />
 					</p:column>
 
-					<p:column style="font-size:10px;">
+					<p:column style="font-size:10px;" exportable="false">
 						<f:facet name="header">
 							<h:outputText value="Comprovante" />
 						</f:facet>
@@ -247,7 +250,7 @@
 
 
 
-					<p:column style="font-size:11px;" width="250">
+					<p:column style="font-size:11px;" width="250" exportable="false">
 						<f:facet name="header">
 							<h:outputText value="CT-e" />
 						</f:facet>

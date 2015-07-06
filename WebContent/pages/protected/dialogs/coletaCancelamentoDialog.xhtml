@@ -1,0 +1,71 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:body>
+
+
+	<p:dialog widgetVar="coletaCancelamentoDialogWidget"
+		id="coletaCancelamentoDialogId" height="300" width="550" modal="true"
+		appendTo="@(body)" closable="true" draggable="false" resizable="false">
+		<h:form id="coletaCancelamentoDialogForm" prependId="false">
+			<p:messages id="msg"></p:messages>
+
+			<p:fieldset
+				legend="Solicitação de Cancelamento da Coleta - Pedido #{coletaBean.coletaSelecionada.id}">
+
+				<p:separator></p:separator>
+
+				<h:panelGrid columns="2" styleClass="semBorda">
+					<p:graphicImage value="/img/cancelarDialog.png" width="50" height="50">
+
+
+					</p:graphicImage>
+
+					<h:outputText value="Deseja Realmente solicitar o Cancelamento?" />
+
+
+				</h:panelGrid>
+				<h:panelGrid columns="1">
+					<h:outputText value="Informe o Motivo do Cancelamento" />
+					
+					<p:inputText value="#{coletaBean.coletaSelecionada.motivoCancelamento}" required="true" requiredMessage="Motivo do Cancelamento Obrigatório" size="60" />
+				</h:panelGrid>
+				<p:separator></p:separator>
+
+
+				<h:panelGrid columns="4" width="100%" style="text-align:right"
+					styleClass="semBorda">
+
+
+					<p:spacer width="100" height="10"></p:spacer>
+					<p:spacer width="80" height="10"></p:spacer>
+					<p:commandButton value="Confirmar" icon="ui-icon-circle-check"
+						title="Confirmar Cancelamento"
+						action="#{coletaBean.cancelarColeta()}"
+						update=":messageGrowl :form:dataTableColetas :coletaCancelamentoDialogForm:msg"
+						oncomplete="closeDialogIfSucess(xhr, status, args, coletaCancelamentoDialogWidget, 'coletaCancelamentoDialogId')" />
+
+
+					<p:commandButton value="Fechar" icon="ui-icon-cancel"
+						title="Desistir do Cancelamento"
+						actionListener="#{coletaBean.reinit()}"
+						onclick="coletaCancelamentoDialogWidget.hide();" type="button" />
+
+				</h:panelGrid>
+
+			</p:fieldset>
+		</h:form>
+
+
+
+	</p:dialog>
+
+</h:body>
+
+</html>

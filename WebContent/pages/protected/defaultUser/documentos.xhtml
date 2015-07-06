@@ -32,7 +32,8 @@
 							<p:calendar id="txtDataInicio" pattern="dd/MM/yyyy"
 								locale="pt_BR" value="#{docsViewBean.filtro.dataInicio}"
 								maxlength="10" style="font-size:12px;heigth=30" 
-								converterMessage="Data Invalida. Exemplo 01/01/2013">
+								converterMessage="Data Invalida. Exemplo 01/01/2015"
+								mindate="#{docsViewBean.minDataInicio}">
 
 							</p:calendar>
 

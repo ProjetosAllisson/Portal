@@ -104,8 +104,31 @@ public class Coleta implements Serializable{
 	//@OneToOne(fetch=FetchType.LAZY)
 	//@JoinColumn(name = "veiculo",updatable=true)
 	//private Veiculo veiculo = new Veiculo();
+	
+	@Transient
+	private BigDecimal totalMercadoria = BigDecimal.ZERO;
+	
+	@Transient
+	private int totalVolumes = 0;
+	
+	@Transient 
+	private BigDecimal totalKgsCubado = BigDecimal.ZERO;
  
-
+	
+	@Enumerated(EnumType.STRING)
+	@Column(nullable=false,length=30)
+	private ColetaStatusEnum situacaoColeta = ColetaStatusEnum.EMITIDO; 
+	
+	@Column(length=60)
+	private String motivoCancelamento;
+	
+	@Column
+	@Temporal(TemporalType.TIMESTAMP)
+	private Calendar cancelamento;
+	
+	@Transient
+	private boolean permiteCancelamento;
+	
 	public int getId() {
 		return id;
 	}
@@ -224,5 +247,66 @@ public class Coleta implements Serializable{
 	public void setFil_coleta(String fil_coleta) {
 		this.fil_coleta = fil_coleta;
 	}
+
+	public BigDecimal getTotalMercadoria() {
+		BigDecimal total = BigDecimal.ZERO;
+		for (ColetaItem item : getItensColeta()) {
+			total = total.add(item.getVlrNotaFiscal());
+		}
+		return total;
+	}
+
+	public int getTotalVolumes() {
+		int total = 0;
+		for (ColetaItem item : getItensColeta()) {
+			total += item.getVolumes();
+		}
+		return total;
+	}
+
+	
+
+	public BigDecimal getTotalKgsCubado() {
+		BigDecimal total = BigDecimal.ZERO;
+		for (ColetaItem item : getItensColeta()) {
+			total = total.add(item.getKgsCubado());
+		}
+		return total;
+	}
+
+	public ColetaStatusEnum getSituacaoColeta() {
+		return situacaoColeta;
+	}
+
+	public void setSituacaoColeta(ColetaStatusEnum situacaoColeta) {
+		this.situacaoColeta = situacaoColeta;
+	}
+
+	public String getMotivoCancelamento() {
+		return motivoCancelamento;
+	}
+
+	public void setMotivoCancelamento(String motivoCancelamento) {
+		this.motivoCancelamento = motivoCancelamento;
+	}
+
+	public Calendar getCancelamento() {
+		return cancelamento;
+	}
+
+	public void setCancelamento(Calendar cancelamento) {
+		this.cancelamento = cancelamento;
+	}
+
+	public boolean isPermiteCancelamento() {
+		return getAutorizada().equals(
+				ColetaAutorizadaEnum.SIM)
+				&& (getStatus().equals("EM ABERTO") || getCancelamento() == null);
+	}
+
+	
+
+	
+
 
 }

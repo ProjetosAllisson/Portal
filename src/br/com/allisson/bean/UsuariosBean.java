@@ -33,7 +33,7 @@ public class UsuariosBean extends AbstractMB {
 	private Cliente clienteSelecionado = new Cliente();
 	private ClienteFacade clienteFacade;
 
-	private boolean campoBooleanControle;
+	private boolean campoBooleanControle=true;
 
 	
 	public UsuariosBean() {

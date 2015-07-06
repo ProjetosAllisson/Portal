@@ -6,6 +6,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
@@ -76,6 +78,13 @@ public class DocumentoViewBean {
 	public void pesquisar(){
 		docViewDao.beginTransaction();
 		documentos = docViewDao.filtrados(getFiltro());
+	}
+	
+	public Date getMinDataInicio(){
+		int iDias = 90*-1;
+		Calendar data = Calendar.getInstance();
+		data.add(Calendar.DAY_OF_MONTH, iDias);
+		return data.getTime();
 	}
 
 	public void exibeComprovante() {

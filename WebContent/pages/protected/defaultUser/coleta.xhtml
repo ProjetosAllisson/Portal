@@ -23,8 +23,10 @@
 						oncomplete="PF('dialogColeta').show()" process="@this" />
 
 					<p:commandButton value="Detalhes Coleta" title="Detalhes"
+						rendered="#{coletaBean.coletaSelecionada!=null}"
 						update=":formColeta" actionListener="#{coletaBean.alterar}"
 						icon="ui-icon-zoomin" oncomplete="PF('dialogColeta').show()" />
+
 				</p:toolbarGroup>
 
 
@@ -40,29 +42,34 @@
 				rowsPerPageTemplate="5,10,15,20" rowKey="#{c.id}"
 				selectionMode="single" selection="#{coletaBean.coletaSelecionada}">
 
-				<!-- 
-				<p:column headerText="Ações">
-					<p:commandLink title="Editar Coleta" update=":formColeta"
-						onclick="dialogColeta.show();"
-						action="#{coletaBean.alterar}">
-						<f:setPropertyActionListener value="#{c}"
-							target="#{coletaBean.coletaSelecionada}" />
-						<p:graphicImage styleClass="semBorda" value="/img/editar.png"></p:graphicImage>
 
-					</p:commandLink>
-				</p:column>
- -->
-				<p:column headerText="Excluir">
-					<p:commandLink title="Exclui Coleta"
-						update=":coletaDeleteDialogForm"
-						onclick="coletaDeleteDialogWidget.show();"
-						rendered="#{c.autorizada=='NAO'}">
-						<f:setPropertyActionListener
-							target="#{coletaBean.coletaSelecionada}" value="#{c}" />
+				<p:column headerText="Ações" styleClass="columns">
+					
+						<p:commandLink title="Excluir Pedido"
+							update=":coletaDeleteDialogForm"
+							onclick="coletaDeleteDialogWidget.show();"
+							rendered="#{c.autorizada=='NAO'}">
+							<f:setPropertyActionListener
+								target="#{coletaBean.coletaSelecionada}" value="#{c}" />
 
-						<p:graphicImage styleClass="semBorda" value="/img/excluir.png"></p:graphicImage>
+							<p:graphicImage styleClass="semBorda" value="/img/excluir.png"></p:graphicImage>
 
-					</p:commandLink>
+						</p:commandLink>
+						<h:outputLabel rendered="#{c.autorizada=='SIM'}" />
+
+
+						<p:commandLink title="Cancelar Pedido"
+							update=":coletaCancelamentoDialogForm"
+							onclick="coletaCancelamentoDialogWidget.show();" 
+							rendered="#{c.permiteCancelamento}">
+						
+							<p:graphicImage styleClass="semBorda" value="/img/cancelar.png" />
+
+							<f:setPropertyActionListener value="#{c}"
+								target="#{coletaBean.coletaSelecionada}" />
+						</p:commandLink>
+
+					
 				</p:column>
 
 
@@ -73,11 +80,26 @@
 				<p:column headerText="Pedido" styleClass="columns">
 					<h:outputText value="#{c.id}" />
 				</p:column>
-				
+
+				<p:column headerText="Situação">
+					<h:outputText value="#{c.situacaoColeta}" rendered="#{c.cancelamento == null}" />
+					<p:commandLink value="#{c.situacaoColeta}" title="Dados do Cancelamento" rendered="#{c.cancelamento != null}"
+						update=":cancelamentoDialogForm"
+						onclick="cancelamentoDialogWidget.show();">
+
+						<f:setPropertyActionListener value="#{c}"
+							target="#{coletaBean.coletaSelecionada}" />
+
+					</p:commandLink>
+				</p:column>
+
+
 				<p:column headerText="Solicitação" styleClass="columns">
 					<h:outputText value="#{c.emissao.getTime()}">
-						<f:convertDateTime pattern="dd/MM/yy HH:mm" timeZone="America/Sao_Paulo"/>
+						<f:convertDateTime pattern="dd/MM/yy HH:mm"
+							timeZone="America/Sao_Paulo" />
 					</h:outputText>
+					<p:spacer width="20" height="10"></p:spacer>
 				</p:column>
 
 				<p:column headerText="Coleta">
@@ -91,23 +113,22 @@
 
 					<h:outputText value="AGUARDANDO APROVAÇÃO"
 						rendered="#{c.vlrCobrado >0 and c.autorizada=='NAO' and c.status ==null}" />
-
+						
 					<h:outputText value="#{c.status}" rendered="#{c.status !=null}" />
-
-
-
 				</p:column>
 
 				<p:column headerText="Solicitada Por">
 					<h:outputText value="#{c.user.login}" />
 				</p:column>
 
-				<p:column headerText="Remetente" sortBy="#{c.remetente.nome}" styleClass="columns">
+				<p:column headerText="Remetente" sortBy="#{c.remetente.nome}"
+					styleClass="columns">
 					<h:outputText value=" *** " rendered="#{c.tipoFrete=='CIF'}" />
 					<h:outputText value="#{c.remetente.nome}" />
 				</p:column>
 
-				<p:column headerText="Destinatário" sortBy="#{c.destinatario.nome}" styleClass="columns">
+				<p:column headerText="Destinatário" sortBy="#{c.destinatario.nome}"
+					styleClass="columns">
 					<h:outputText value=" *** " rendered="#{c.tipoFrete=='FOB'}" />
 					<h:outputText value="#{c.destinatario.nome}" />
 				</p:column>
@@ -135,7 +156,7 @@
 
 				</p:column>
 
-				
+
 
 				<p:column headerText="Autorizar" width="40">
 
@@ -162,75 +183,45 @@
 
 			</p:dataTable>
 
+
 		</h:form>
 
 
-		<h:form>
-			<p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
-				<p:commandButton value="Sim" type="button"
-					styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-				<p:commandButton value="Não" type="button"
-					styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
-			</p:confirmDialog>
-		</h:form>
 
-		<p:dialog header="Ordem de Coleta" widgetVar="dialogColeta"
-			id="dialogColetaId" modal="true" showEffect="explode"
-			hideEffect="slide" resizable="true" width="1000" appendTo="@(body)">
 
-			<h:form id="formColeta" >
-				<p:messages id="messages" showDetail="true" autoUpdate="true"
-					closable="true" />
-				<h:panelGrid columns="2" cellpadding="6">
 
-					<p:fieldset legend="Remetente">
-					
-						<h:outputLabel value="#{coletaBean.coletaSelecionada.remetente.nome}" rendered="#{userBean.defaultUser}"/>
-						<h:panelGroup rendered="#{coletaBean.coletaSelecionada.id==0 and userBean.admin}">
 
-							<p:autoComplete value="#{coletaBean.coletaSelecionada.remetente}"
-								id="basicPojoClienteInsert" for="cliente"
-								completeMethod="#{coletaBean.completeCliente}" size="80" var="c"
-								itemLabel="#{c.nome}" itemValue="#{c}"
-								converter="clienteConverter" forceSelection="true"
-								minQueryLength="3" queryDelay="1000" scrollHeight="200"
-								required="true"
-								requiredMessage="Remetente é um campo obrigatório"
-								dropdown="true" >
 
-								<f:facet name="itemtip">
-									<h:panelGrid columns="2" cellpadding="5">
+		<p:dialog widgetVar="dialogColeta" id="dialogColetaId" modal="true"
+			showEffect="explode" hideEffect="slide" resizable="true" width="1010"
+			appendTo="@(body)">
 
-										<h:outputText value="Cgc:" />
-										<h:outputText value="#{c.cgc}" />
+			<h:form id="formColeta">
 
-										<h:outputText value="Nome" />
-										<h:outputText value="#{c.nome}" />
+				<p:panel
+					header="Pedido de Coleta - #{coletaBean.coletaSelecionada.id}">
+					<p:messages id="messages" showDetail="true" autoUpdate="true"
+						closable="true" />
+					<h:panelGrid columns="2" cellpadding="6">
 
-										<h:outputText value="Razão Social" />
-										<h:outputText value="#{c.fantasia}" />
-									</h:panelGrid>
-								</f:facet>
+						<p:fieldset legend="Remetente">
 
-							</p:autoComplete>
+							<h:outputLabel
+								value="#{coletaBean.coletaSelecionada.remetente.nome}"
+								rendered="#{userBean.defaultUser}" />
+							<h:panelGroup
+								rendered="#{coletaBean.coletaSelecionada.id==0 and userBean.admin}">
 
-							<p:watermark value="Informe o nome ou fantasia do Cliente"
-								for="basicPojoClienteInsert" />
-						</h:panelGroup>
-						<h:outputLabel value="#{coletaBean.coletaSelecionada.remetente.nome}" rendered="#{coletaBean.coletaSelecionada.id>0} and #{userBean.defaultUser}"/>
-						<h:panelGroup rendered="#{coletaBean.coletaSelecionada.id>0 and userBean.admin}">
-							<p:inplace label="#{coletaBean.coletaSelecionada.remetente.nome}"
-								editor="true">
 								<p:autoComplete
 									value="#{coletaBean.coletaSelecionada.remetente}"
-									id="basicPojoClienteEdit" for="cliente"
+									id="basicPojoClienteInsert" for="cliente"
 									completeMethod="#{coletaBean.completeCliente}" size="80"
 									var="c" itemLabel="#{c.nome}" itemValue="#{c}"
 									converter="clienteConverter" forceSelection="true"
 									minQueryLength="3" queryDelay="1000" scrollHeight="200"
-									required="#{facesContext.currentPhaseId.name eq 'RENDER_RESPONSE'}"
-									dropdown="true"
-									requiredMessage="Remetente é um campo obrigatório">
+									required="true"
+									requiredMessage="Remetente é um campo obrigatório"
+									dropdown="true">
 
 									<f:facet name="itemtip">
 										<h:panelGrid columns="2" cellpadding="5">
@@ -247,290 +238,418 @@
 									</f:facet>
 
 								</p:autoComplete>
-							</p:inplace>
-							<p:watermark value="Informe o nome ou fantasia do Cliente"
-								for="basicPojoClienteEdit" />
-						</h:panelGroup>
 
-					</p:fieldset>
+								<p:watermark value="Informe o nome ou fantasia do Cliente"
+									for="basicPojoClienteInsert" />
+							</h:panelGroup>
+							<h:outputLabel
+								value="#{coletaBean.coletaSelecionada.remetente.nome}"
+								rendered="#{coletaBean.coletaSelecionada.id>0} and #{userBean.defaultUser}" />
+							<h:panelGroup
+								rendered="#{coletaBean.coletaSelecionada.id>0 and userBean.admin}">
+								<p:inplace
+									label="#{coletaBean.coletaSelecionada.remetente.nome}"
+									editor="true">
+									<p:autoComplete
+										value="#{coletaBean.coletaSelecionada.remetente}"
+										id="basicPojoClienteEdit" for="cliente"
+										completeMethod="#{coletaBean.completeCliente}" size="80"
+										var="c" itemLabel="#{c.nome}" itemValue="#{c}"
+										converter="clienteConverter" forceSelection="true"
+										minQueryLength="3" queryDelay="1000" scrollHeight="200"
+										required="#{facesContext.currentPhaseId.name eq 'RENDER_RESPONSE'}"
+										dropdown="true"
+										requiredMessage="Remetente é um campo obrigatório">
 
+										<f:facet name="itemtip">
+											<h:panelGrid columns="2" cellpadding="5">
 
-					<br></br>
+												<h:outputText value="Cgc:" />
+												<h:outputText value="#{c.cgc}" />
 
+												<h:outputText value="Nome" />
+												<h:outputText value="#{c.nome}" />
 
+												<h:outputText value="Razão Social" />
+												<h:outputText value="#{c.fantasia}" />
+											</h:panelGrid>
+										</f:facet>
 
+									</p:autoComplete>
+								</p:inplace>
+								<p:watermark value="Informe o nome ou fantasia do Cliente"
+									for="basicPojoClienteEdit" />
+							</h:panelGroup>
 
-					<p:fieldset legend="Destinatário">
-
-
-
-						<h:panelGroup rendered="#{coletaBean.coletaSelecionada.id==0}">
-
-							<p:autoComplete
-								value="#{coletaBean.coletaSelecionada.destinatario}"
-								id="basicPojoClienteDest"
-								completeMethod="#{coletaBean.completeDestinatario}" size="80"
-								 var="c" itemLabel="#{c.nome}" itemValue="#{c}"
-								converter="destinatarioConverter" forceSelection="true"
-								minQueryLength="3" queryDelay="1000" scrollHeight="200"
-								required="true" dropdown="true"
-								requiredMessage="Destinatario é um campo obrigatório">
-
-								<f:facet name="itemtip" >
-									<h:panelGrid columns="2" cellpadding="5">
-
-										<h:outputText value="Cgc:" />
-										<h:outputText value="#{c.cgc}" />
-
-										<h:outputText value="Nome" />
-										<h:outputText value="#{c.nome}" />
-
-										<h:outputText value="Razão Social" />
-										<h:outputText value="#{c.fantasia}" />
-									</h:panelGrid>
-								</f:facet>
-
-							</p:autoComplete>
-							<p:watermark value="Informe o nome ou fantasia do Cliente"
-								for="basicPojoClienteDest" />
-						</h:panelGroup>
-
-						<h:panelGroup rendered="#{coletaBean.coletaSelecionada.id>0}">
-							<p:inplace
-								label="#{coletaBean.coletaSelecionada.destinatario.nome}"
-								editor="true">
-								<p:autoComplete
-									value="#{coletaBean.coletaSelecionada.destinatario}"
-									id="basicPojoDestEdit" for="cliente"
-									completeMethod="#{coletaBean.completeCliente}" size="80"
-									var="c" itemLabel="#{c.nome}" itemValue="#{c}"
-									converter="clienteConverter" forceSelection="true"
-									minQueryLength="3" queryDelay="1000" scrollHeight="200"
-									required="#{facesContext.currentPhaseId.name eq 'RENDER_RESPONSE'}"
-									dropdown="true"
-									requiredMessage="Destinatário é um campo obrigatório">
-
-									<f:facet name="itemtip">
-										<h:panelGrid columns="2" cellpadding="5">
-
-											<h:outputText value="Cgc:" />
-											<h:outputText value="#{c.cgc}" />
-
-											<h:outputText value="Nome" />
-											<h:outputText value="#{c.nome}" />
-
-											<h:outputText value="Razão Social" />
-											<h:outputText value="#{c.fantasia}" />
-										</h:panelGrid>
-									</f:facet>
-
-								</p:autoComplete>
-							</p:inplace>
-							<p:watermark value="Informe o nome ou fantasia do Cliente"
-								for="basicPojoDestEdit" />
-						</h:panelGroup>
-
-
-
-
-					</p:fieldset>
-
-
-					<h:panelGrid columns="1">
-						<p:fieldset legend="Pagador do Frete">
-							<p:selectOneRadio id="tipoFrete"
-								value="#{coletaBean.coletaSelecionada.tipoFrete}">
-								<f:selectItem itemLabel="Remetente" itemValue="CIF" />
-								<f:selectItem itemLabel="Destinatário" itemValue="FOB" />
-							</p:selectOneRadio>
 						</p:fieldset>
-					</h:panelGrid>
-
-				</h:panelGrid>
 
 
-
-
-
-				<p:separator />
-
-				<p:panel id="pnlNota" header="Informações da Carga a ser Coletada">
-
-
-
-					<h:panelGrid columns="5">
-						<h:outputLabel value="Nota Fiscal " for="nf" />
-						
-						<h:outputLabel value="Vlr.Nota Fiscal" />
-						
-						<h:outputLabel value="Altura" rendered="false"/>
-						<h:outputLabel value="Comp." rendered="false"/>
-						<h:outputLabel value="Largura" rendered="false"/>
-						<h:outputLabel value="Qtde." rendered="false"/>
-						
-						<h:outputLabel value="Volumes" />
-						
-						<h:outputLabel value="Kgs.Real" rendered="false"/>
-						<h:outputLabel value="M3" rendered="false"/>
-						
-						<h:outputLabel value="Kgs.Cubado" />
 						<br></br>
 
-						<p:inputMask id="nf" value="#{coletaBean.item.notaFiscal}"
-							maxlength="9" mask="?999999999" placeholder=" " size="9"
-							required="true"
-							requiredMessage="Necessário informar o número da Nota Fiscal"
-							validatorMessage="Nota Fiscal deve ser informada.">
 
 
-						</p:inputMask>
+
+						<p:fieldset legend="Destinatário">
 
 
-						
-						<p:selectOneMenu rendered="false">
-							<f:selectItem itemLabel="Selecione" itemValue="" />
-						</p:selectOneMenu>
 
-						<pe:inputNumber value="#{coletaBean.item.vlrNotaFiscal}"
-							symbol="R$ " style="width:120px" />
+							<h:panelGroup rendered="#{coletaBean.coletaSelecionada.id==0}">
 
-						<pe:inputNumber value="#{coletaBean.item.altura}"
-							decimalPlaces="0" maxlength="3" style="width:25px" rendered="false"/>
-						<pe:inputNumber value="#{coletaBean.item.comprimento}"
-							decimalPlaces="0" maxlength="3" style="width:25px" rendered="false"/>
-						<pe:inputNumber value="#{coletaBean.item.largura}"
-							decimalPlaces="0" maxlength="3" style="width:25px" rendered="false"/>
-						<pe:inputNumber value="#{coletaBean.item.quantidade}"
-							decimalPlaces="0" maxlength="3" style="width:30px" rendered="false"/>
+								<p:autoComplete
+									value="#{coletaBean.coletaSelecionada.destinatario}"
+									id="basicPojoClienteDest"
+									completeMethod="#{coletaBean.completeDestinatario}" size="80"
+									var="c" itemLabel="#{c.nome}" itemValue="#{c}"
+									converter="destinatarioConverter" forceSelection="true"
+									minQueryLength="3" queryDelay="1000" scrollHeight="200"
+									required="true" dropdown="true"
+									requiredMessage="Destinatario é um campo obrigatório">
 
-						<pe:inputNumber value="#{coletaBean.item.volumes}"
-							decimalPlaces="0" style="width:70px">
-							
-							
-							<p:ajax update="kgCubado" listener="#{coletaBean.fatorKg()}" event="keyup"/>
-							
-						</pe:inputNumber>	
+									<f:facet name="itemtip">
+										<h:panelGrid columns="2" cellpadding="5">
 
-						<pe:inputNumber value="#{coletaBean.item.kgsReal}" symbol="Kgs "
-							style="width:100px" decimalPlaces="3" rendered="false"/>
+											<h:outputText value="Cgc:" />
+											<h:outputText value="#{c.cgc}" />
 
-						
-						<pe:inputNumber id="kgCubado" value="#{coletaBean.item.kgsCubado}" symbol="Kgs "
-							style="width:100px" decimalPlaces="3" />
+											<h:outputText value="Nome" />
+											<h:outputText value="#{c.nome}" />
 
-						<p:commandButton value="Add" action="#{coletaBean.reinit}"
-							update=":messageGrowl, :formColeta:coletas, :formColeta:pnlNota">
-							<p:collector unique="true" value="#{coletaBean.item}"
-								addTo="#{coletaBean.coletaItens}"></p:collector>
+											<h:outputText value="Razão Social" />
+											<h:outputText value="#{c.fantasia}" />
+										</h:panelGrid>
+									</f:facet>
 
+								</p:autoComplete>
+								<p:watermark value="Informe o nome ou fantasia do Cliente"
+									for="basicPojoClienteDest" />
+							</h:panelGroup>
+
+							<h:panelGroup rendered="#{coletaBean.coletaSelecionada.id>0}">
+								<p:inplace
+									label="#{coletaBean.coletaSelecionada.destinatario.nome}"
+									editor="true">
+									<p:autoComplete
+										value="#{coletaBean.coletaSelecionada.destinatario}"
+										id="basicPojoDestEdit" for="cliente"
+										completeMethod="#{coletaBean.completeCliente}" size="80"
+										var="c" itemLabel="#{c.nome}" itemValue="#{c}"
+										converter="clienteConverter" forceSelection="true"
+										minQueryLength="3" queryDelay="1000" scrollHeight="200"
+										required="#{facesContext.currentPhaseId.name eq 'RENDER_RESPONSE'}"
+										dropdown="true"
+										requiredMessage="Destinatário é um campo obrigatório">
+
+										<f:facet name="itemtip">
+											<h:panelGrid columns="2" cellpadding="5">
+
+												<h:outputText value="Cgc:" />
+												<h:outputText value="#{c.cgc}" />
+
+												<h:outputText value="Nome" />
+												<h:outputText value="#{c.nome}" />
+
+												<h:outputText value="Razão Social" />
+												<h:outputText value="#{c.fantasia}" />
+											</h:panelGrid>
+										</f:facet>
+
+									</p:autoComplete>
+								</p:inplace>
+								<p:watermark value="Informe o nome ou fantasia do Cliente"
+									for="basicPojoDestEdit" />
+							</h:panelGroup>
+
+
+
+
+						</p:fieldset>
+
+
+						<h:panelGrid columns="1">
+							<p:fieldset legend="Pagador do Frete">
+								<p:selectOneRadio id="tipoFrete"
+									value="#{coletaBean.coletaSelecionada.tipoFrete}">
+									<f:selectItem itemLabel="Remetente" itemValue="CIF" />
+									<f:selectItem itemLabel="Destinatário" itemValue="FOB" />
+								</p:selectOneRadio>
+							</p:fieldset>
+						</h:panelGrid>
+
+					</h:panelGrid>
+
+
+
+
+
+					<p:separator />
+
+					<p:panel id="pnlNota" header="Informações da Carga a ser Coletada">
+
+
+
+						<h:panelGrid columns="5">
+							<h:outputLabel value="Nota Fiscal " for="nf" />
+
+							<h:outputLabel value="Vlr.Nota Fiscal" />
+
+							<h:outputLabel value="Altura" rendered="false" />
+							<h:outputLabel value="Comp." rendered="false" />
+							<h:outputLabel value="Largura" rendered="false" />
+							<h:outputLabel value="Qtde." rendered="false" />
+
+							<h:outputLabel value="Volumes" />
+
+							<h:outputLabel value="Kgs.Real" rendered="false" />
+							<h:outputLabel value="M3" rendered="false" />
+
+							<h:outputLabel value="Kgs.Cubado" />
+							<br></br>
+
+							<p:inputMask id="nf" value="#{coletaBean.item.notaFiscal}"
+								maxlength="9" mask="?999999999" placeholder=" " size="9"
+								required="true"
+								requiredMessage="Necessário informar o número da Nota Fiscal"
+								validatorMessage="Nota Fiscal deve ser informada.">
+
+
+							</p:inputMask>
+
+
+
+							<p:selectOneMenu rendered="false">
+								<f:selectItem itemLabel="Selecione" itemValue="" />
+							</p:selectOneMenu>
+
+							<pe:inputNumber value="#{coletaBean.item.vlrNotaFiscal}"
+								symbol="R$ " style="width:120px" />
+
+							<pe:inputNumber value="#{coletaBean.item.altura}"
+								decimalPlaces="0" maxlength="3" style="width:25px"
+								rendered="false" />
+							<pe:inputNumber value="#{coletaBean.item.comprimento}"
+								decimalPlaces="0" maxlength="3" style="width:25px"
+								rendered="false" />
+							<pe:inputNumber value="#{coletaBean.item.largura}"
+								decimalPlaces="0" maxlength="3" style="width:25px"
+								rendered="false" />
+							<pe:inputNumber value="#{coletaBean.item.quantidade}"
+								decimalPlaces="0" maxlength="3" style="width:30px"
+								rendered="false" />
+
+							<pe:inputNumber value="#{coletaBean.item.volumes}"
+								decimalPlaces="0" style="width:70px">
+
+
+								<p:ajax update="kgCubado" listener="#{coletaBean.fatorKg()}"
+									event="keyup" />
+
+							</pe:inputNumber>
+
+							<pe:inputNumber value="#{coletaBean.item.kgsReal}" symbol="Kgs "
+								style="width:100px" decimalPlaces="3" rendered="false" />
+
+
+							<pe:inputNumber id="kgCubado"
+								value="#{coletaBean.item.kgsCubado}" symbol="Kgs "
+								style="width:100px" decimalPlaces="3" />
+
+							<p:commandButton value="Add" action="#{coletaBean.reinit}"
+								update=":messageGrowl, :formColeta:coletas, :formColeta:pnlNota">
+								<p:collector unique="true" value="#{coletaBean.item}"
+									addTo="#{coletaBean.coletaItens}"></p:collector>
+
+
+							</p:commandButton>
+
+						</h:panelGrid>
+
+					</p:panel>
+
+
+					<p:outputPanel>
+						<p:dataTable value="#{coletaBean.coletaItens}" var="col"
+							scrollable="true" scrollRows="5" scrollHeight="100"
+							style="margin-bottom:0" id="coletas"
+							emptyMessage="Nenhum item informado">
+
+							<p:column headerText="Espécie" width="50" rendered="false">
+								<h:outputText value="#{col.especie}" />
+							</p:column>
+
+							<p:column headerText="Nota Fiscal" footerText="Totais" width="30">
+								<h:outputText value="#{col.notaFiscal}" />
+							</p:column>
+
+							<p:column headerText="Vlr.Nota Fiscal" width="50"
+								style="text-align: right" footerText="#{col.vlrNotaFiscal}">
+								<h:outputText value="#{col.vlrNotaFiscal}">
+									<f:convertNumber locale="pt_BR" type="currency" />
+								</h:outputText>
+							</p:column>
+
+							<p:column headerText="Altura" width="20" rendered="false">
+								<h:outputText value="#{col.altura}" />
+							</p:column>
+
+							<p:column headerText="Comp." width="20" rendered="false">
+								<h:outputText value="#{col.comprimento}" />
+							</p:column>
+
+							<p:column headerText="Largura" width="20" rendered="false">
+								<h:outputText value="#{col.largura}" />
+							</p:column>
+
+							<p:column headerText="Qtde." width="20" rendered="false">
+								<h:outputText value="#{col.quantidade}" />
+							</p:column>
+
+
+							<p:column headerText="Volumes" style="text-align: right"
+								width="20">
+								<h:outputText value="#{col.volumes}" />
+							</p:column>
+
+
+							<p:column headerText="Kgs.Real" style="text-align: right"
+								width="20" rendered="false">
+								<h:outputText value="#{col.kgsReal}">
+									<f:convertNumber pattern="#0.000" />
+								</h:outputText>
+							</p:column>
+
+
+
+
+							<p:column headerText="Kgs.Cubado" style="text-align: right"
+								width="20">
+								<h:outputText value="#{col.kgsCubado}">
+									<f:convertNumber pattern="#0.000" />
+								</h:outputText>
+							</p:column>
+
+
+
+
+
+							<p:column headerText="Ação" width="20">
+								<p:commandLink value="Remover" update=":formColeta:coletas">
+									<p:collector unique="true" value="#{col}"
+										removeFrom="#{coletaBean.coletaItens}" />
+								</p:commandLink>
+							</p:column>
+
+
+							<p:columnGroup type="footer">
+								<p:row>
+									<p:column footerText="Subtotal" style="text-align: right" />
+									<p:column style="text-align: right">
+										<f:facet name="footer">
+											<h:outputText id="totalMercadoria"
+												value="#{coletaBean.coletaSelecionada.totalMercadoria}">
+												<f:convertNumber type="currency" />
+											</h:outputText>
+
+										</f:facet>
+									</p:column>
+
+
+									<p:column style="text-align: right">
+										<f:facet name="footer">
+
+
+											<h:outputText
+												value="#{coletaBean.coletaSelecionada.totalVolumes}">
+
+											</h:outputText>
+										</f:facet>
+									</p:column>
+
+									<p:column style="text-align: right">
+										<f:facet name="footer">
+
+
+											<h:outputText
+												value="#{coletaBean.coletaSelecionada.totalKgsCubado}">
+												<f:convertNumber pattern="#0.000" />
+											</h:outputText>
+										</f:facet>
+									</p:column>
+
+									<p:column style="text-align: right">
+									</p:column>
+								</p:row>
+							</p:columnGroup>
+
+
+						</p:dataTable>
+
+
+						<p:commandButton value="Incluir"
+							rendered="#{coletaBean.coletaSelecionada.id==0}"
+							actionListener="#{coletaBean.incluirColeta}"
+							update="messages, :form:dataTableColetas"
+							oncomplete="if (!args.validationFailed) {dialogColeta.hide();}" />
+
+						<p:commandButton value="Alterar"
+							rendered="#{coletaBean.coletaSelecionada.id>0 and coletaBean.coletaSelecionada.vlrCobrado==0}"
+							actionListener="#{coletaBean.alterarColeta}"
+							update="messages, :form:dataTableColetas" process="@this"
+							oncomplete="closeDialogIfSucess(xhr, status, args, dialogColeta, 'dialogColetaId')" />
+
+
+						<p:commandButton value="Cancelar"
+							oncomplete="PF('dialogColeta').hide();" process="@this">
+							<p:resetInput target="basicPojoClienteEdit"></p:resetInput>
+							<p:resetInput target="basicPojoDestEdit"></p:resetInput>
+							<p:resetInput target="basicPojoClienteDest"></p:resetInput>
 
 						</p:commandButton>
 
-					</h:panelGrid>
 
+					</p:outputPanel>
 				</p:panel>
-
-
-				<p:outputPanel>
-					<p:dataTable value="#{coletaBean.coletaItens}" var="col"
-						scrollable="true" scrollRows="5" scrollHeight="100"
-						style="margin-bottom:0" id="coletas"
-						emptyMessage="Nenhum item informado">
-
-						<p:column headerText="Espécie" width="50" rendered="false">
-							<h:outputText value="#{col.especie}" />
-						</p:column>
-
-						<p:column headerText="Nota Fiscal" footerText="Totais" width="30">
-							<h:outputText value="#{col.notaFiscal}" />
-						</p:column>
-
-						<p:column headerText="Vlr.Nota Fiscal" width="50"
-							style="text-align: right" footerText="#{col.vlrNotaFiscal}">
-							<h:outputText value="#{col.vlrNotaFiscal}">
-								<f:convertNumber locale="pt_BR" type="currency" />
-							</h:outputText>
-						</p:column>
-
-						<p:column headerText="Altura" width="20" rendered="false">
-							<h:outputText value="#{col.altura}" />
-						</p:column>
-
-						<p:column headerText="Comp." width="20" rendered="false">
-							<h:outputText value="#{col.comprimento}" />
-						</p:column>
-
-						<p:column headerText="Largura" width="20" rendered="false">
-							<h:outputText value="#{col.largura}" />
-						</p:column>
-
-						<p:column headerText="Qtde." width="20" rendered="false">
-							<h:outputText value="#{col.quantidade}" />
-						</p:column>
-
-
-						<p:column headerText="Volumes" width="20">
-							<h:outputText value="#{col.volumes}" />
-						</p:column>
-
-
-						<p:column headerText="Kgs.Real" width="20" rendered="false">
-							<h:outputText value="#{col.kgsReal}">
-								<f:convertNumber pattern="#0.000" />
-							</h:outputText>
-						</p:column>
-
-
-
-
-						<p:column headerText="Kgs.Cubado" width="20">
-							<h:outputText value="#{col.kgsCubado}">
-								<f:convertNumber pattern="#0.000" />
-							</h:outputText>
-						</p:column>
-
-
-
-
-
-						<p:column headerText="Ação" width="20">
-							<p:commandLink value="Remover" update=":formColeta:coletas">
-								<p:collector unique="true" value="#{col}"
-									removeFrom="#{coletaBean.coletaItens}" />
-							</p:commandLink>
-						</p:column>
-
-
-					</p:dataTable>
-
-
-					<p:commandButton value="Incluir"
-						rendered="#{coletaBean.coletaSelecionada.id==0}"
-						actionListener="#{coletaBean.incluirColeta}"
-						update="messages, :form:dataTableColetas"
-						oncomplete="if (!args.validationFailed) {dialogColeta.hide();}" />
-
-					<p:commandButton value="Alterar"
-						rendered="#{coletaBean.coletaSelecionada.id>0 and coletaBean.coletaSelecionada.vlrCobrado==0}"
-						actionListener="#{coletaBean.alterarColeta}"
-						update="messages, :form:dataTableColetas"
-						oncomplete="closeDialogIfSucess(xhr, status, args, dialogColeta, 'dialogColetaId')" />
-
-
-					<p:commandButton value="Cancelar"
-						oncomplete="PF('dialogColeta').hide();" process="@this">
-						<p:resetInput target="basicPojoClienteEdit"></p:resetInput>
-						<p:resetInput target="basicPojoDestEdit"></p:resetInput>
-						<p:resetInput target="basicPojoClienteDest"></p:resetInput>
-						
-					</p:commandButton>
-
-
-				</p:outputPanel>
 			</h:form>
 		</p:dialog>
 
+		<p:dialog widgetVar="cancelamentoDialogWidget"
+			id="cancelamentoDialogId" height="200" width="500" modal="true"
+			appendTo="@(body)" closable="true" draggable="false"
+			resizable="false">
+
+			<h:form id="cancelamentoDialogForm" prependId="false">
+				<p:fieldset
+					legend="Informações do Cancelamento - Pedido #{coletaBean.coletaSelecionada.id}">
+
+					<p:separator></p:separator>
+
+					<h:panelGrid columns="2">
+						<h:outputLabel value="Data" />
+						
+						<h:outputLabel value="Motivo" />
+						
+						<h:outputText value="#{coletaBean.coletaSelecionada.cancelamento.getTime()}">
+							<f:convertDateTime pattern="dd/MM/yyyy"
+								timeZone="America/Sao_Paulo" />
+						</h:outputText>
+						
+						<h:outputText
+							value="#{coletaBean.coletaSelecionada.motivoCancelamento}" />
+					</h:panelGrid>
+
+					<p:separator></p:separator>
+
+					<p:commandButton value="Fechar" icon="ui-icon-cancel"
+						title="Fechar" actionListener="#{coletaBean.reinit()}"
+						onclick="cancelamentoDialogWidget.hide();" type="button" />
+				</p:fieldset>
+
+			</h:form>
+
+		</p:dialog>
+
 		<ui:include src="/pages/protected/dialogs/coletaDeleteDialog.xhtml" />
+		<ui:include
+			src="/pages/protected/dialogs/coletaCancelamentoDialog.xhtml" />
 	</ui:define>
 
 </ui:composition>

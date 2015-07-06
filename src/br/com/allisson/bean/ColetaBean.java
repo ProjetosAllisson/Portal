@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -23,9 +22,10 @@ import br.com.allisson.modelo.User;
 import br.com.allisson.modelo.coleta.Coleta;
 import br.com.allisson.modelo.coleta.ColetaAutorizadaEnum;
 import br.com.allisson.modelo.coleta.ColetaItem;
+import br.com.allisson.modelo.coleta.ColetaStatusEnum;
 import br.com.allisson.modelo.coleta.TipoFrete;
 
-@ManagedBean(name="coletaBean")
+@ManagedBean(name = "coletaBean")
 @ViewScoped
 public class ColetaBean extends AbstractMB implements Serializable {
 
@@ -33,176 +33,186 @@ public class ColetaBean extends AbstractMB implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	private Coleta coleta = new Coleta();
-	
+
 	private List<Coleta> coletas;
-	
+
 	private ColetaFacade coletaFacade = new ColetaFacade();
-	
+
 	private Coleta coletaSelecionada = new Coleta();
-	
+
 	private ClienteFacade clienteFacade = new ClienteFacade();
-	
-	
-//------Codificacao antiga------------------//--------------	
-	
+
+	// ------Codificacao antiga------------------//--------------
+
 	private ColetaItem item;
 	private List<ColetaItem> coletaItens;
-	
+
 	private List<ClienteGrupo> grpsRemetente;
 	private List<Cliente> clientesRemetente;
-	
-	//private ClienteGrupoFacade grupoFacade =  new ClienteGrupoFacade();
+
+	// private ClienteGrupoFacade grupoFacade = new ClienteGrupoFacade();
 
 	private User usuario = new User();
 	private ClienteGrupo grupoRemet = new ClienteGrupo();
-	
-	//private Veiculo veiculo = new Veiculo();
-	
-	@PostConstruct 
-	public void init(){
+
+	// private Veiculo veiculo = new Veiculo();
+
+	@PostConstruct
+	public void init() {
 		item = new ColetaItem();
 		coletaItens = new ArrayList<ColetaItem>();
-		
-		//VeiculoDAO vei = new VeiculoDAO();
-		
-		
-		//vei.beginTransaction();
-		
-		//for (Veiculo v : vei.findAllVeiculo()) {
-		//	System.out.println(v.getId().getPlaca());
-			//veiculo = v;
-			//break;
-		//}
-		
+
+		// VeiculoDAO vei = new VeiculoDAO();
+
+		// vei.beginTransaction();
+
+		// for (Veiculo v : vei.findAllVeiculo()) {
+		// System.out.println(v.getId().getPlaca());
+		// veiculo = v;
+		// break;
+		// }
+
 		this.setUsuario(getUsuario().DevolveUsuarioSessao());
-		
-		//if (usuario.getCliente().getGrupoCliente()!=null){
-			//setGrupoRemet(grupoFacade.findGrupo(usuario.getCliente().getGrupoCliente().getGrupo()));	
-		//}
-		
-		
+
+		// if (usuario.getCliente().getGrupoCliente()!=null){
+		// setGrupoRemet(grupoFacade.findGrupo(usuario.getCliente().getGrupoCliente().getGrupo()));
+		// }
+
 	}
-	
-	public ColetaBean(){
+
+	public ColetaBean() {
 		this.completeCliente("");
 		this.completeDestinatario("");
-	
+
 	}
-	
+
 	public List<Cliente> completeCliente(String query) {
 
 		List<Cliente> clientes = new ArrayList<Cliente>();
 
-		
 		clientes.addAll(clienteFacade.allClientesPorNome(query));
-		
+
 		ClienteConverter.setDB(clientes);
 
 		return clientes;
 	}
+
 	public List<Cliente> completeDestinatario(String query) {
 		List<Cliente> clientes = new ArrayList<Cliente>();
 
-		
 		clientes.addAll(clienteFacade.allClientesPorNome(query));
-		
 
 		DestinatarioConverter.setDB(clientes);
 
 		return clientes;
-		
+
 	}
 
-
-	public void incluir(){
+	public void incluir() {
 		coletaSelecionada = new Coleta();
 		coletaSelecionada.setRemetente(usuario.getCliente());
 		coletaSelecionada.setTipoFrete(TipoFrete.FOB);
 		item = new ColetaItem();
 		coletaItens = new ArrayList<ColetaItem>();
 	}
-	
-	public void alterar(){
-		//completeCliente(coletaSelecionada.getRemetente().getNome());
-		//completeDestinatario(coletaSelecionada.getDestinatario().getNome());
+
+	public void alterar() {
+		// completeCliente(coletaSelecionada.getRemetente().getNome());
+		// completeDestinatario(coletaSelecionada.getDestinatario().getNome());
 		item = new ColetaItem();
 		coletaItens = new ArrayList<ColetaItem>();
 		setColetaItens(coletaSelecionada.getItensColeta());
 	}
-	
-	public void incluirColeta(){
-		
+
+	public void incluirColeta() {
+
 		coletaSelecionada.setItensColeta(coletaItens);
 		coletaSelecionada.setUser(getUsuario());
-		
+
 		Calendar c = Calendar.getInstance();
 		coletaSelecionada.setEmissao(c);
 		System.out.println(c.getTime());
 		coletaSelecionada.setAutorizada(ColetaAutorizadaEnum.NAO);
 		coletaSelecionada.setVlrCobrado(new BigDecimal(0));
-		
+
 		for (ColetaItem col : coletaSelecionada.getItensColeta()) {
-			col.setColeta(coletaSelecionada);	
+			col.setColeta(coletaSelecionada);
 		}
 		coletaFacade.createColeta(coletaSelecionada);
-		
+
 		closeDialog();
 		displayInfoMessageToUser("Coleta incluida com Sucesso");
 		loadColetas();
-		
+
 	}
-	
-	public void valorizar(RowEditEvent event){
-		
-		System.out.println( ((Coleta) event.getObject()).getVlrCobrado());
-		
+
+	public void valorizar(RowEditEvent event) {
+
+		System.out.println(((Coleta) event.getObject()).getVlrCobrado());
+
 		System.out.println(coletaSelecionada.getVlrCobrado());
-		if (coletaSelecionada.getVlrCobrado().compareTo(new BigDecimal(0))>0){
+		if (coletaSelecionada.getVlrCobrado().compareTo(new BigDecimal(0)) > 0) {
 			coletaFacade.updateColeta(coletaSelecionada);
 		}
-		
+
 	}
-	
-	public void alterarColeta(){
+
+	public void alterarColeta() {
 		coletaSelecionada.setItensColeta(coletaItens);
-		
+
 		for (ColetaItem col : coletaSelecionada.getItensColeta()) {
-			col.setColeta(coletaSelecionada);	
+			col.setColeta(coletaSelecionada);
 		}
 		coletaFacade.updateColeta(coletaSelecionada);
-		
+
 		closeDialog();
 		displayInfoMessageToUser("Coleta alterada com Sucesso");
-		
+
 		loadColetas();
 	}
-	
-	public void deleteColeta(){
-		try{
+
+	public void deleteColeta() {
+		try {
 			coletaFacade.deleteColeta(coletaSelecionada);
-			
+
 			closeDialog();
 			displayInfoMessageToUser("Excluído com sucesso");
 			loadColetas();
-			
-			
-		}catch(Exception e){
+
+		} catch (Exception e) {
 			keepDialogOpen();
 			displayErrorMessageToUser(e.getMessage());
 			e.printStackTrace();
 		}
 	}
-	
-	
-	public String reinit(){
-		
-		
+
+	public void cancelarColeta() {
+		try {
+			coletaSelecionada.setSituacaoColeta(ColetaStatusEnum.CANCELADO);
+			Calendar c = Calendar.getInstance();
+			coletaSelecionada.setCancelamento(c);
+			coletaFacade.updateColeta(coletaSelecionada);
+
+			closeDialog();
+			displayInfoMessageToUser("Cancelamento Solicitado com sucesso");
+			loadColetas();
+
+		} catch (Exception e) {
+			keepDialogOpen();
+			displayErrorMessageToUser(e.getMessage());
+			e.printStackTrace();
+
+		}
+	}
+
+	public String reinit() {
+
 		item = new ColetaItem();
-		
+
 		return null;
-		
+
 	}
 
 	public Coleta getColeta() {
@@ -253,28 +263,27 @@ public class ColetaBean extends AbstractMB implements Serializable {
 		this.grupoRemet = grupoRemet;
 	}
 
-	public List <Coleta> getColetas() {
-		
-		try{
+	public List<Coleta> getColetas() {
+
+		try {
 			if (coletas == null)
 				loadColetas();
 
-
-		}catch (Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		return coletas;
 	}
 
 	private void loadColetas() {
 		try {
-			setColetas( coletaFacade.getColetas());
+			setColetas(coletaFacade.getColetas());
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 	}
 
 	public void setColetas(List<Coleta> coletas) {
@@ -286,20 +295,19 @@ public class ColetaBean extends AbstractMB implements Serializable {
 	}
 
 	public void setColetaSelecionada(Coleta coletaSelecionada) {
-		
-		
-		
+
 		if ((coletaSelecionada != null)
 				&& (!coletaSelecionada.getRemetente().getNome().equals(""))) {
 			this.completeCliente(coletaSelecionada.getRemetente().getNome());
 		}
-		
-		
+
 		if ((coletaSelecionada != null)
+				&& (coletaSelecionada.getDestinatario() != null)
 				&& (!coletaSelecionada.getDestinatario().getNome().equals(""))) {
-			this.completeDestinatario(coletaSelecionada.getDestinatario().getNome());
+			this.completeDestinatario(coletaSelecionada.getDestinatario()
+					.getNome());
 		}
-		
+
 		this.coletaSelecionada = coletaSelecionada;
 	}
 
@@ -310,15 +318,14 @@ public class ColetaBean extends AbstractMB implements Serializable {
 	public void setUsuario(User usuario) {
 		this.usuario = usuario;
 	}
-	
-	public void fatorKg(){
+
+	public void fatorKg() {
 		BigDecimal multiplica = new BigDecimal(item.getVolumes());
 		BigDecimal kgs = new BigDecimal(0);
-		
+
 		kgs = multiplica.multiply(new BigDecimal(30));
 		this.item.setKgsCubado(kgs);
 	}
-	
-	
 
+	
 }

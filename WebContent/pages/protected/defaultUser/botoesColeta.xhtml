@@ -1,0 +1,24 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<p:toolbar style="margin-top: 20px">
+
+		<p:toolbarGroup align="left">
+			<p:commandButton value="Nova Coleta" title="Nova Coleta"
+				icon="ui-icon-plus" update="@form"
+				actionListener="#{coletaBean.incluir}"
+				oncomplete="PF('dialogColeta').show()" process="@this" />
+
+			<p:commandButton value="Detalhes Coleta" title="Detalhes"
+				rendered="#{coletaBean.coletaSelecionada!=null}"
+				update="@form" actionListener="#{coletaBean.alterar}"
+				icon="ui-icon-zoomin" oncomplete="PF('dialogColeta').show()" />
+				
+			<p:button value="Solicitas" outcome="/pages/protected/defaultUser/coletasSolicitadas"/>	
+
+		</p:toolbarGroup>
+	</p:toolbar>
+</ui:composition>

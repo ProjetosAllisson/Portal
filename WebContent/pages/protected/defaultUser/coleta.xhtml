@@ -27,6 +27,14 @@
 						update=":formColeta" actionListener="#{coletaBean.alterar}"
 						icon="ui-icon-zoomin" oncomplete="PF('dialogColeta').show()" />
 
+					<span class="ui-separator"> <span
+						class="ui-icon ui-icon-grip-dotted-vertical" />
+					</span>
+
+					<p:button value="Coletas Solicitadas"
+						outcome="/pages/protected/defaultUser/coletasSolicitadas"
+						icon="ui-icon-clipboard" />
+
 				</p:toolbarGroup>
 
 
@@ -44,32 +52,34 @@
 
 
 				<p:column headerText="Ações" styleClass="columns">
-					
-						<p:commandLink title="Excluir Pedido"
-							update=":coletaDeleteDialogForm"
-							onclick="coletaDeleteDialogWidget.show();"
-							rendered="#{c.autorizada=='NAO'}">
-							<f:setPropertyActionListener
-								target="#{coletaBean.coletaSelecionada}" value="#{c}" />
 
-							<p:graphicImage styleClass="semBorda" value="/img/excluir.png"></p:graphicImage>
+					<p:commandLink title="Excluir Pedido"
+						update=":coletaDeleteDialogForm"
+						onclick="coletaDeleteDialogWidget.show();"
+						rendered="#{c.autorizada=='NAO'}">
+						<f:setPropertyActionListener
+							target="#{coletaBean.coletaSelecionada}" value="#{c}" />
 
-						</p:commandLink>
-						<h:outputLabel rendered="#{c.autorizada=='SIM'}" />
+						<p:graphicImage styleClass="semBorda" value="/img/excluir.png"></p:graphicImage>
+
+					</p:commandLink>
 
 
-						<p:commandLink title="Cancelar Pedido"
-							update=":coletaCancelamentoDialogForm"
-							onclick="coletaCancelamentoDialogWidget.show();" 
-							rendered="#{c.permiteCancelamento}">
-						
-							<p:graphicImage styleClass="semBorda" value="/img/cancelar.png" />
 
-							<f:setPropertyActionListener value="#{c}"
-								target="#{coletaBean.coletaSelecionada}" />
-						</p:commandLink>
 
-					
+
+					<p:commandLink title="Cancelar Pedido"
+						update=":coletaCancelamentoDialogForm"
+						onclick="coletaCancelamentoDialogWidget.show();"
+						rendered="#{c.permiteCancelamento}">
+
+						<p:graphicImage styleClass="semBorda" value="/img/cancelar.png" />
+
+						<f:setPropertyActionListener value="#{c}"
+							target="#{coletaBean.coletaSelecionada}" />
+					</p:commandLink>
+
+
 				</p:column>
 
 
@@ -82,8 +92,10 @@
 				</p:column>
 
 				<p:column headerText="Situação">
-					<h:outputText value="#{c.situacaoColeta}" rendered="#{c.cancelamento == null}" />
-					<p:commandLink value="#{c.situacaoColeta}" title="Dados do Cancelamento" rendered="#{c.cancelamento != null}"
+					<h:outputText value="#{c.situacaoColeta}"
+						rendered="#{c.cancelamento == null}" />
+					<p:commandLink value="#{c.situacaoColeta}"
+						title="Dados do Cancelamento" rendered="#{c.cancelamento != null}"
 						update=":cancelamentoDialogForm"
 						onclick="cancelamentoDialogWidget.show();">
 
@@ -113,7 +125,7 @@
 
 					<h:outputText value="AGUARDANDO APROVAÇÃO"
 						rendered="#{c.vlrCobrado >0 and c.autorizada=='NAO' and c.status ==null}" />
-						
+
 					<h:outputText value="#{c.status}" rendered="#{c.status !=null}" />
 				</p:column>
 
@@ -624,14 +636,15 @@
 
 					<h:panelGrid columns="2">
 						<h:outputLabel value="Data" />
-						
+
 						<h:outputLabel value="Motivo" />
-						
-						<h:outputText value="#{coletaBean.coletaSelecionada.cancelamento.getTime()}">
+
+						<h:outputText
+							value="#{coletaBean.coletaSelecionada.cancelamento.getTime()}">
 							<f:convertDateTime pattern="dd/MM/yyyy"
 								timeZone="America/Sao_Paulo" />
 						</h:outputText>
-						
+
 						<h:outputText
 							value="#{coletaBean.coletaSelecionada.motivoCancelamento}" />
 					</h:panelGrid>

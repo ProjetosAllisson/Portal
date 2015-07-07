@@ -1,11 +1,15 @@
 package br.com.allisson.facade;
 
+import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
+import br.com.allisson.dao.ColetaDAO;
 import br.com.allisson.dao.ConfigSatwinDAO;
 import br.com.allisson.modelo.Cliente;
 import br.com.allisson.modelo.ConfigSatwin;
@@ -129,6 +133,16 @@ public class TesteHibernate {
 	 * 
 	 * 
 	 */
+		
+		
+		
+		ColetaDAO coletaDao = new ColetaDAO();
+		
+		Map<Date, BigDecimal> valores = coletaDao.valoresTotaisPorDate(15, null);
+		
+		for (Date data : valores.keySet()){
+			System.out.println(data + " = " + valores.get(data));
+		}
 		
 		
         Criptografia criptografia = new Criptografia();

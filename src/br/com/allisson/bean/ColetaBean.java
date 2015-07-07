@@ -326,6 +326,8 @@ public class ColetaBean extends AbstractMB implements Serializable {
 		kgs = multiplica.multiply(new BigDecimal(30));
 		this.item.setKgsCubado(kgs);
 	}
+	
+	
 
 	
 }

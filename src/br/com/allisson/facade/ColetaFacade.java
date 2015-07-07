@@ -1,8 +1,12 @@
 package br.com.allisson.facade;
 
+import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import br.com.allisson.dao.ColetaDAO;
+import br.com.allisson.modelo.User;
 import br.com.allisson.modelo.coleta.Coleta;
 
 
@@ -43,4 +47,10 @@ public class ColetaFacade {
 		coletaDao.commitAndCloseTransaction();
 	}
 
+	public Map<Date, BigDecimal> valoresTotaisPorDate(Integer numeroDias,
+			User criadoPor){
+		coletaDao.beginTransaction();
+		return coletaDao.valoresTotaisPorDate(15, criadoPor);
+		
+	}
 }

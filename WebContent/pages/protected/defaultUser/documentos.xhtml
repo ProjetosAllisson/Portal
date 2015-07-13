@@ -16,12 +16,14 @@
 
 				<p:tabView>
 					<p:ajax event="tabChange" listener="#{docsViewBean.onTabChange}"
-						update=":form:gridDocumentos txtDataInicio txtDataTermino edtNotaFiscal" process="@this" />
+						update=":form:gridDocumentos txtDataInicio txtDataTermino edtNotaFiscal"
+						process="@this" />
 					<p:tab title="Notas em Transito" id="notasEmAberto">
 						<h1>Notas em Transito</h1>
-						
-						<p:commandButton value="Consultar" action="#{docsViewBean.pesquisar()}" update=":form:gridDocumentos"
-								/>
+
+						<p:commandButton value="Consultar"
+							action="#{docsViewBean.pesquisar()}"
+							update=":form:gridDocumentos" />
 					</p:tab>
 
 					<p:tab title="Pesquisa por Período">
@@ -31,7 +33,7 @@
 
 							<p:calendar id="txtDataInicio" pattern="dd/MM/yyyy"
 								locale="pt_BR" value="#{docsViewBean.filtro.dataInicio}"
-								maxlength="10" style="font-size:12px;heigth=30" 
+								maxlength="10" style="font-size:12px;heigth=30"
 								converterMessage="Data Invalida. Exemplo 01/01/2015"
 								mindate="#{docsViewBean.minDataInicio}">
 
@@ -44,8 +46,9 @@
 								maxlength="10" style="font-size:12px;width=130">
 							</p:calendar>
 
-							<p:commandButton value="Consultar" action="#{docsViewBean.pesquisar()}" update=":form:gridDocumentos"
-								 />
+							<p:commandButton value="Consultar"
+								action="#{docsViewBean.pesquisar()}"
+								update=":form:gridDocumentos" />
 						</h:panelGrid>
 					</p:tab>
 
@@ -58,8 +61,9 @@
 								<f:convertNumber integerOnly="true" maxIntegerDigits="9" />
 							</p:inputText>
 
-							<p:commandButton value="Consultar" action="#{docsViewBean.pesquisar()}" update=":form:gridDocumentos"
-								 />
+							<p:commandButton value="Consultar"
+								action="#{docsViewBean.pesquisar()}"
+								update=":form:gridDocumentos" />
 						</h:panelGrid>
 
 
@@ -79,7 +83,7 @@
 								fileName="Documentos" facetBackground="#BEBEBE"
 								facetFontSize="8" facetFontColor="#FFFAFA" facetFontStyle="BOLD"
 								fontName="Courier New" cellFontColor="#F0FFFF" cellFontSize="6"
-								cellFontStyle="NORMAL"  />
+								cellFontStyle="NORMAL" />
 
 						</p:commandLink>
 
@@ -87,7 +91,7 @@
 
 							<p:graphicImage styleClass="semBorda"
 								value="/img/adobe_pdf_document_01.png" title="Exportar para PDF"></p:graphicImage>
-							
+
 							<pe:exporter type="pdf" target="gridDocumentos"
 								fileName="Documentos" orientation="Landscape"
 								facetBackground="#565656" facetFontSize="8"
@@ -98,10 +102,9 @@
 					</p:toolbarGroup>
 				</p:toolbar>
 
-				<p:dataTable value="#{docsViewBean.documentos}" 
-					var="documentos" paginator="true" paginatorPosition="bottom"
-					rows="30" id="gridDocumentos"
-					emptyMessage="Nenhum registro encontrado">
+				<p:dataTable value="#{docsViewBean.documentos}" var="documentos"
+					paginator="true" paginatorPosition="bottom" rows="30"
+					id="gridDocumentos" emptyMessage="Nenhum registro encontrado">
 					<f:facet name="header">
 			 			 Lista de Documentos
 					</f:facet>
@@ -115,13 +118,13 @@
 						<h:outputText value="#{documentos.id.documento}" />
 					</p:column>
 
-					<p:column style="font-size:11px;" sortBy="#{documentos.n_fiscal}">
+					<p:column style="font-size:11px;" sortBy="#{documentos.id.n_fiscal}">
 
 
 						<f:facet name="header">
 							<h:outputText value="NF" />
 						</f:facet>
-						<h:outputText value="#{documentos.n_fiscal}">
+						<h:outputText value="#{documentos.id.n_fiscal}">
 							<f:convertNumber pattern="########0" minIntegerDigits="9" />
 						</h:outputText>
 					</p:column>
@@ -129,7 +132,7 @@
 					<p:column style="font-size:11px;" sortBy="#{documentos.emissao}"
 						width="100">
 						<f:facet name="header">
-							<h:outputText value="Emissao Nf" />
+							<h:outputText value="Emissao" />
 						</f:facet>
 						<h:outputText value="#{documentos.emissao.getTime()}">
 							<f:convertDateTime pattern="dd/MM/yy" />
@@ -156,8 +159,9 @@
 							<f:convertDateTime pattern="dd/MM/yy" />
 						</h:outputText>
 					</p:column>
-					
-					<p:column style="font-size:11px;" sortBy="#{documentos.previsao_entrega}">
+
+					<p:column style="font-size:11px;"
+						sortBy="#{documentos.previsao_entrega}">
 						<f:facet name="header">
 							<h:outputText value="Prev.Entrega" />
 						</f:facet>
@@ -186,6 +190,16 @@
 						</h:outputText>
 					</p:column>
 
+					<p:column style="font-size:11px;" sortBy="#{documentos.totalFrete}" width="100">
+						<f:facet name="header">
+							<h:outputText value="Total Frete" />
+						</f:facet>
+						<h:outputText value="#{documentos.totalFrete}">
+							<f:convertNumber currencySymbol="R$" type="currency"
+								locale="pt_BR" />
+						</h:outputText>
+						
+					</p:column>
 
 
 					<p:column style="font-size:11px;" width="300"
@@ -203,6 +217,9 @@
 						</f:facet>
 						<h:outputText value="#{documentos.nome_destinatario}" />
 					</p:column>
+
+
+
 
 					<p:column style="font-size:11px;" width="250">
 						<f:facet name="header">
@@ -239,8 +256,9 @@
 							<p:graphicImage styleClass="semBorda"
 								value="/img/comprovante.png"></p:graphicImage>
 						</h:commandLink>
-						
-						<h:outputLink value="#{documentos.comprovante_link}" target="_blank" rendered="#{documentos.comprovante_link!=null}">
+
+						<h:outputLink value="#{documentos.comprovante_link}"
+							target="_blank" rendered="#{documentos.comprovante_link!=null}">
 							<p:graphicImage styleClass="semBorda"
 								value="/img/comprovante.png"></p:graphicImage>
 
@@ -270,15 +288,10 @@
 						</h:commandLink>
 
 					</p:column>
-
-				
-
-
-
 				</p:dataTable>
 			</h:form>
 
-			
+
 			<p:dialog header="Imagens" widgetVar="dlgComprovante" modal="true"
 				draggable="false" resizable="false">
 				<h:form id="dlgComprovanteForm">

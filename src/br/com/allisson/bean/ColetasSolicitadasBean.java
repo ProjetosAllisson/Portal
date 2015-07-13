@@ -1,6 +1,8 @@
 package br.com.allisson.bean;
 
 import java.math.BigDecimal;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
 
@@ -17,6 +19,7 @@ import br.com.allisson.facade.ColetaFacade;
 public class ColetasSolicitadasBean {
 	
 	private CartesianChartModel model;
+	private static DateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM");
 	
 	private ColetaFacade coletaFacade = new ColetaFacade();
 	
@@ -32,11 +35,15 @@ public class ColetasSolicitadasBean {
 		
 		Map<Date, BigDecimal> dados = coletaFacade.valoresTotaisPorDate(15, null);
 		
-		series.set("1", Math.random() * 1000);
-		series.set("2", Math.random() * 1000);
-		series.set("3", Math.random() * 1000);
-		series.set("4", Math.random() * 1000);
-		series.set("5", Math.random() * 1000);
+		
+		for (Date data :dados.keySet()){
+			series.set(DATE_FORMAT.format(data), dados.get(data));
+		}
+		//series.set("1", Math.random() * 1000);
+		//series.set("2", Math.random() * 1000);
+		//series.set("3", Math.random() * 1000);
+		//series.set("4", Math.random() * 1000);
+		//series.set("5", Math.random() * 1000);
 		
 		this.model.addSeries(series);
 		

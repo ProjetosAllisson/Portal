@@ -1,6 +1,7 @@
 package br.com.allisson.modelo;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Calendar;
 
 import javax.persistence.Column;
@@ -58,8 +59,8 @@ public class DocumentoView implements Serializable {
 	@Column(columnDefinition = "VARCHAR(80)")
 	private String nome_pagador;
 
-	@Column
-	private Integer n_fiscal;
+	//@Column
+	//private Integer n_fiscal;
 
 	@Column
 	@Temporal(TemporalType.TIMESTAMP)
@@ -122,6 +123,9 @@ public class DocumentoView implements Serializable {
 	
 	@Column
 	private String desc_ocorrencia;
+	
+	@Column 
+	private BigDecimal totalFrete;
 	
 	//@OneToMany(mappedBy="documento",targetEntity = DocumentoEvento.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	//private List<DocumentoEvento> eventos; 
@@ -201,13 +205,13 @@ public class DocumentoView implements Serializable {
 		this.nome_pagador = nome_pagador;
 	}
 
-	public Integer getN_fiscal() {
-		return n_fiscal;
-	}
+	//public Integer getN_fiscal() {
+	//	return n_fiscal;
+	//}
 
-	public void setN_fiscal(Integer n_fiscal) {
-		this.n_fiscal = n_fiscal;
-	}
+	//public void setN_fiscal(Integer n_fiscal) {
+	//	this.n_fiscal = n_fiscal;
+	//}
 
 	public Calendar getEmbarque() {
 		return embarque;
@@ -359,6 +363,14 @@ public class DocumentoView implements Serializable {
 
 	public void setComprovante_link(String comprovante_link) {
 		this.comprovante_link = comprovante_link;
+	}
+
+	public BigDecimal getTotalFrete() {
+		return totalFrete;
+	}
+
+	public void setTotalFrete(BigDecimal totalFrete) {
+		this.totalFrete = totalFrete;
 	}
 
 	

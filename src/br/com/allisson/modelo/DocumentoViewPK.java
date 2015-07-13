@@ -14,6 +14,7 @@ public class DocumentoViewPK implements Serializable {
 	
 	
 	private String documento;
+	private Integer n_fiscal;
 
 
 	public String getDocumento() {
@@ -23,6 +24,16 @@ public class DocumentoViewPK implements Serializable {
 
 	public void setDocumento(String documento) {
 		this.documento = documento;
+	}
+
+
+	public Integer getN_fiscal() {
+		return n_fiscal;
+	}
+
+
+	public void setN_fiscal(Integer n_fiscal) {
+		this.n_fiscal = n_fiscal;
 	}
 
 }

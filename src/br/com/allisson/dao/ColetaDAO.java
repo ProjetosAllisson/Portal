@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -61,22 +62,34 @@ public class ColetaDAO extends GenericDAO<Coleta> {
 		Map<Date, BigDecimal> resultado = criarMapaVazio(numeroDias,
 				dataInicial);
 
+		
 		criteria.setProjection(
 				Projections
 						.projectionList()
-						.add(Projections.sqlGroupProjection(
-								"date(emissao) as data", "date(emissao)",
-								new String[] { "data" },
-								new Type[] { StandardBasicTypes.DATE }))
-						.add(Projections.sum("vlrCobrado").as("valor"))).add(
-				Restrictions.ge("emissao", dataInicial.getTime()));
+						.add(Projections.sqlGroupProjection("cast(emissao as date) as data", 
+								"emissao", new String[] { "data" }, 
+								new Type[] { StandardBasicTypes.DATE } ))
+						.add(Projections.sum("vlrCobrado").as("valor"))
+						);
+						
 		if (criadoPor != null) {
 			criteria.add(Restrictions.eq("vendedor", criadoPor));
 		}
 
+		List<Object> valores = criteria.list();
+		
+		 for (Object r : valores) {
+		        Object[] row = (Object[]) r;
+		        
+		        System.out.println(row[0]);
+		        System.out.println(row[1]);
+		 }
+		
 		List<DataValor> valoresPorData = criteria.setResultTransformer(
 				Transformers.aliasToBean(DataValor.class)).list();
-
+		
+		
+		
 		for (DataValor dataValor : valoresPorData) {
 			resultado.put(dataValor.getData(), dataValor.getValor());
 		}

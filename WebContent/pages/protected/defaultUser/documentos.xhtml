@@ -52,8 +52,16 @@
 						</h:panelGrid>
 					</p:tab>
 
-					<p:tab title="Pesquisa por Nota Fiscal">
-						<h:panelGrid columns="3">
+					<p:tab title="Pesquisa por CT-e/NF-e">
+										
+						<h:panelGrid columns="5">
+						   <h:outputLabel value="Conhecimento:" for="edtCtrc" />
+							<p:inputText id="edtCtrc"
+								value="#{docsViewBean.filtro.ctrc}"
+								converterMessage="Campo Conhecimento é Numérico">
+								<f:convertNumber integerOnly="true" maxIntegerDigits="9" />
+							</p:inputText>
+						
 							<h:outputLabel value="Nota Fiscal:" for="edtNotaFiscal" />
 							<p:inputText id="edtNotaFiscal"
 								value="#{docsViewBean.filtro.nota_fiscal}"
@@ -110,7 +118,7 @@
 					</f:facet>
 
 
-					<p:column style="font-size:11px;" width="100px"
+					<p:column style="font-size:11px;" 
 						sortBy="#{documentos.id.documento}">
 						<f:facet name="header">
 							<h:outputText value="Documento" />
@@ -125,7 +133,7 @@
 							<h:outputText value="NF" />
 						</f:facet>
 						<h:outputText value="#{documentos.id.n_fiscal}">
-							<f:convertNumber pattern="########0" minIntegerDigits="9" />
+							
 						</h:outputText>
 					</p:column>
 

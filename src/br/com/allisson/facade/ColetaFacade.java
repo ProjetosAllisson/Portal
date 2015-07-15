@@ -50,7 +50,13 @@ public class ColetaFacade {
 	public Map<Date, BigDecimal> valoresTotaisPorDate(Integer numeroDias,
 			User criadoPor){
 		coletaDao.beginTransaction();
-		return coletaDao.valoresTotaisPorDate(15, criadoPor);
+		return coletaDao.valoresTotaisPorDate(numeroDias, criadoPor);
 		
+	}
+	
+	public Map<String, BigDecimal> valoresTotaisPorUsuario(Integer numeroDias,
+			User criadoPor){
+		coletaDao.beginTransaction();
+		return coletaDao.valoresPorUsuario(numeroDias, criadoPor);
 	}
 }

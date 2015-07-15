@@ -63,6 +63,9 @@ public class DocumentoView implements Serializable {
 	//private Integer n_fiscal;
 
 	@Column
+	private Integer ctrc;	
+	
+	@Column
 	@Temporal(TemporalType.TIMESTAMP)
 	private Calendar embarque;
 
@@ -372,6 +375,15 @@ public class DocumentoView implements Serializable {
 	public void setTotalFrete(BigDecimal totalFrete) {
 		this.totalFrete = totalFrete;
 	}
+
+	public Integer getCtrc() {
+		return ctrc;
+	}
+
+	public void setCtrc(Integer ctrc) {
+		this.ctrc = ctrc;
+	}
+
 
 	
 

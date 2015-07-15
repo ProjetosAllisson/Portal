@@ -10,6 +10,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
+import org.apache.commons.lang3.time.DateUtils;
 import org.primefaces.event.RowEditEvent;
 
 import br.com.allisson.bean.converter.ClienteConverter;
@@ -131,7 +132,8 @@ public class ColetaBean extends AbstractMB implements Serializable {
 		coletaSelecionada.setItensColeta(coletaItens);
 		coletaSelecionada.setUser(getUsuario());
 
-		Calendar c = Calendar.getInstance();
+		Calendar c =  Calendar.getInstance();
+		c = DateUtils.truncate(c, Calendar.DAY_OF_MONTH);
 		coletaSelecionada.setEmissao(c);
 		System.out.println(c.getTime());
 		coletaSelecionada.setAutorizada(ColetaAutorizadaEnum.NAO);

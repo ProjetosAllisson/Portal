@@ -14,7 +14,8 @@ public class FiltroDocumento implements Serializable {
 	private Date dataInicio;
 	private Date dataTermino;
 	
-	private Integer nota_fiscal;
+	private Integer ctrc;
+	private String nota_fiscal;
 
 	private int primeiroRegistro;
 	private int quantidadeRegistros;
@@ -58,11 +59,17 @@ public class FiltroDocumento implements Serializable {
 	public void setDataTermino(Date dataTermino) {
 		this.dataTermino = dataTermino;
 	}
-	public Integer getNota_fiscal() {
+	public String getNota_fiscal() {
 		return nota_fiscal;
 	}
-	public void setNota_fiscal(Integer nota_fiscal) {
+	public void setNota_fiscal(String nota_fiscal) {
 		this.nota_fiscal = nota_fiscal;
+	}
+	public Integer getCtrc() {
+		return ctrc;
+	}
+	public void setCtrc(Integer ctrc) {
+		this.ctrc = ctrc;
 	}
 
 

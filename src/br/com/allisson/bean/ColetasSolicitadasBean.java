@@ -13,6 +13,7 @@ import org.primefaces.model.chart.CartesianChartModel;
 import org.primefaces.model.chart.ChartSeries;
 
 import br.com.allisson.facade.ColetaFacade;
+import br.com.allisson.modelo.User;
 
 @ManagedBean(name="coletasSolicitadas")
 @RequestScoped
@@ -23,21 +24,41 @@ public class ColetasSolicitadasBean {
 	
 	private ColetaFacade coletaFacade = new ColetaFacade();
 	
+	private User usuario = new User();
+	
+	/*
+	@PostConstruct
+	public void init(){
+		this.model = new CartesianChartModel();
+		
+		adicionarSerie("Todas as Coletas",null);
+		adicionarSerie("Minhas Coletas",getUsuario().DevolveUsuarioSessao());
+		
+	}
+	*/
 	public void preRender(){
 		this.model = new CartesianChartModel();
 		
-		adicionarSerie("Todas as Coletas");
-		adicionarSerie("Meus Pedidos");
+		adicionarSerie("Todas as Coletas",null);
+		adicionarSerie("Minhas Coletas",getUsuario().DevolveUsuarioSessao());
+		
+		
 	}
 
-	private void adicionarSerie(String rotulo) {
+	private void adicionarSerie(String rotulo, User criadoPor) {
 		ChartSeries series = new ChartSeries(rotulo);
 		
-		Map<Date, BigDecimal> dados = coletaFacade.valoresTotaisPorDate(15, null);
+		Map<Date, BigDecimal> dados = coletaFacade.valoresTotaisPorDate(15, criadoPor);
+		
+		
 		
 		
 		for (Date data :dados.keySet()){
+			
 			series.set(DATE_FORMAT.format(data), dados.get(data));
+			
+			System.out.println(data);
+			System.out.println(DATE_FORMAT.format(data));
 		}
 		//series.set("1", Math.random() * 1000);
 		//series.set("2", Math.random() * 1000);
@@ -52,6 +73,14 @@ public class ColetasSolicitadasBean {
 
 	public CartesianChartModel getModel() {
 		return model;
+	}
+
+	public User getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(User usuario) {
+		this.usuario = usuario;
 	}
 
 	

@@ -76,9 +76,10 @@ public class DocumentoViewDAO extends GenericDAO<DocumentoView> {
 		
 		
 		
-        int dias =90;
+        int dias =90*-1;
 		
-        if (filtro.getDataInicio()==null && filtro.getDataTermino()==null && (filtro.getNota_fiscal()==null || filtro.getNota_fiscal()==0)){
+        if (filtro.getDataInicio()==null && filtro.getDataTermino()==null && (filtro.getNota_fiscal()==null || filtro.getNota_fiscal().equals("")
+        		&&(filtro.getCtrc()==null || filtro.getCtrc()==0))){
         	criteria.add(Restrictions.isNull("entrega"));
         	
         	
@@ -103,7 +104,7 @@ public class DocumentoViewDAO extends GenericDAO<DocumentoView> {
 		
 		Calendar dt_partida = Calendar.getInstance();
 		dt_partida.setTime(new java.util.Date());
-		dt_partida.add(Calendar.DAY_OF_MONTH, -dias);
+		dt_partida.add(Calendar.DAY_OF_MONTH, dias);
 		
 		if (filtro.getDataInicio()!=null){
 			dt_partida.setTime(filtro.getDataInicio());
@@ -117,8 +118,13 @@ public class DocumentoViewDAO extends GenericDAO<DocumentoView> {
 			criteria.add(Restrictions.le("emissao", dt_termino));
 		}
 		
-		if (filtro.getNota_fiscal()!=null && filtro.getNota_fiscal()>0){
-			criteria.add(Restrictions.eq("n_fiscal", filtro.getNota_fiscal()));
+		
+		if (filtro.getNota_fiscal()!=null && !filtro.getNota_fiscal().equals("")){
+			criteria.add(Restrictions.like("id.n_fiscal", "%"+filtro.getNota_fiscal()+"%"));
+		}
+		
+		if (filtro.getCtrc()!=null && filtro.getCtrc()>0){
+			criteria.add(Restrictions.eq("ctrc", filtro.getCtrc()));
 		}
 		
 		//criteria.addOrder(Order.desc("emissao"));

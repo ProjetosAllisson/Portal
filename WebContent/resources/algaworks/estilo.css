@@ -16,6 +16,10 @@ header {
 	box-shadow: 0px 20px 20px #bfbfbf
 }
 
+.ui-dialog-title{
+	font-size: 12px !important;
+}
+
 #conteudo {
 	padding: 0px 8px
 }

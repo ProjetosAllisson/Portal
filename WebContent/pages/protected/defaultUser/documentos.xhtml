@@ -16,7 +16,7 @@
 
 				<p:tabView>
 					<p:ajax event="tabChange" listener="#{docsViewBean.onTabChange}"
-						update=":form:gridDocumentos txtDataInicio txtDataTermino edtNotaFiscal"
+						update=":form:gridDocumentos txtDataInicio txtDataTermino edtNotaFiscal edtCtrc"
 						process="@this" />
 					<p:tab title="Notas em Transito" id="notasEmAberto">
 						<h1>Notas em Transito</h1>
@@ -65,7 +65,7 @@
 							<h:outputLabel value="Nota Fiscal:" for="edtNotaFiscal" />
 							<p:inputText id="edtNotaFiscal"
 								value="#{docsViewBean.filtro.nota_fiscal}"
-								converterMessage="Campo nota fiscal é Numérico">
+								converterMessage="Campo nota fiscal é Numérico" maxlength="9">
 								<f:convertNumber integerOnly="true" maxIntegerDigits="9" />
 							</p:inputText>
 
@@ -244,7 +244,7 @@
 						<h:outputText value="#{documentos.recebedor}" />
 					</p:column>
 
-					<p:column style="font-size:10px;" exportable="false">
+					<p:column style="font-size:10px;" exportable="false" >
 						<f:facet name="header">
 							<h:outputText value="Comprovante" />
 						</f:facet>
@@ -258,7 +258,7 @@
 						</p:commandButton>
 
 						<h:commandLink title="Download"
-							rendered="#{documentos.comprovante_path!=null}"
+							rendered="#{documentos.comprovante_path!=null and documentos.entrega!=null}"
 							action="#{arquivosBean.download(documentos.comprovante_path,documentos.comprovante_nome,documentos.comprovante_extensao)}">
 
 							<p:graphicImage styleClass="semBorda"
@@ -266,7 +266,7 @@
 						</h:commandLink>
 
 						<h:outputLink value="#{documentos.comprovante_link}"
-							target="_blank" rendered="#{documentos.comprovante_link!=null}">
+							target="_blank" rendered="#{documentos.comprovante_link!=null and documentos.entrega!=null}">
 							<p:graphicImage styleClass="semBorda"
 								value="/img/comprovante.png"></p:graphicImage>
 

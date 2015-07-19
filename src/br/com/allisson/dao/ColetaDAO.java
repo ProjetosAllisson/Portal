@@ -68,7 +68,7 @@ public class ColetaDAO extends GenericDAO<Coleta> {
 		criteria.setProjection(Projections
 				.projectionList()
 				.add(Projections.sqlGroupProjection(
-						"cast(emissao as date) as data", "emissao",
+						"cast(diapedido as date) as data", "diapedido",
 						new String[] { "data" },
 						new Type[] { StandardBasicTypes.DATE }))
 				.add(Projections.sum("vlrCobrado").as("valor")));

@@ -52,6 +52,8 @@ public class ColetaBean extends AbstractMB implements Serializable {
 
 	private List<ClienteGrupo> grpsRemetente;
 	private List<Cliente> clientesRemetente;
+	
+	private Cliente destinatario;
 
 	// private ClienteGrupoFacade grupoFacade = new ClienteGrupoFacade();
 
@@ -125,6 +127,9 @@ public class ColetaBean extends AbstractMB implements Serializable {
 		item = new ColetaItem();
 		coletaItens = new ArrayList<ColetaItem>();
 		setColetaItens(coletaSelecionada.getItensColeta());
+		
+		destinatario = new Cliente();
+		destinatario = coletaSelecionada.getDestinatario();
 	}
 
 	public void incluirColeta() {
@@ -133,9 +138,12 @@ public class ColetaBean extends AbstractMB implements Serializable {
 		coletaSelecionada.setUser(getUsuario());
 
 		Calendar c =  Calendar.getInstance();
-		c = DateUtils.truncate(c, Calendar.DAY_OF_MONTH);
 		coletaSelecionada.setEmissao(c);
-		System.out.println(c.getTime());
+		
+		Calendar dia = Calendar.getInstance();
+		dia = DateUtils.truncate(dia, Calendar.DAY_OF_MONTH);
+		coletaSelecionada.setDiapedido(dia);
+
 		coletaSelecionada.setAutorizada(ColetaAutorizadaEnum.NAO);
 		coletaSelecionada.setVlrCobrado(new BigDecimal(0));
 
@@ -167,6 +175,10 @@ public class ColetaBean extends AbstractMB implements Serializable {
 		for (ColetaItem col : coletaSelecionada.getItensColeta()) {
 			col.setColeta(coletaSelecionada);
 		}
+		if (coletaSelecionada.getDestinatario()==null){
+			coletaSelecionada.setDestinatario(destinatario);	
+		}
+		
 		coletaFacade.updateColeta(coletaSelecionada);
 
 		closeDialog();

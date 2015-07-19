@@ -11,6 +11,7 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 
+import br.com.allisson.modelo.Cliente;
 import br.com.allisson.modelo.DocumentoView;
 import br.com.allisson.modelo.FiltroDocumento;
 import br.com.allisson.modelo.User;
@@ -26,7 +27,7 @@ public class DocumentoViewDAO extends GenericDAO<DocumentoView> {
 	
 	public DocumentoViewDAO(){
 		super(DocumentoView.class);
-		this.usuario = usuario.DevolveUsuarioSessao();
+		
 	}
 	
 	
@@ -34,6 +35,14 @@ public class DocumentoViewDAO extends GenericDAO<DocumentoView> {
 	@SuppressWarnings("unchecked")
 	public List<DocumentoView> filtrados(FiltroDocumento filtro){
 		
+		if (filtro.getCnpj_cpf() !=null && !filtro.getCnpj_cpf().equals("")){
+			Cliente cli = new Cliente();
+			cli.setCgc(filtro.getCnpj_cpf());
+			this.usuario.setCliente(cli);
+			
+		}else{
+			this.usuario = usuario.DevolveUsuarioSessao();	
+		}
 		
 		Criteria criteria = criarCriteriaParaFiltro(filtro);
 		//criteria.setFirstResult(filtro.getPrimeiroRegistro());

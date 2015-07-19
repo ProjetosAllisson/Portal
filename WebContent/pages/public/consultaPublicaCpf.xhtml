@@ -7,22 +7,19 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
 
-
-
-
 <ui:composition template="/pages/protected/templates/Layout.xhtml">
+	<ui:define name="params">
+		<f:metadata>
+			<f:viewParam name="cnpj" value="#{docsViewBean.paramCpnj_Cpf}" />
+			<f:viewParam name="notafiscal"
+				value="#{docsViewBean.paramNotaFiscal}" />
+		</f:metadata>
+
+	</ui:define>
 	<ui:define name="corpo">
 		<h1>Consulta Pública</h1>
 		<h:form id="form">
-			<!--Ajax com status customizado -->
-			<p:ajaxStatus onstart="statusDialog.show()"
-				onsuccess="statusDialog.hide()" />
-			<p:dialog modal="true" widgetVar="statusDialog" header="Status"
-				draggable="false" closable="false">
-				<h:graphicImage value="/resources/LoadingProgressBar.gif" />
-			</p:dialog>
-
-			<p:growl showDetail="true"></p:growl>
+			
 
 
 
@@ -52,31 +49,34 @@
 				<p:focus>
 
 
-					<p:inputMask id="CPF" size="20" value="#{documentosBean.cpf_cnpj}"
+					<p:inputMask id="CPF" size="20"
+						value="#{docsViewBean.filtro.cnpj_cpf}"
 						mask="#{usuariosBean.campoBooleanControle ? '99.999.999/9999-99' : '999.999.999-99'}"
-						required="true"
-						requiredMessage="Campo obrigatório não preenchido"
+						required="true" requiredMessage="Campo obrigatório não preenchido"
 						title="#{usuariosBean.campoBooleanControle ? 'Informe o Cnpj.' : 'Informe o Cpf.'}">
 
 
 
 					</p:inputMask>
-
-
-
-
 				</p:focus>
+				<br></br>
+				<h:outputLabel value="Nota Fiscal:" for="edtNotaFiscal" />
+				<p:inputText id="edtNotaFiscal"
+					value="#{docsViewBean.filtro.nota_fiscal}" required="true"
+					requiredMessage="Informe a Nota Fiscal"
+					converterMessage="Campo nota fiscal é Numérico" maxlength="9">
+					<f:convertNumber integerOnly="true" maxIntegerDigits="9" />
+				</p:inputText>
+
 				<p:commandButton value="Pesquisar" style="font-size:12px;width=40%"
-					actionListener="#{documentosBean.ConsultaPublica}"
+					actionListener="#{docsViewBean.pesquisar()}"
 					update="gridDocumentos"></p:commandButton>
 			</h:panelGrid>
 
 
 
-			<p:dataTable value="#{documentosBean.documentos}" paginator="true"
-				paginatorPosition="bottom" rows="10"
-				paginatorTemplate="{CurrentPageReport} {RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
-				rowsPerPageTemplate="3,5,10,15,20" var="documentos"
+			<p:dataTable value="#{docsViewBean.documentos}" 
+				var="documentos"
 				id="gridDocumentos" widgetVar="tblDocumentos"
 				emptyMessage="Nenhum registro encontrado">
 				<f:facet name="header">
@@ -92,14 +92,11 @@
 					<h:outputText value="#{documentos.documento}" />
 				</p:column>
  				-->
-				<p:column style="font-size:10px;" sortBy="#{documentos.nota}"
-					filterBy="#{documentos.nota}">
-
-
+				<p:column style="font-size:10px;">
 					<f:facet name="header">
 						<h:outputText value="NF" />
 					</f:facet>
-					<h:outputText value="#{documentos.nota}">
+					<h:outputText value="#{documentos.id.n_fiscal}">
 						<f:convertNumber pattern="########0" minIntegerDigits="9" />
 					</h:outputText>
 				</p:column>
@@ -135,22 +132,21 @@
 				 -->
 
 
-				<p:column style="font-size:10px;" sortBy="#{documentos.remetente}">
+				<p:column style="font-size:10px;">
 					<f:facet name="header">
 						<h:outputText value="Remetente" />
 					</f:facet>
-					<h:outputText value="#{documentos.remetente}" />
+					<h:outputText value="#{documentos.nome_remetente}" />
 				</p:column>
 
-				<p:column style="font-size:10px;"
-					sortBy="#{documentos.destinatario}">
+				<p:column style="font-size:10px;">
 					<f:facet name="header">
 						<h:outputText value="Destinatário" />
 					</f:facet>
-					<h:outputText value="#{documentos.destinatario}" />
+					<h:outputText value="#{documentos.nome_destinatario}" />
 				</p:column>
 
-				<p:column style="font-size:10px;" sortBy="#{documentos.entrega}">
+				<p:column style="font-size:10px;" >
 					<f:facet name="header">
 						<h:outputText value="Entrega" />
 					</f:facet>
@@ -164,8 +160,47 @@
 					<f:facet name="header">
 						<h:outputText value="Ocorrência" />
 					</f:facet>
-					<h:outputText value="#{documentos.ocorrencia}" />
+					<h:outputText value="#{documentos.desc_ocorrencia}" />
 				</p:column>
+				
+				<p:column style="font-size:11px;" width="70">
+						<f:facet name="header">
+							<h:outputText value="Recebedor" />
+						</f:facet>
+						<h:outputText value="#{documentos.recebedor}" />
+					</p:column>
+
+					<p:column style="font-size:10px;" exportable="false" >
+						<f:facet name="header">
+							<h:outputText value="Comprovante" />
+						</f:facet>
+						<p:commandButton update=":dlgComprovanteForm"
+							action="#{docsViewBean.exibeComprovante}"
+							oncomplete="PF('dlgComprovante').show()" icon="ui-icon-image"
+							title="Comprovante de Entrega"
+							rendered="#{documentos.img_comprovante_frente!=null}">
+							<f:setPropertyActionListener value="#{documentos}"
+								target="#{docsViewBean.documentoSelecionado}" />
+						</p:commandButton>
+
+						<h:commandLink title="Download"
+							rendered="#{documentos.comprovante_path!=null and documentos.entrega!=null}"
+							action="#{arquivosBean.download(documentos.comprovante_path,documentos.comprovante_nome,documentos.comprovante_extensao)}">
+
+							<p:graphicImage styleClass="semBorda"
+								value="/img/comprovante.png"></p:graphicImage>
+						</h:commandLink>
+
+						<h:outputLink value="#{documentos.comprovante_link}"
+							target="_blank" rendered="#{documentos.comprovante_link!=null and documentos.entrega!=null}">
+							<p:graphicImage styleClass="semBorda"
+								value="/img/comprovante.png"></p:graphicImage>
+
+						</h:outputLink>
+
+					</p:column>
+				
+				
 			</p:dataTable>
 
 		</h:form>

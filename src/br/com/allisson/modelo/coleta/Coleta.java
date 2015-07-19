@@ -70,6 +70,10 @@ public class Coleta implements Serializable{
 	@Temporal(TemporalType.TIMESTAMP)
 	private Calendar emissao;
 	
+	@Column
+	@Temporal(TemporalType.TIMESTAMP)
+	private Calendar diapedido;
+	
 	@ManyToOne
 	@JoinColumn(name="remetente",columnDefinition="VARCHAR(18)")
 	private Cliente remetente;
@@ -302,6 +306,14 @@ public class Coleta implements Serializable{
 		return getAutorizada().equals(
 				ColetaAutorizadaEnum.SIM)
 				&& (getStatus().equals("EM ABERTO") || getCancelamento() == null);
+	}
+
+	public Calendar getDiapedido() {
+		return diapedido;
+	}
+
+	public void setDiapedido(Calendar diapedido) {
+		this.diapedido = diapedido;
 	}
 
 	

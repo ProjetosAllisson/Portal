@@ -305,7 +305,7 @@
 
 
 
-							<h:panelGroup rendered="#{coletaBean.coletaSelecionada.id==0}">
+							<h:panelGroup id="inDestinatario" rendered="#{coletaBean.coletaSelecionada.id==0}">
 
 								<p:autoComplete
 									value="#{coletaBean.coletaSelecionada.destinatario}"
@@ -336,7 +336,7 @@
 									for="basicPojoClienteDest" />
 							</h:panelGroup>
 
-							<h:panelGroup rendered="#{coletaBean.coletaSelecionada.id>0}">
+							<h:panelGroup id="alDestinatario" rendered="#{coletaBean.coletaSelecionada.id>0}">
 								<p:inplace
 									label="#{coletaBean.coletaSelecionada.destinatario.nome}"
 									editor="true">
@@ -599,13 +599,13 @@
 						<p:commandButton value="Incluir"
 							rendered="#{coletaBean.coletaSelecionada.id==0}"
 							actionListener="#{coletaBean.incluirColeta}"
-							update="messages, :form:dataTableColetas"
+							update="messages, :form:dataTableColetas" process="@this inDestinatario"
 							oncomplete="if (!args.validationFailed) {dialogColeta.hide();}" />
 
 						<p:commandButton value="Alterar"
 							rendered="#{coletaBean.coletaSelecionada.id>0 and coletaBean.coletaSelecionada.vlrCobrado==0}"
 							actionListener="#{coletaBean.alterarColeta}"
-							update="messages, :form:dataTableColetas" process="@this"
+							update="messages, :form:dataTableColetas" process="@this alDestinatario"
 							oncomplete="closeDialogIfSucess(xhr, status, args, dialogColeta, 'dialogColetaId')" />
 
 

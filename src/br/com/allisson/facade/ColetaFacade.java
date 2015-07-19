@@ -22,10 +22,6 @@ public class ColetaFacade {
 		coletaDao.closeTransaction();
 		
 		return result;
-		
-		
-		
-		
 	}
 
 	public void createColeta(Coleta coleta) {

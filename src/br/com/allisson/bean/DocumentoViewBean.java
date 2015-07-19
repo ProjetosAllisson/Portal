@@ -17,10 +17,9 @@ import javax.servlet.ServletContext;
 
 import org.primefaces.event.TabChangeEvent;
 import org.primefaces.model.DefaultStreamedContent;
-import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.StreamedContent;
 
-import br.com.allisson.dao.DocumentoViewDAO;
+import br.com.allisson.facade.DocumentoViewFacade;
 import br.com.allisson.modelo.DocumentoView;
 import br.com.allisson.modelo.FiltroDocumento;
 
@@ -29,59 +28,58 @@ import br.com.allisson.modelo.FiltroDocumento;
 public class DocumentoViewBean {
 
 	private FiltroDocumento filtro = new FiltroDocumento();
-	private LazyDataModel<DocumentoView> model;
+	//private LazyDataModel<DocumentoView> model;
 
-	private DocumentoViewDAO docViewDao = new DocumentoViewDAO();
+	private DocumentoViewFacade docViewFacade = new DocumentoViewFacade();
 	private DocumentoView documentoSelecionado;
-	
+
 	private List<DocumentoView> documentos = new ArrayList<DocumentoView>();
 
-	
+	private String paramCpnj_Cpf;
+	private String paramNotaFiscal;
+
 	/*
-	public DocumentoViewBean() {
-		model = new LazyDataModel<DocumentoView>() {
+	 * public DocumentoViewBean() { model = new LazyDataModel<DocumentoView>() {
+	 * 
+	 * /**
+	 */
+	/*
+	 * private static final long serialVersionUID = 1L;
+	 * 
+	 * @Override public List<DocumentoView> load(int first, int pageSize, String
+	 * sortField, SortOrder sortOrder, Map<String, String> filters) {
+	 * 
+	 * getFiltro().setPrimeiroRegistro(first);
+	 * getFiltro().setQuantidadeRegistros(pageSize);
+	 * getFiltro().setAscendente(SortOrder.ASCENDING.equals(sortOrder));
+	 * getFiltro().setPropriedadeOrdenacao(sortField);
+	 * 
+	 * docViewDao.beginTransaction();
+	 * setRowCount(docViewDao.quantidadeFiltrados(getFiltro()));
+	 * 
+	 * return docViewDao.filtrados(getFiltro()); }
+	 * 
+	 * };
+	 * 
+	 * }
+	 */
 
-			/**
-			 * 
-			 */
-		/*	private static final long serialVersionUID = 1L;
-
-			@Override
-			public List<DocumentoView> load(int first, int pageSize,
-					String sortField, SortOrder sortOrder,
-					Map<String, String> filters) {
-
-				getFiltro().setPrimeiroRegistro(first);
-				getFiltro().setQuantidadeRegistros(pageSize);
-				getFiltro().setAscendente(SortOrder.ASCENDING.equals(sortOrder));
-				getFiltro().setPropriedadeOrdenacao(sortField);
-
-				docViewDao.beginTransaction();
-				setRowCount(docViewDao.quantidadeFiltrados(getFiltro()));
-				
-				return docViewDao.filtrados(getFiltro());
-			}
-
-		};
-
-	}
 	
-	*/
-	public void onTabChange(TabChangeEvent event){
+
+	public void onTabChange(TabChangeEvent event) {
 		filtro = new FiltroDocumento();
 		documentos = new ArrayList<DocumentoView>();
-		if (!event.getTab().getId().equals("notasEmAberto")){
-			//filtro.setDataInicio(new Date());
+		if (!event.getTab().getId().equals("notasEmAberto")) {
+			// filtro.setDataInicio(new Date());
 		}
 	}
-	
-	public void pesquisar(){
-		docViewDao.beginTransaction();
-		documentos = docViewDao.filtrados(getFiltro());
+
+	public void pesquisar() {
+		documentos = docViewFacade.consultaDocumentos(getFiltro());
 	}
-	
-	public Date getMinDataInicio(){
-		int iDias = 90*-1;
+
+	public Date getMinDataInicio() {
+		int iDias = 90 * -1;
 		Calendar data = Calendar.getInstance();
 		data.add(Calendar.DAY_OF_MONTH, iDias);
 		return data.getTime();
@@ -94,7 +92,6 @@ public class DocumentoViewBean {
 
 		File folder = new File(sContext.getRealPath("/temp"));
 
-		
 		if (!folder.exists())
 			folder.mkdirs();
 
@@ -107,20 +104,17 @@ public class DocumentoViewBean {
 			criaArquivo(documentoSelecionado.getImg_comprovante_frente(),
 					arquivo);
 		}
-		
-		nomeArquivo = documentoSelecionado.getId().getDocumento() + "V" + ".jpg";
-		arquivo = sContext.getRealPath("/temp") + File.separator
-				+ nomeArquivo;
 
+		nomeArquivo = documentoSelecionado.getId().getDocumento() + "V"
+				+ ".jpg";
+		arquivo = sContext.getRealPath("/temp") + File.separator + nomeArquivo;
 
-		
 		if (documentoSelecionado.getImg_comprovante_verso() != null) {
 			System.out.println("Verso");
 			criaArquivo(documentoSelecionado.getImg_comprovante_verso(),
 					arquivo);
 		}
 
-		
 	}
 
 	private void criaArquivo(byte[] bytes, String arquivo) {
@@ -166,9 +160,7 @@ public class DocumentoViewBean {
 		return filtro;
 	}
 
-	public LazyDataModel<DocumentoView> getModel() {
-		return model;
-	}
+	
 
 	public DocumentoView getDocumentoSelecionado() {
 		return documentoSelecionado;
@@ -186,6 +178,37 @@ public class DocumentoViewBean {
 		return documentos;
 	}
 
-	
+	public String getParamCpnj_Cpf() {
+		return paramCpnj_Cpf;
+	}
+
+	public void setParamCpnj_Cpf(String paramCpnj_Cpf) {
+		this.paramCpnj_Cpf = paramCpnj_Cpf;
+	}
+
+	public String getParamNotaFiscal() {
+		return paramNotaFiscal;
+	}
+
+	public void setParamNotaFiscal(String paramNotaFiscal) {
+		this.paramNotaFiscal = paramNotaFiscal;
+		
+		
+		System.out.println("Notaaa  .."+this.paramNotaFiscal);
+		
+		if (this.getParamCpnj_Cpf() != null
+				&& this.getParamNotaFiscal() != null
+				&& !this.getParamCpnj_Cpf().equals("")
+				&& !this.getParamNotaFiscal().equals("")) {
+			
+			filtro = new FiltroDocumento();
+			filtro.setCnpj_cpf(this.getParamCpnj_Cpf());
+			filtro.setNota_fiscal(this.getParamNotaFiscal());
+			this.pesquisar();
+			
+		}
+		
+		
+	}
 
 }

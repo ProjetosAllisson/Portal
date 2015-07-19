@@ -16,6 +16,8 @@ public class FiltroDocumento implements Serializable {
 	
 	private Integer ctrc;
 	private String nota_fiscal;
+	
+	private String cnpj_cpf;
 
 	private int primeiroRegistro;
 	private int quantidadeRegistros;
@@ -70,6 +72,12 @@ public class FiltroDocumento implements Serializable {
 	}
 	public void setCtrc(Integer ctrc) {
 		this.ctrc = ctrc;
+	}
+	public String getCnpj_cpf() {
+		return cnpj_cpf;
+	}
+	public void setCnpj_cpf(String cnpj_cpf) {
+		this.cnpj_cpf = cnpj_cpf;
 	}
 
 

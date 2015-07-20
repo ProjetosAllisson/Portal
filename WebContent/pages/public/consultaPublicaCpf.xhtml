@@ -150,7 +150,7 @@
 					<f:facet name="header">
 						<h:outputText value="Entrega" />
 					</f:facet>
-					<h:outputText value="#{documentos.entrega}">
+					<h:outputText value="#{documentos.entrega.getTime()}">
 						<f:convertDateTime pattern="dd/MM/yyyy" />
 					</h:outputText>
 				</p:column>

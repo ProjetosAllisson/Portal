@@ -305,7 +305,7 @@ public class Coleta implements Serializable{
 	public boolean isPermiteCancelamento() {
 		return getAutorizada().equals(
 				ColetaAutorizadaEnum.SIM)
-				&& (getStatus().equals("EM ABERTO") || getCancelamento() == null);
+				&& (getStatus().equals("EM ABERTO") && getCancelamento() == null);
 	}
 
 	public Calendar getDiapedido() {

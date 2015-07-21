@@ -32,6 +32,9 @@
 			<p:lineChart value="#{coletasSolicitadas.model}"
 				title="Coletas Autorizadas" style="height: 400px" animate="true"
 				minY="0" legendPosition="e" />
+				
+			<pe:gChart value="#{coletasSolicitadas.pieModel}"
+			   title="Coletas Por Usuario" legendPosition="e" fill="true" sliceMargin="5" showDataLabels="false"/>	
 
 		</h:form>
 	</ui:define>

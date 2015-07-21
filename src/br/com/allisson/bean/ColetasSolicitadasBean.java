@@ -11,6 +11,7 @@ import javax.faces.bean.RequestScoped;
 
 import org.primefaces.model.chart.CartesianChartModel;
 import org.primefaces.model.chart.ChartSeries;
+import org.primefaces.model.chart.PieChartModel;
 
 import br.com.allisson.facade.ColetaFacade;
 import br.com.allisson.modelo.User;
@@ -21,6 +22,9 @@ public class ColetasSolicitadasBean {
 	
 	private CartesianChartModel model;
 	private static DateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM");
+	
+	private PieChartModel pieModel;
+	
 	
 	private ColetaFacade coletaFacade = new ColetaFacade();
 	
@@ -42,6 +46,20 @@ public class ColetasSolicitadasBean {
 		adicionarSerie("Todas as Coletas",null);
 		adicionarSerie("Minhas Coletas",getUsuario().DevolveUsuarioSessao());
 		
+		criarPieModel();
+		
+		
+	}
+
+	private void criarPieModel() {
+		pieModel = new PieChartModel();
+		
+		Map<String, BigDecimal> valoresPorUsuario = coletaFacade.valoresTotaisPorUsuario(15, getUsuario().DevolveUsuarioSessao());
+		
+		for (String string : valoresPorUsuario.keySet()) {
+			pieModel.set(string, valoresPorUsuario.get(string));
+			
+		}
 		
 	}
 
@@ -82,6 +100,12 @@ public class ColetasSolicitadasBean {
 	public void setUsuario(User usuario) {
 		this.usuario = usuario;
 	}
+
+	public PieChartModel getPieModel() {
+		return pieModel;
+	}
+
+	
 
 	
 }

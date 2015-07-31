@@ -1,0 +1,85 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/pages/protected/templates/Layout.xhtml">
+	<ui:define name="corpo">
+		<h1>Extrato Duplicatas</h1>
+		
+		<h:form>
+		  <p:dataTable id="tableDuplicatas"
+				value="#{duplViewBean.lista}" var="duplicata" emptyMessage="Parabéns. Nenhum Título em Aberto.">
+				
+				<p:column styleClass="columns">
+
+					<f:facet name="header">
+						<h:outputText value="Fatura" />
+					</f:facet>
+					<h:outputText
+						value="#{duplicata.id.tipo_doc} - #{duplicata.id.fil_orig} - #{duplicata.id.fatura} /#{duplicata.id.ano}" />
+				</p:column>
+		
+				<p:column styleClass="columns">
+					<f:facet name="header">
+						<h:outputText value="Emissão Fatura" />
+					</f:facet>
+					<h:outputText value="#{duplicata.dt_fatura.getTime()}">
+						<f:convertDateTime pattern="dd/MM/yyyy" />
+
+					</h:outputText>
+
+				</p:column>
+				
+				<p:column styleClass="columns">
+
+					<f:facet name="header">
+						<h:outputText value="CTRC" />
+					</f:facet>
+					<h:outputText value="#{duplicata.nr_cto}" />
+				</p:column>				
+				
+				<p:column styleClass="columns">
+					<f:facet name="header">
+						<h:outputText value="Emissão CTRC" />
+					</f:facet>
+					<h:outputText value="#{duplicata.dt_cte.getTime()}">
+						<f:convertDateTime pattern="dd/MM/yyyy"/>
+
+					</h:outputText>
+
+				</p:column>
+				
+				
+				<p:column styleClass="columns">
+
+					<f:facet name="header">
+						<h:outputText value="Tipo Frete" />
+					</f:facet>
+					<h:outputText value="#{duplicata.tipo_frt}" />
+				</p:column>				
+				
+
+				
+               <p:column styleClass="columns">
+
+					<f:facet name="header">
+						<h:outputText value="Notas" />
+					</f:facet>
+					<h:outputText value="#{duplicata.notas}" />
+				</p:column>				
+				
+				
+		</p:dataTable>		
+		
+		</h:form>
+		
+		
+		
+	</ui:define>
+</ui:composition>
+</html>

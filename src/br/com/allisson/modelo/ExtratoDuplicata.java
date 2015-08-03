@@ -19,14 +19,12 @@ public class ExtratoDuplicata implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@Id
-	private DuplicataPk id;
+	private ExtratoDuplicataPK id;
 	
 	@Column
 	@Temporal(TemporalType.TIMESTAMP)
 	private Calendar dt_fatura;
 	
-	@Column	
-	private int nr_cto;
 	
 	@Column
 	@Temporal(TemporalType.TIMESTAMP)
@@ -91,11 +89,11 @@ public class ExtratoDuplicata implements Serializable {
 		return false;
 	}
 	
-	public DuplicataPk getId() {
+	public ExtratoDuplicataPK getId() {
 		return id;
 	}
 
-	public void setId(DuplicataPk id) {
+	public void setId(ExtratoDuplicataPK id) {
 		this.id = id;
 	}
 
@@ -107,14 +105,7 @@ public class ExtratoDuplicata implements Serializable {
 		this.dt_fatura = dt_fatura;
 	}
 
-	public int getNr_cto() {
-		return nr_cto;
-	}
-
-	public void setNr_cto(int nr_cto) {
-		this.nr_cto = nr_cto;
-	}
-
+	
 	public Calendar getDt_cte() {
 		return dt_cte;
 	}

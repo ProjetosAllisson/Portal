@@ -11,23 +11,15 @@
 	<ui:define name="corpo">
 		<h1>Extrato Duplicatas</h1>
 		
-		<h:form>
-		  <p:dataTable id="tableDuplicatas"
-				value="#{duplViewBean.lista}" var="duplicata" emptyMessage="Parabéns. Nenhum Título em Aberto.">
+		<h:form id ="frm">
+		  <p:dataTable 	value="#{duplViewBean.lista}" var="duplicata" emptyMessage="Parabéns. Nenhum Título em Aberto.">
 				
-				<p:column styleClass="columns">
-
-					<f:facet name="header">
-						<h:outputText value="Fatura" />
-					</f:facet>
-					<h:outputText
-						value="#{duplicata.id.tipo_doc} - #{duplicata.id.fil_orig} - #{duplicata.id.fatura} /#{duplicata.id.ano}" />
+				<p:column headerText="Fatura" width="110">
+					<h:outputText value="#{duplicata.id.tipo_doc} - #{duplicata.id.fil_orig} - #{duplicata.id.fatura} /#{duplicata.id.ano}" />
 				</p:column>
 		
-				<p:column styleClass="columns">
-					<f:facet name="header">
-						<h:outputText value="Emissão Fatura" />
-					</f:facet>
+				<p:column headerText="Emissão Fatura">
+					
 					<h:outputText value="#{duplicata.dt_fatura.getTime()}">
 						<f:convertDateTime pattern="dd/MM/yyyy" />
 
@@ -40,7 +32,7 @@
 					<f:facet name="header">
 						<h:outputText value="CTRC" />
 					</f:facet>
-					<h:outputText value="#{duplicata.nr_cto}" />
+					<h:outputText value="#{duplicata.id.nr_cto}" />
 				</p:column>				
 				
 				<p:column styleClass="columns">
@@ -65,7 +57,7 @@
 				
 
 				
-               <p:column styleClass="columns">
+               <p:column styleClass="columns" width="100" >
 
 					<f:facet name="header">
 						<h:outputText value="Notas" />
@@ -73,6 +65,143 @@
 					<h:outputText value="#{duplicata.notas}" />
 				</p:column>				
 				
+				
+               <p:column styleClass="columns">
+
+					<f:facet name="header">
+						<h:outputText value="Cid.Dest" />
+					</f:facet>
+					<h:outputText value="#{duplicata.cid_dest}" />
+				</p:column>				
+
+
+				<p:column styleClass="columns">
+
+					<f:facet name="header">
+						<h:outputText value="Uf.Dest" />
+					</f:facet>
+					<h:outputText value="#{duplicata.uf_dest}" />
+				</p:column>				
+
+
+				<p:column styleClass="columns">
+
+					<f:facet name="header">
+						<h:outputText value="Ent.Cep" />
+					</f:facet>
+					<h:outputText value="#{duplicata.ent_cep}" />
+				</p:column>				
+
+
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="Valor Merc." />
+					</f:facet>
+					<h:outputText value="#{duplicata.vlr_merc}">
+
+						<f:convertNumber pattern="#,##0.00"></f:convertNumber>
+					</h:outputText>
+				</p:column>
+				
+				
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="Peso" />
+					</f:facet>
+					<h:outputText value="#{duplicata.peso}">
+					<f:convertNumber minFractionDigits = "3"/>				
+					</h:outputText>
+				</p:column>
+
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="Peso Cub." />
+					</f:facet>
+					<h:outputText value="#{duplicata.peso_cub}">
+					<f:convertNumber minFractionDigits = "3"/>				
+					</h:outputText>
+				</p:column>
+				
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="Frete Peso" />
+					</f:facet>
+					<h:outputText value="#{duplicata.frt_peso}">
+
+						<f:convertNumber pattern="#,##0.00"></f:convertNumber>
+					</h:outputText>
+				</p:column>
+				
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="Advalorem" />
+					</f:facet>
+					<h:outputText value="#{duplicata.advalorem}">
+
+						<f:convertNumber pattern="#,##0.00"></f:convertNumber>
+					</h:outputText>
+				</p:column>
+								
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="Seguro" />
+					</f:facet>
+					<h:outputText value="#{duplicata.vlr_seguro}">
+
+						<f:convertNumber pattern="#,##0.00"></f:convertNumber>
+					</h:outputText>
+				</p:column>
+								
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="Pedagio" />
+					</f:facet>
+					<h:outputText value="#{duplicata.pedagio}">
+
+						<f:convertNumber pattern="#,##0.00"></f:convertNumber>
+					</h:outputText>
+				</p:column>
+				
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="Despacho" />
+					</f:facet>
+					<h:outputText value="#{duplicata.despacho}">
+
+						<f:convertNumber pattern="#,##0.00"></f:convertNumber>
+					</h:outputText>
+				</p:column>
+				
+     		   <p:column>
+					<f:facet name="header">
+						<h:outputText value="Dificil Acesso" />
+					</f:facet>
+					<h:outputText value="#{duplicata.tx_dif_acesso}">
+
+						<f:convertNumber pattern="#,##0.00"></f:convertNumber>
+					</h:outputText>
+				</p:column>
+				
+     		   <p:column>
+					<f:facet name="header">
+						<h:outputText value="Outros" />
+					</f:facet>
+					<h:outputText value="#{duplicata.outros}">
+
+						<f:convertNumber pattern="#,##0.00"></f:convertNumber>
+					</h:outputText>
+				</p:column>
+
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="Total Frete" />
+					</f:facet>
+					<h:outputText value="#{duplicata.tot_frete}">
+
+						<f:convertNumber pattern="#,##0.00"></f:convertNumber>
+					</h:outputText>
+				</p:column>
+								
 				
 		</p:dataTable>		
 		

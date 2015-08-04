@@ -14,6 +14,8 @@ import br.com.allisson.dao.ConfigSatwinDAO;
 import br.com.allisson.modelo.Cliente;
 import br.com.allisson.modelo.ConfigSatwin;
 import br.com.allisson.modelo.Duplicata;
+import br.com.allisson.modelo.ExtratoDuplicata;
+import br.com.allisson.modelo.FiltroDocumento;
 import br.com.allisson.modelo.ServicosDisponiveis;
 import br.com.allisson.modelo.User;
 import br.com.allisson.util.Criptografia;
@@ -136,6 +138,13 @@ public class TesteHibernate {
 		
 		
 		
+		
+		
+		
+		
+		
+		//INICIO*************Grafico de Coletas Solicitadas---------------------------
+		/*
 		ColetaDAO coletaDao = new ColetaDAO();
 		
 		Map<Date, BigDecimal> valores = coletaDao.valoresTotaisPorDate(15, null);
@@ -143,9 +152,29 @@ public class TesteHibernate {
 		for (Date data : valores.keySet()){
 			System.out.println(data + " = " + valores.get(data));
 		}
+		FIM******************Grafico de Coletas Solicitadas---------------------------*/
+		
+       
 		
 		
-        Criptografia criptografia = new Criptografia();
+		//INICIO******************Extrato Duplicatas---------------------------
+		
+		ExtratoDuplicataFacade extrato = new ExtratoDuplicataFacade();
+		
+		List<ExtratoDuplicata> model = new ArrayList<ExtratoDuplicata>();
+		
+		FiltroDocumento filtro = new FiltroDocumento();
+		model.addAll(extrato.extratoDuplicatasEmitidas(filtro));
+		
+		for (ExtratoDuplicata extratoDuplicata : model) {
+			System.out.println(extratoDuplicata.toString());
+		}
+		
+		
+		
+		//FIM********************Extrato Duplicatas---------------------------
+		
+		Criptografia criptografia = new Criptografia();
 		
 		
 		

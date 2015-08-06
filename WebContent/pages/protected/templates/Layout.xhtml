@@ -54,6 +54,9 @@
 						<p:menuitem value="Financeiro" icon="ui-icon-search"
 							outcome="/pages/protected/defaultUser/duplicatas.jsf"
 							rendered="#{servDisponiveis.financeiro()}" />
+						<p:menuitem value="Extrato de Duplicatas" icon="ui-icon-search"
+							outcome="/pages/protected/defaultUser/extratoduplicata.jsf"/>	
+							
 					</p:submenu>
 
 					<p:submenu label="Processos" rendered="#{servDisponiveis.coleta() and (userBean.admin or userBean.defaultUser)}">

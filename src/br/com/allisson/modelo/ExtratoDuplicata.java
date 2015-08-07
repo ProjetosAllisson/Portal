@@ -79,6 +79,13 @@ public class ExtratoDuplicata implements Serializable {
 	private BigDecimal tot_frete;
 	
 	
+	@Column(columnDefinition = "VARCHAR(18)")
+	private String cgc_pagador;
+	
+	@Column
+	private Integer grupo_pagador;
+	
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (obj instanceof ExtratoDuplicata) {
@@ -240,6 +247,22 @@ public class ExtratoDuplicata implements Serializable {
 
 	public void setTot_frete(BigDecimal tot_frete) {
 		this.tot_frete = tot_frete;
+	}
+
+	public String getCgc_pagador() {
+		return cgc_pagador;
+	}
+
+	public void setCgc_pagador(String cgc_pagador) {
+		this.cgc_pagador = cgc_pagador;
+	}
+
+	public Integer getGrupo_pagador() {
+		return grupo_pagador;
+	}
+
+	public void setGrupo_pagador(Integer grupo_pagador) {
+		this.grupo_pagador = grupo_pagador;
 	}	
 
 }

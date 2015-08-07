@@ -16,6 +16,7 @@ import br.com.allisson.modelo.ConfigSatwin;
 import br.com.allisson.modelo.Duplicata;
 import br.com.allisson.modelo.ExtratoDuplicata;
 import br.com.allisson.modelo.FiltroDocumento;
+import br.com.allisson.modelo.FiltroExtratoDuplicata;
 import br.com.allisson.modelo.ServicosDisponiveis;
 import br.com.allisson.modelo.User;
 import br.com.allisson.util.Criptografia;
@@ -163,7 +164,7 @@ public class TesteHibernate {
 		
 		List<ExtratoDuplicata> model = new ArrayList<ExtratoDuplicata>();
 		
-		FiltroDocumento filtro = new FiltroDocumento();
+		FiltroExtratoDuplicata filtro = new FiltroExtratoDuplicata();
 		model.addAll(extrato.extratoDuplicatasEmitidas(filtro));
 		
 		for (ExtratoDuplicata extratoDuplicata : model) {

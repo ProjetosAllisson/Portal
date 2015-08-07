@@ -81,5 +81,10 @@ h1 {
 }
 
 .columns{
-	font-size:11px;width=40%;
+	font-size:11px;
+}
+
+.columns_right{
+	font-size:11px;
+	text-align: right;
 }

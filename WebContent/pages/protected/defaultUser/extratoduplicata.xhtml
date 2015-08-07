@@ -71,7 +71,9 @@
 
 
 			<p:dataTable id="gridDuplicatas" value="#{duplViewBean.lista}"
-				var="duplicata" emptyMessage="Parabéns. Nenhum Título em Aberto.">
+				var="duplicata" emptyMessage="Parabéns. Nenhum Título em Aberto."
+				rowKey="#{duplicata.id}"
+				selectionMode="single" selection="#{duplViewBean.duplicataSelecionada}">
 
 				<f:facet name="header">
 			 			 Lista de Duplicatas Emitidas
@@ -79,7 +81,7 @@
 
 				<p:column headerText="Fatura"
 					style="text-align:center; max-width: 130px; min-width: 120px; overflow: hidden"
-					styleClass="columns">
+					styleClass="columns" sortBy="#{duplicata.id.fatura}">
 					<h:outputText
 						value="#{duplicata.id.tipo_doc}-#{duplicata.id.fil_orig}-#{duplicata.id.fatura}/#{duplicata.id.ano}" />
 				</p:column>
@@ -94,7 +96,7 @@
 
 				</p:column>
 
-				<p:column headerText="Ctrc" styleClass="columns">
+				<p:column headerText="Ctrc" styleClass="columns" sortBy="#{duplicata.id.nr_cto}">
 					<h:outputText value="#{duplicata.id.nr_cto}" />
 				</p:column>
 
@@ -115,14 +117,13 @@
 
 
 				<p:column headerText="Notas"
-					style="max-width: 250px; min-width: 250px; overflow: hidden"
-					styleClass="columns">
-
-					<h:outputText value="#{duplicata.notas}" />
+					style="max-width: 250px; min-width: 200px; overflow: hidden;" styleClass="columns">
+					
+					<h:outputText value="#{duplicata.notas}" style="font-size:10px;"/>
 				</p:column>
 
 
-				<p:column headerText="Cid. Dest"
+				<p:column headerText="Cid. Dest" sortBy="#{duplicata.cid_dest}"
 					style="max-width: 150px; min-width: 150px; overflow: hidden"
 					styleClass="columns">
 
@@ -130,14 +131,14 @@
 				</p:column>
 
 
-				<p:column headerText="Uf. Dest" styleClass="columns">
+				<p:column headerText="Uf. Dest" style="max-width: 20px; min-width: 30px; " styleClass="columns">
 
 					<h:outputText value="#{duplicata.uf_dest}" />
 				</p:column>
 
 
 				<p:column headerText="Ent. Cep"
-					style="max-width: 80px; min-width: 80px; overflow: hidden"
+					style="max-width: 60px; min-width: 80px; overflow: hidden"
 					styleClass="columns">
 
 					<h:outputText value="#{duplicata.ent_cep}" />
@@ -146,7 +147,7 @@
 
 				<p:column headerText="Valor Merc."
 					style="max-width: 80px; min-width: 80px; overflow: hidden;"
-					styleClass="columns">
+					styleClass="columns_right">
 
 					<h:outputText value="#{duplicata.vlr_merc}">
 
@@ -171,7 +172,7 @@
 					</h:outputText>
 				</p:column>
 
-				<p:column headerText="Frete Peso" style="text-align: right"
+				<p:column headerText="Frete Peso" style="text-align: right;min-width:70px; max-width:120px"
 					styleClass="columns_right">
 					<h:outputText value="#{duplicata.frt_peso}">
 						<f:convertNumber type="currency" locale="pt_BR" />
@@ -195,7 +196,7 @@
 					</h:outputText>
 				</p:column>
 
-				<p:column headerText="Pedagio" style="text-align: right"
+				<p:column headerText="Pedagio" style="text-align: right;min-width:60px; max-width:120px"
 					styleClass="columns">
 
 					<h:outputText value="#{duplicata.pedagio}">
@@ -203,7 +204,7 @@
 					</h:outputText>
 				</p:column>
 
-				<p:column headerText="Despacho" style="text-align: right"
+				<p:column headerText="Despacho" style="text-align: right;min-width:80px; max-width:120px"
 					styleClass="columns">
 
 					<h:outputText value="#{duplicata.despacho}">
@@ -213,7 +214,7 @@
 				</p:column>
 
 				<p:column headerText="TDE"
-					style="text-align: right; min-width:30px; max-width:120px"
+					style="text-align: right; min-width:60px; max-width:120px"
 					styleClass="columns">
 
 					<h:outputText value="#{duplicata.tx_dif_acesso}">
@@ -223,7 +224,7 @@
 				</p:column>
 
 				<p:column headerText="Outros"
-					style="text-align: right; min-width:80px; max-width:120px"
+					style="text-align: right; min-width:60px; max-width:120px"
 					styleClass="columns">
 
 					<h:outputText value="#{duplicata.outros}">

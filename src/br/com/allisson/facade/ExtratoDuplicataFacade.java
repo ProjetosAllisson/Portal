@@ -5,13 +5,14 @@ import java.util.List;
 
 import br.com.allisson.dao.ExtratoDuplicataDAO;
 import br.com.allisson.modelo.ExtratoDuplicata;
-import br.com.allisson.modelo.FiltroDocumento;
+
+import br.com.allisson.modelo.FiltroExtratoDuplicata;
 
 public class ExtratoDuplicataFacade {
 	
 	private ExtratoDuplicataDAO extrato = new ExtratoDuplicataDAO();
 	
-	public List<ExtratoDuplicata> extratoDuplicatasEmitidas(FiltroDocumento filtro ){
+	public List<ExtratoDuplicata> extratoDuplicatasEmitidas(FiltroExtratoDuplicata filtro ){
 		List<ExtratoDuplicata> result = new ArrayList<ExtratoDuplicata>();
 		
 		extrato.beginTransaction();

@@ -50,13 +50,13 @@ public class ExtratoDuplicataDAO extends GenericDAO<ExtratoDuplicata>  {
 			Calendar data = Calendar.getInstance();
 			
 			data.setTime(filtro.getDataInicio());
-			criteria.add(Restrictions.ge("dt_fatura", data));
+			criteria.add(Restrictions.ge("dt_cte", data));
 			
 			Calendar dt_termino = Calendar.getInstance();
 			dt_termino.setTime(filtro.getDataTermino());	
-			criteria.add(Restrictions.le("dt_fatura", dt_termino));
+			criteria.add(Restrictions.le("dt_cte", dt_termino));
 			
-			criteria.addOrder(Order.asc("dt_fatura"));
+			criteria.addOrder(Order.asc("dt_cte"));
 			
 			
 		}

@@ -10,7 +10,7 @@
 
 <ui:composition template="/pages/protected/templates/Layout.xhtml">
 	<ui:define name="corpo">
-		<h1>Extrato Duplicatas</h1>
+		<h1>Relatório Detalhado</h1>
 
 		<h:form id="frm">
 
@@ -46,13 +46,18 @@
 
 						<p:graphicImage styleClass="semBorda" value="/img/excel.png"
 							title="Exportar para Excel"></p:graphicImage>
+
+
 						<pe:exporter type="xlsx" target="gridDuplicatas"
-							fileName="Duplicatas" facetBackground="#BEBEBE" facetFontSize="8"
-							facetFontColor="#FFFAFA" facetFontStyle="BOLD"
+							fileName="RelatorioDetalhado" facetBackground="#BEBEBE"
+							facetFontSize="8" facetFontColor="#FFFAFA" facetFontStyle="BOLD"
 							fontName="Courier New" cellFontColor="#F0FFFF" cellFontSize="6"
 							cellFontStyle="NORMAL" />
 
+
 					</p:commandLink>
+
+
 
 					<p:commandLink id="pdf" ajax="false">
 
@@ -60,7 +65,7 @@
 							value="/img/adobe_pdf_document_01.png" title="Exportar para PDF"></p:graphicImage>
 
 						<pe:exporter type="pdf" target="gridDuplicatas"
-							fileName="Duplicatas" orientation="Landscape"
+							fileName="RelatorioDetalhado" orientation="Landscape"
 							facetBackground="#565656" facetFontSize="8"
 							facetFontColor="#FFFAFA" facetFontStyle="BOLD"
 							cellFontColor="#000000" cellFontSize="7" cellFontStyle="NORMAL" />
@@ -71,23 +76,30 @@
 
 
 			<p:dataTable id="gridDuplicatas" value="#{duplViewBean.lista}"
-				var="duplicata" emptyMessage="Parabéns. Nenhum Título em Aberto."
-				rowKey="#{duplicata.id}"
-				selectionMode="single" selection="#{duplViewBean.duplicataSelecionada}">
+				var="duplicata" emptyMessage=""
+				rowKey="#{duplicata.id}" selectionMode="single"
+				selection="#{duplViewBean.duplicataSelecionada}">
 
 				<f:facet name="header">
 			 			 Lista de Duplicatas Emitidas
 				</f:facet>
 
-				<p:column headerText="Fatura"
+				<p:column
 					style="text-align:center; max-width: 130px; min-width: 120px; overflow: hidden"
 					styleClass="columns" sortBy="#{duplicata.id.fatura}">
+					<f:facet name="header">
+						<h:outputText value="Fatura" />
+					</f:facet>
+
 					<h:outputText
 						value="#{duplicata.id.tipo_doc}-#{duplicata.id.fil_orig}-#{duplicata.id.fatura}/#{duplicata.id.ano}" />
 				</p:column>
 
-				<p:column headerText="Emissão Fatura"
-					sortBy="#{duplicata.dt_fatura}" styleClass="columns">
+				<p:column sortBy="#{duplicata.dt_fatura}" styleClass="columns">
+
+					<f:facet name="header">
+						<h:outputText value="Emissão Fatura" />
+					</f:facet>
 
 					<h:outputText value="#{duplicata.dt_fatura.getTime()}">
 						<f:convertDateTime pattern="dd/MM/yyyy" />
@@ -96,11 +108,20 @@
 
 				</p:column>
 
-				<p:column headerText="Ctrc" styleClass="columns" sortBy="#{duplicata.id.nr_cto}">
+				<p:column styleClass="columns" sortBy="#{duplicata.id.nr_cto}">
+
+					<f:facet name="header">
+						<h:outputText value="Ctrc" />
+					</f:facet>
+
 					<h:outputText value="#{duplicata.id.nr_cto}" />
 				</p:column>
 
-				<p:column headerText="Emissão CTRC" styleClass="columns">
+				<p:column styleClass="columns">
+
+					<f:facet name="header">
+						<h:outputText value="Emissão CTRC" />
+					</f:facet>
 
 					<h:outputText value="#{duplicata.dt_cte.getTime()}">
 						<f:convertDateTime pattern="dd/MM/yyyy" />
@@ -110,44 +131,67 @@
 				</p:column>
 
 
-				<p:column headerText="Tipo Frete" styleClass="columns">
-
+				<p:column styleClass="columns">
+					<f:facet name="header">
+						<h:outputText value="Tipo Frete" />
+					</f:facet>
 					<h:outputText value="#{duplicata.tipo_frt}" />
 				</p:column>
 
 
-				<p:column headerText="Notas"
-					style="max-width: 250px; min-width: 200px; overflow: hidden;" styleClass="columns">
-					
-					<h:outputText value="#{duplicata.notas}" style="font-size:10px;"/>
+				<p:column
+					style="max-width: 250px; min-width: 200px; overflow: hidden;"
+					styleClass="columns">
+
+					<f:facet name="header">
+						<h:outputText value="Notas" />
+					</f:facet>
+
+					<h:outputText value="#{duplicata.notas}" style="font-size:10px;" />
 				</p:column>
 
 
-				<p:column headerText="Cid. Dest" sortBy="#{duplicata.cid_dest}"
+				<p:column sortBy="#{duplicata.cid_dest}"
 					style="max-width: 150px; min-width: 150px; overflow: hidden"
 					styleClass="columns">
+
+					<f:facet name="header">
+						<h:outputText value="Cid. Dest" />
+					</f:facet>
 
 					<h:outputText value="#{duplicata.cid_dest}" />
 				</p:column>
 
 
-				<p:column headerText="Uf. Dest" style="max-width: 20px; min-width: 30px; " styleClass="columns">
+				<p:column style="max-width: 20px; min-width: 30px; "
+					styleClass="columns">
+
+					<f:facet name="header">
+						<h:outputText value="Uf. Dest" />
+					</f:facet>
 
 					<h:outputText value="#{duplicata.uf_dest}" />
 				</p:column>
 
 
-				<p:column headerText="Ent. Cep"
-					style="max-width: 60px; min-width: 80px; overflow: hidden"
+				<p:column style="max-width: 60px; min-width: 80px; overflow: hidden"
 					styleClass="columns">
+
+					<f:facet name="header">
+						<h:outputText value="Ent. Cep" />
+					</f:facet>
 
 					<h:outputText value="#{duplicata.ent_cep}" />
 				</p:column>
 
 
-				<p:column headerText="Valor Merc."
+				<p:column
 					style="max-width: 80px; min-width: 80px; overflow: hidden;"
 					styleClass="columns_right">
+
+					<f:facet name="header">
+						<h:outputText value="Valor Merc." />
+					</f:facet>
 
 					<h:outputText value="#{duplicata.vlr_merc}">
 
@@ -156,56 +200,82 @@
 				</p:column>
 
 
-				<p:column headerText="Peso" style="text-align: right"
-					styleClass="columns_right">
+				<p:column style="text-align: right" styleClass="columns_right">
+
+					<f:facet name="header">
+						<h:outputText value="Peso" />
+					</f:facet>
 
 					<h:outputText value="#{duplicata.peso}">
 						<f:convertNumber minFractionDigits="3" />
 					</h:outputText>
 				</p:column>
 
-				<p:column headerText="Peso cub." style="text-align: right"
-					styleClass="columns_right">
+				<p:column style="text-align: right" styleClass="columns_right">
+
+					<f:facet name="header">
+						<h:outputText value="Peso cub." />
+					</f:facet>
 
 					<h:outputText value="#{duplicata.peso_cub}">
 						<f:convertNumber minFractionDigits="3" />
 					</h:outputText>
 				</p:column>
 
-				<p:column headerText="Frete Peso" style="text-align: right;min-width:70px; max-width:120px"
+				<p:column style="text-align: right;min-width:70px; max-width:120px"
 					styleClass="columns_right">
+
+					<f:facet name="header">
+						<h:outputText value="Frete Peso" />
+					</f:facet>
+
 					<h:outputText value="#{duplicata.frt_peso}">
 						<f:convertNumber type="currency" locale="pt_BR" />
 					</h:outputText>
 				</p:column>
 
-				<p:column headerText="Advalorem" style="text-align: right"
-					styleClass="columns_right">
+				<p:column style="text-align: right" styleClass="columns_right">
+
+					<f:facet name="header">
+						<h:outputText value="Advalorem" />
+					</f:facet>
+
 					<h:outputText value="#{duplicata.advalorem}">
 
 						<f:convertNumber type="currency" locale="pt_BR" />
 					</h:outputText>
 				</p:column>
 
-				<p:column headerText="Seguro"
-					style="text-align: right; min-width:80px; max-width:120px"
+				<p:column style="text-align: right; min-width:80px; max-width:120px"
 					styleClass="columns">
+
+					<f:facet name="header">
+						<h:outputText value="Seguro" />
+					</f:facet>
 
 					<h:outputText value="#{duplicata.vlr_seguro}">
 						<f:convertNumber type="currency" locale="pt_BR" />
 					</h:outputText>
 				</p:column>
 
-				<p:column headerText="Pedagio" style="text-align: right;min-width:60px; max-width:120px"
+				<p:column style="text-align: right;min-width:60px; max-width:120px"
 					styleClass="columns">
+
+					<f:facet name="header">
+						<h:outputText value="Pedagio" />
+					</f:facet>
 
 					<h:outputText value="#{duplicata.pedagio}">
 						<f:convertNumber type="currency" locale="pt_BR" />
 					</h:outputText>
 				</p:column>
 
-				<p:column headerText="Despacho" style="text-align: right;min-width:80px; max-width:120px"
+				<p:column style="text-align: right;min-width:80px; max-width:120px"
 					styleClass="columns">
+
+					<f:facet name="header">
+						<h:outputText value="Despacho" />
+					</f:facet>
 
 					<h:outputText value="#{duplicata.despacho}">
 
@@ -213,9 +283,12 @@
 					</h:outputText>
 				</p:column>
 
-				<p:column headerText="TDE"
-					style="text-align: right; min-width:60px; max-width:120px"
+				<p:column style="text-align: right; min-width:60px; max-width:120px"
 					styleClass="columns">
+
+					<f:facet name="header">
+						<h:outputText value="TDE" />
+					</f:facet>
 
 					<h:outputText value="#{duplicata.tx_dif_acesso}">
 
@@ -223,9 +296,12 @@
 					</h:outputText>
 				</p:column>
 
-				<p:column headerText="Outros"
-					style="text-align: right; min-width:60px; max-width:120px"
+				<p:column style="text-align: right; min-width:60px; max-width:120px"
 					styleClass="columns">
+
+					<f:facet name="header">
+						<h:outputText value="Outros" />
+					</f:facet>
 
 					<h:outputText value="#{duplicata.outros}">
 
@@ -233,9 +309,13 @@
 					</h:outputText>
 				</p:column>
 
-				<p:column headerText="Total frete"
-					style="text-align: right;min-width:80px; max-width:120px"
+				<p:column style="text-align: right;min-width:80px; max-width:120px"
 					styleClass="columns">
+
+					<f:facet name="header">
+						<h:outputText value="Total frete" />
+					</f:facet>
+
 
 					<h:outputText value="#{duplicata.tot_frete}">
 
@@ -243,8 +323,129 @@
 					</h:outputText>
 				</p:column>
 
+				<!-- 
+				<p:columnGroup type="footer">
+					<p:row>
+						<p:column footerText="Total" style="text-align: right" colspan="9" />
 
+						<p:column style="text-align:right">
+							<f:facet name="footer">
+								<h:outputText id="totalMercadoria" styleClass="columns_right"
+									value="#{duplViewBean.totalMercadoria}">
+									<f:convertNumber type="currency" />
+								</h:outputText>
+
+							</f:facet>
+						</p:column>
+
+						<p:column style="text-align:right">
+							<f:facet name="footer">
+								<h:outputText id="totalPeso" styleClass="columns_right"
+									value="#{duplViewBean.totalPeso}">
+									<f:convertNumber type="number" />
+								</h:outputText>
+
+							</f:facet>
+						</p:column>
+
+						<p:column style="text-align:right">
+							<f:facet name="footer">
+								<h:outputText id="totalPesoCub" styleClass="columns_right"
+									value="#{duplViewBean.totalPesoCub}">
+									<f:convertNumber type="number" />
+								</h:outputText>
+
+							</f:facet>
+						</p:column>
+
+						<p:column style="text-align:right">
+							<f:facet name="footer">
+								<h:outputText id="totalFretePeso" styleClass="columns_right"
+									value="#{duplViewBean.totalFretePeso}">
+									<f:convertNumber type="currency" />
+								</h:outputText>
+
+							</f:facet>
+						</p:column>
+
+						<p:column style="text-align:right">
+							<f:facet name="footer">
+								<h:outputText id="totalAdValorem" styleClass="columns_right"
+									value="#{duplViewBean.totalAdValorem}">
+									<f:convertNumber type="currency" />
+								</h:outputText>
+
+							</f:facet>
+						</p:column>
+
+						<p:column style="text-align:right">
+							<f:facet name="footer">
+								<h:outputText id="totalSeguro" styleClass="columns_right"
+									value="#{duplViewBean.totalSeguro}">
+									<f:convertNumber type="currency" />
+								</h:outputText>
+
+							</f:facet>
+						</p:column>
+
+						<p:column style="text-align:right">
+							<f:facet name="footer">
+								<h:outputText id="totalPedagio" styleClass="columns_right"
+									value="#{duplViewBean.totalPedagio}">
+									<f:convertNumber type="currency" />
+								</h:outputText>
+
+							</f:facet>
+						</p:column>
+
+						<p:column style="text-align:right">
+							<f:facet name="footer">
+								<h:outputText id="totalDespacho" styleClass="columns_right"
+									value="#{duplViewBean.totalDespacho}">
+									<f:convertNumber type="currency" />
+								</h:outputText>
+
+							</f:facet>
+						</p:column>
+
+						<p:column style="text-align:right">
+							<f:facet name="footer">
+								<h:outputText id="totalTDE" styleClass="columns_right"
+									value="#{duplViewBean.totalTDE}">
+									<f:convertNumber type="currency" />
+								</h:outputText>
+
+							</f:facet>
+						</p:column>
+
+						<p:column style="text-align:right">
+							<f:facet name="footer">
+								<h:outputText id="totalOutros" styleClass="columns_right"
+									value="#{duplViewBean.totalOutros}">
+									<f:convertNumber type="currency" />
+								</h:outputText>
+
+							</f:facet>
+						</p:column>
+
+						<p:column style="text-align:right">
+							<f:facet name="footer">
+								<h:outputText id="totalFrete" styleClass="columns_right"
+									value="#{duplViewBean.totalFrete}">
+									<f:convertNumber type="currency" />
+								</h:outputText>
+
+							</f:facet>
+						</p:column>
+					</p:row>
+
+
+				</p:columnGroup>
+
+ -->
 			</p:dataTable>
+
+
 
 		</h:form>
 

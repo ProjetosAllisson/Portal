@@ -61,6 +61,9 @@ public class ExtratoDuplicata implements Serializable {
 	private BigDecimal advalorem;
 	
 	@Column
+	private BigDecimal itr;
+	
+	@Column
 	private BigDecimal vlr_seguro;
 	
 	@Column
@@ -285,6 +288,14 @@ public class ExtratoDuplicata implements Serializable {
 
 	public void setVolumes(BigDecimal volumes) {
 		this.volumes = volumes;
+	}
+
+	public BigDecimal getItr() {
+		return itr;
+	}
+
+	public void setItr(BigDecimal itr) {
+		this.itr = itr;
 	}	
 
 }

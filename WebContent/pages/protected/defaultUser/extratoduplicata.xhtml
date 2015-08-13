@@ -76,26 +76,27 @@
 
 
 			<p:dataTable id="gridDuplicatas" value="#{duplViewBean.lista}"
-				var="duplicata" emptyMessage=""
-				rowKey="#{duplicata.id}" selectionMode="single"
+				var="duplicata" emptyMessage="" rowKey="#{duplicata.id}"
+				selectionMode="single"
 				selection="#{duplViewBean.duplicataSelecionada}">
 
 				<f:facet name="header">
-			 			 Lista de Duplicatas Emitidas
+			 			 Relatório Detalhado
 				</f:facet>
 
 				<p:column
-					style="text-align:center; max-width: 130px; min-width: 120px; overflow: hidden"
-					styleClass="columns" sortBy="#{duplicata.id.fatura}">
+					style="text-align:center; max-width: 100px; min-width: 100px; overflow: hidden"
+					styleClass="columns" sortBy="#{duplicata.desc_fatura}">
 					<f:facet name="header">
 						<h:outputText value="Fatura" />
 					</f:facet>
 
-					<h:outputText
-						value="#{duplicata.desc_fatura}" />
+					<h:outputText value="#{duplicata.desc_fatura}" />
 				</p:column>
 
-				<p:column sortBy="#{duplicata.dt_fatura}" styleClass="columns">
+				<p:column sortBy="#{duplicata.dt_fatura}"
+					style="text-align:center; max-width: 50px; min-width: 50px; overflow: hidden"
+					styleClass="columns">
 
 					<f:facet name="header">
 						<h:outputText value="Emissão Fatura" />
@@ -117,7 +118,9 @@
 					<h:outputText value="#{duplicata.id.nr_cto}" />
 				</p:column>
 
-				<p:column styleClass="columns">
+				<p:column
+					style="text-align:center; max-width: 50px; min-width: 50px; overflow: hidden"
+					styleClass="columns">
 
 					<f:facet name="header">
 						<h:outputText value="Emissão CTRC" />
@@ -131,7 +134,8 @@
 				</p:column>
 
 
-				<p:column styleClass="columns">
+				<p:column style="text-align:center; max-width: 30px; min-width: 30px; overflow: hidden" 
+				styleClass="columns">
 					<f:facet name="header">
 						<h:outputText value="Tipo Frete" />
 					</f:facet>
@@ -198,13 +202,13 @@
 						<f:convertNumber type="currency" locale="pt_BR" />
 					</h:outputText>
 				</p:column>
-				
+
 				<p:column
-					style="max-width: 80px; min-width: 50px; overflow: hidden;"
+					style="max-width: 20px; min-width: 20px; overflow: hidden;"
 					styleClass="columns_right">
 
 					<f:facet name="header">
-						<h:outputText value="Volumes" />
+						<h:outputText value="Vol." />
 					</f:facet>
 
 					<h:outputText value="#{duplicata.volumes}">
@@ -236,7 +240,7 @@
 					</h:outputText>
 				</p:column>
 
-				<p:column style="text-align: right;min-width:70px; max-width:120px"
+				<p:column style="text-align: right;min-width:60px; max-width:60px"
 					styleClass="columns_right">
 
 					<f:facet name="header">
@@ -260,8 +264,22 @@
 					</h:outputText>
 				</p:column>
 
-				<p:column style="text-align: right; min-width:80px; max-width:120px"
-					styleClass="columns">
+				<p:column style="text-align: right;min-width:40px; max-width:40px"
+					styleClass="columns_right">
+
+					<f:facet name="header">
+						<h:outputText value="Itr" />
+					</f:facet>
+
+					<h:outputText value="#{duplicata.itr}">
+
+						<f:convertNumber type="currency" locale="pt_BR" />
+					</h:outputText>
+				</p:column>
+
+
+				<p:column style="text-align: right; min-width:60px; max-width:60px"
+					styleClass="columns_right">
 
 					<f:facet name="header">
 						<h:outputText value="Seguro" />
@@ -272,8 +290,8 @@
 					</h:outputText>
 				</p:column>
 
-				<p:column style="text-align: right;min-width:60px; max-width:120px"
-					styleClass="columns">
+				<p:column style="text-align: right;min-width:50px; max-width:50px"
+					styleClass="columns_right">
 
 					<f:facet name="header">
 						<h:outputText value="Pedagio" />
@@ -284,8 +302,8 @@
 					</h:outputText>
 				</p:column>
 
-				<p:column style="text-align: right;min-width:80px; max-width:120px"
-					styleClass="columns">
+				<p:column style="text-align: right;min-width:60px; max-width:60px"
+					styleClass="columns_right">
 
 					<f:facet name="header">
 						<h:outputText value="Despacho" />
@@ -297,8 +315,8 @@
 					</h:outputText>
 				</p:column>
 
-				<p:column style="text-align: right; min-width:60px; max-width:120px"
-					styleClass="columns">
+				<p:column style="text-align: right; min-width:50px; max-width:50px"
+					styleClass="columns_right">
 
 					<f:facet name="header">
 						<h:outputText value="TDE" />
@@ -310,8 +328,8 @@
 					</h:outputText>
 				</p:column>
 
-				<p:column style="text-align: right; min-width:60px; max-width:120px"
-					styleClass="columns">
+				<p:column style="text-align: right; min-width:50px; max-width:50px"
+					styleClass="columns_right">
 
 					<f:facet name="header">
 						<h:outputText value="Outros" />
@@ -323,8 +341,8 @@
 					</h:outputText>
 				</p:column>
 
-				<p:column style="text-align: right;min-width:80px; max-width:120px"
-					styleClass="columns">
+				<p:column style="text-align: right;min-width:60px; max-width:60px"
+					styleClass="columns_right">
 
 					<f:facet name="header">
 						<h:outputText value="Total frete" />

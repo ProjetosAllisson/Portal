@@ -73,6 +73,9 @@ public class ExtratoDuplicata implements Serializable {
 	private BigDecimal tx_dif_acesso;
 	
 	@Column
+	private BigDecimal volumes;
+	
+	@Column
 	private BigDecimal outros;
     
 	@Column
@@ -84,6 +87,9 @@ public class ExtratoDuplicata implements Serializable {
 	
 	@Column
 	private Integer grupo_pagador;
+	
+	@Column(columnDefinition = "VARCHAR(20)")
+	private String desc_fatura;
 	
 	
 	@Override
@@ -263,6 +269,22 @@ public class ExtratoDuplicata implements Serializable {
 
 	public void setGrupo_pagador(Integer grupo_pagador) {
 		this.grupo_pagador = grupo_pagador;
+	}
+
+	public String getDesc_fatura() {
+		return desc_fatura;
+	}
+
+	public void setDesc_fatura(String desc_fatura) {
+		this.desc_fatura = desc_fatura;
+	}
+
+	public BigDecimal getVolumes() {
+		return volumes;
+	}
+
+	public void setVolumes(BigDecimal volumes) {
+		this.volumes = volumes;
 	}	
 
 }

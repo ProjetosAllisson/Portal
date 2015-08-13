@@ -92,7 +92,7 @@
 					</f:facet>
 
 					<h:outputText
-						value="#{duplicata.id.tipo_doc}-#{duplicata.id.fil_orig}-#{duplicata.id.fatura}/#{duplicata.id.ano}" />
+						value="#{duplicata.desc_fatura}" />
 				</p:column>
 
 				<p:column sortBy="#{duplicata.dt_fatura}" styleClass="columns">
@@ -196,6 +196,20 @@
 					<h:outputText value="#{duplicata.vlr_merc}">
 
 						<f:convertNumber type="currency" locale="pt_BR" />
+					</h:outputText>
+				</p:column>
+				
+				<p:column
+					style="max-width: 80px; min-width: 50px; overflow: hidden;"
+					styleClass="columns_right">
+
+					<f:facet name="header">
+						<h:outputText value="Volumes" />
+					</f:facet>
+
+					<h:outputText value="#{duplicata.volumes}">
+
+						<f:convertNumber type="number" locale="pt_BR" />
 					</h:outputText>
 				</p:column>
 

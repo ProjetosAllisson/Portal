@@ -54,7 +54,8 @@ public class ConnectionFactory {
 		
 		//File file = new File("C:/Portal/Portal v.5/portal/src/conexao.properties");
 		
-		
+		//Translusa
+		//192.168.0.50/3050:J:/transp01-cl2/TRANSLUSA/BASEDADOS/TransLusa.fdb
 		
 		InputStream is = getClass().getClassLoader().getResourceAsStream("conexao.properties"); 
 		Properties prop = new Properties();

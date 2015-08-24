@@ -2,7 +2,9 @@ package br.com.allisson.facade;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import br.com.allisson.dao.DuplicataDAO;
 import br.com.allisson.modelo.Duplicata;
@@ -15,11 +17,17 @@ public class DuplicataFacade {
 	private List<Duplicata> result = new ArrayList<Duplicata>();
 
 	private void percorreDuplicatas() {
-		for (Duplicata duplicata : result) {
 
-			String caminho = configSatwinfacade.leclausula("FATURAMENTO",
-					"Path para Salvar Boletos em PDF", duplicata.getId()
-							.getFil_orig());
+		Map<String, String> parametros = new HashMap<String, String>();
+		String caminho = "";
+
+		for (Duplicata duplicata : result) {
+			if (!parametros.containsKey(caminho)) {
+				caminho = configSatwinfacade.leclausula("FATURAMENTO",
+						"Path para Salvar Boletos em PDF", duplicata.getId()
+								.getFil_orig());
+				parametros.put(caminho, caminho);
+			}
 
 			String arquivo = caminho
 					+ '/'
@@ -48,19 +56,19 @@ public class DuplicataFacade {
 		duplicataDAO.closeTransaction();
 
 		this.percorreDuplicatas();
-		
+
 		return result;
 	}
-	
-	public List<Duplicata> duplicatasEmAbertoPorGrupoCliente(){
+
+	public List<Duplicata> duplicatasEmAbertoPorGrupoCliente() {
 		duplicataDAO.beginTransaction();
-		
+
 		result = duplicataDAO.duplicatasEmAbertoPorGrupoCliente();
-		
+
 		duplicataDAO.closeTransaction();
-		
+
 		this.percorreDuplicatas();
-		
+
 		return result;
 	}
 

@@ -90,12 +90,17 @@ body {
 							label="senha" size="28" />
 
 						<br></br>
-						<h:panelGrid columns="2">
+						<h:panelGrid columns="3">
 
 							<p:commandButton id="btnLogin" value="Login" update=":growl"
 								icon="ui-icon-check" action="#{loginBean.autentica}"
 								style="float:left">
 							</p:commandButton>
+							
+							<p:commandLink title="Recupere a senha"
+								value="Esqueceu sua senha?" action="esqueceuSenha.jsf"  
+								style="float:rigth;font-size:11px" />
+							
 							<p:commandLink title="Solicite seu cadastro."
 								value="Solicite seu cadastro" update=":usuarioExternoDialogForm"
 								actionListener="#{usuariosBean.resetUser()}"

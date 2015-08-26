@@ -34,7 +34,8 @@ import br.com.allisson.util.Criptografia;
 @NamedQueries({
 		@NamedQuery(name = "User.findUser", query = "select u from User u where u.login = :login"),
 		@NamedQuery(name = "User.findAllNaoAutorizados", query = "select distinct u from User u join fetch u.cliente left join fetch u.acessos  where u.acesso_autorizado = false"),
-		@NamedQuery(name = "User.findAll", query = "select distinct u from User u join fetch u.cliente left join fetch u.acessos order by u.id")})
+		@NamedQuery(name = "User.findAll", query = "select distinct u from User u join fetch u.cliente left join fetch u.acessos order by u.id"),
+		@NamedQuery(name = "User.findEmail", query = "select u from User u where u.email = :email")})
 public class User implements Serializable {
 
 	/**
@@ -45,6 +46,7 @@ public class User implements Serializable {
 	public static final String FIND_USER_LOGIN = "User.findUser";
 	public static final String FIND_ALL_USER_NAO_AUTORIZADOS = "User.findAllNaoAutorizados";
 	public static final String FIND_ALL = "User.findAll";
+	public static final String FIND_USER_EMAIL = "User.findEmail";
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)

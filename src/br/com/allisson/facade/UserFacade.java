@@ -180,6 +180,15 @@ public class UserFacade {
 		
 	}
 	
+	public User userPorEmail(String email) {
+		
+		userDAO.beginTransaction();
+		User user = userDAO.findUserEmail(email);
+		userDAO.closeTransaction();
+		
+		return user;
+	}
+	
 	public List<User> listAll(){
 		userDAO.beginTransaction();
 		List<User> result = userDAO.findAllUser();
@@ -296,7 +305,93 @@ public class UserFacade {
 
 	}
 	
+	public void enviarEmailRecuperarSenha(User usuario) {
+		
+		Mensagem msgAdmin = new Mensagem();
+
+		msgAdmin.setTitulo("Criação de nova senha");
+		//msgAdmin.setDestino(usuario.getEmail());
+		msgAdmin.setDestino("felipe@allisson.com.br");
+		
+		List<String> corpoEmail = new ArrayList<String>();
+		
+		corpoEmail.clear();
+		
+		corpoEmail.add("<html>");
+		corpoEmail.add("<head>");
+		corpoEmail.add("<style type='text/css'>");
+		corpoEmail.add("#div {");
+		corpoEmail.add("	width: 850px; /* Tamanho da Largura da Div */");
+		corpoEmail.add("	height: 200px; /* Tamanho da Altura da Div */");
+		corpoEmail.add("	position: absolute;");
+		corpoEmail.add("	top: 50%;");
+		corpoEmail.add("	margin-top: -400px;");
+		
+		corpoEmail.add("	left: 20%;");
+		corpoEmail.add("	margin-left: -250px;");
+			
+		corpoEmail.add("	;");
+		corpoEmail.add("}");
+		corpoEmail.add("</style>");
+		corpoEmail.add("</head>");
+		corpoEmail.add("<body  bgcolor='#EBEBEB'>");
+		corpoEmail.add("  <div id='div'>");		
+		corpoEmail.add("       <div align='left'>");
+		
+		String imgHttp = Geral.getCaminhoURL()+"img/logo.jpg";
+		
+		corpoEmail.add("            <img src="+imgHttp+" height='170' width='200'>");
+		            
+		corpoEmail.add("            </div>");
+
+		corpoEmail.add("            <div colspan='1' height='30' align='left'>");
+		corpoEmail.add("            <p>Prezado(a),Cliente</p>");
+		corpoEmail.add("            <p>Este é um email de <strong>Transportadora</strong>.</p>");
+		corpoEmail.add("            </div>");
+		            
+		            
+		corpoEmail.add("            <div colspan='1' height='30' align='left'>");
+		corpoEmail.add("               Você nos informou que esqueceu sua senha de acesso ao site www.portal.br");
+		corpoEmail.add("            </div>");
+		corpoEmail.add("	    <br/>");
+		corpoEmail.add("	    <div colspan='1' height='30' align='left'>");
+		corpoEmail.add("               Use o link a seguir nas próximas horas para criar uma nova senha:");	
+		corpoEmail.add("            </div>");
+		corpoEmail.add("	    <br/>");
+		corpoEmail.add("            <div colspan='1' height='30' align='left'>");
+		corpoEmail.add("		link para trocar de senha");
+		corpoEmail.add("            </div>");
+		                               
+		            
+		corpoEmail.add("	    <br/>");
+		            
+		corpoEmail.add("            <div colspan='1' height='30' align='left'>");
+		corpoEmail.add("               Se não foi você que solicitou a criação de uma nova senha, não se preocupe, apenas ignore esta mensagem.");
+		corpoEmail.add("            </div>");
+		corpoEmail.add("            <br/>");
+		corpoEmail.add("	    Obrigado.");	
+		corpoEmail.add("            <br/>");
+		corpoEmail.add("            <br/>");
+		            
+		            
+		corpoEmail.add("            <div colspan='1' height='30' align='center'>");
+		corpoEmail.add("            <b><center>**** FAVOR NÃO RETORNAR ESTE EMAIL ****</center></b>");
+		corpoEmail.add("            </div>");
+
+		corpoEmail.add("	</div>");                  
+		corpoEmail.add("            </body>");
+		corpoEmail.add("            </html>");
+		
+		msgAdmin.setMensagens(corpoEmail);
+
+		EmailUtils.enviaEmailHtml(msgAdmin);
+		
+	}
+	
 	
 	
 
 }
+
+
+

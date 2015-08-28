@@ -98,14 +98,14 @@ body {
 							</p:commandButton>
 							
 							<p:commandLink title="Recupere a senha"
-								value="Esqueceu sua senha?" action="esqueceuSenha.jsf"  
-								style="float:rigth;font-size:11px" />
+								value="Esqueceu sua senha?" action="/pages/public/esqueceuSenha.jsf"  
+								style="float:rigth;font-size:11px" process="@this" />
 							
 							<p:commandLink title="Solicite seu cadastro."
 								value="Solicite seu cadastro" update=":usuarioExternoDialogForm"
 								actionListener="#{usuariosBean.resetUser()}"
 								onclick="PF('usuarioExternoDialogWidget').show()"
-								style="float:rigth;font-size:11px" />
+								style="float:rigth;font-size:11px" process="@this"/>
 
 
 						</h:panelGrid>
@@ -122,9 +122,9 @@ body {
 
 					<p:panel>
 						<p:graphicImage value="/img/consultaPublica.png"></p:graphicImage>
-						<h:commandLink value="Consulta Publica"
+						<p:commandLink value="Consulta Publica"
 							action="/pages/public/consultaPublicaCpf.jsf" 
-							style="float:rigth" />
+							style="float:rigth" process="@this"/>
 					</p:panel>
 					<p:column>
 						<p:spacer width="90px" height="0"></p:spacer>

@@ -57,6 +57,9 @@ public class ConnectionFactory {
 		//Translusa
 		//192.168.0.50/3050:J:/transp01-cl2/TRANSLUSA/BASEDADOS/TransLusa.fdb
 		
+		//MMa
+		//192.168.0.2/3050:e:/publico/BaseDados/MMA/MMA.FDB
+		
 		InputStream is = getClass().getClassLoader().getResourceAsStream("conexao.properties"); 
 		Properties prop = new Properties();
 				

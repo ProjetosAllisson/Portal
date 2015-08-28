@@ -8,7 +8,7 @@
 <h:head>
 	<meta charset="UTF-8" />
 	<title><ui:insert name="titulo">Portal de Serviços</ui:insert></title>
-	
+
 	<ui:insert name="params"></ui:insert>
 
 	<h:outputStylesheet library="algaworks" name="estilo.css" />
@@ -25,8 +25,8 @@
 	<h:form>
 		<p:ajaxStatus onstart="statusDialog.show()"
 			onsuccess="statusDialog.hide();" />
-		<p:dialog modal="true" widgetVar="statusDialog" header="Processando, Aguarde." 
-			draggable="false" closable="false" >
+		<p:dialog modal="true" widgetVar="statusDialog"
+			header="Processando, Aguarde." draggable="false" closable="false">
 			<h:graphicImage value="/resources/LoadingProgressBar.gif" />
 		</p:dialog>
 
@@ -55,11 +55,12 @@
 							outcome="/pages/protected/defaultUser/duplicatas.jsf"
 							rendered="#{servDisponiveis.financeiro()}" />
 						<p:menuitem value="Relatório Detalhado" icon="ui-icon-search"
-							outcome="/pages/protected/defaultUser/extratoduplicata.jsf"/>	
-							
+							outcome="/pages/protected/defaultUser/extratoduplicata.jsf" />
+
 					</p:submenu>
 
-					<p:submenu label="Processos" rendered="#{servDisponiveis.coleta() and (userBean.admin or userBean.defaultUser)}">
+					<p:submenu label="Processos"
+						rendered="#{servDisponiveis.coleta() and (userBean.admin or userBean.defaultUser)}">
 						<p:menuitem value="Solicitação de Coleta" icon="ui-icon-newwin"
 							outcome="/pages/protected/defaultUser/coleta.jsf" />
 
@@ -78,6 +79,12 @@
 						<p:menuitem value="Login" icon="ui-icon-key"
 							outcome="/pages/public/login.jsf"
 							rendered="#{loginBean.logado==false}" />
+
+						<p:menuitem value="Trocar senha" icon="ui-icon-locked"  rendered="#{loginBean.logado}"
+							update=":usuariosNovaSenhaForm" 
+							actionListener="#{usuariosBean.localizaUser(userBean.user.id)}"
+							onclick="usuariosNovaSenhaWidget.show();"/>
+
 						<p:menuitem value="Sair" icon="ui-icon-power"
 							action="#{loginBean.logOut()}" rendered="#{loginBean.logado}" />
 					</p:submenu>
@@ -95,9 +102,9 @@
 
 				<h:panelGrid columns="3">
 					<p:spacer width="250px" height="1"></p:spacer>
-					
-					
-					
+
+
+
 					<center>
 						<p:commandLink action="/pages/protected/index.jsf"
 							title="Pagina inicial" immediate="true" ajax="false"
@@ -107,7 +114,7 @@
 								style="font-size:12px;width=40%" />
 						</p:commandLink>
 					</center>
-					
+
 					<p:spacer width="250px" height="1"></p:spacer>
 
 					<c:if test="${userBean.consultaporGrupo == false}">
@@ -139,7 +146,7 @@
 
 	</h:form>
 
-
+<ui:include src="/pages/protected/dialogs/usuariosNovaSenha.xhtml" />
 
 	<div id="conteudo">
 

@@ -35,8 +35,6 @@ public class UsuariosBean extends AbstractMB {
 
 	private boolean campoBooleanControle=true;
 	
-	private String email;
-	
 		
 	public UsuariosBean() {
 		this.cnpj ="";
@@ -243,32 +241,11 @@ public class UsuariosBean extends AbstractMB {
 		loadUsersNaoAutorizados();
 	}
 	
-	public boolean isUserPorEmail(){
-		return getUserFacade().userPorEmail(this.email) !=null;
+	public void localizaUser(int id){
+		this.usuarioSelecionado = new User();
+		this.usuarioSelecionado = getUserFacade().findUser(id);
 	}
 	
-	public void recuperaSenha() {
-		
-		User usuario = new User();
-		usuario = getUserFacade().userPorEmail(this.email);
-		
-		if (usuario == null) {
-			displayErrorMessageToUser("E-mail não localizado em nosso cadastro.");
-		}else{
-			getUserFacade().enviarEmailRecuperarSenha(usuario);
-		}
-	}
-
-	
-	
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
 	public String getCnpj() {
 
 		return cnpj;

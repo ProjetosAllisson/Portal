@@ -1,0 +1,94 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+
+<h:head>
+	<title>Portal de Serviço</title>
+	<style type="text/css">
+body {
+	background-color: #bfbfbf;
+	font-size: 12px
+}
+</style>
+	<h:outputStylesheet library="algaworks" name="estilo.css" />
+</h:head>
+
+
+<h:body>
+
+	<h:form id="frm">
+
+		<div id="div" class="container">
+			<div class="col-xs-12">
+				<p:messages autoUpdate="true" />
+				<p:panel header="Portal do Cliente" style="text-align:center">
+
+					<h:panelGrid columns="2">
+						<p:spacer width="210px" height="0px"/>
+						<p:column>
+							<div style="float: left">
+								<h2>Esqueceu sua Senha?</h2>
+							</div>
+						</p:column>
+						<p:spacer width="210px" height="0px" />
+						<p:column>
+							<h:outputLabel style="float:left;font-size:11px"
+								value="Informe o seu e-mail que enviaremos um link  " />
+							<h:outputLabel style="float:left;font-size:11px"
+								value="onde você poderá cadastrar uma nova senha." />
+
+						</p:column>
+					</h:panelGrid>
+					<h:panelGrid id="panel" columns="2">
+						<p:graphicImage value="/img/logo.jpg" style="float:left;"
+							width="200" height="170" />
+
+
+						<h:panelGrid columns="1" cellspacing="10">
+							<h:outputLabel for="email" value="E-mail: " style="float:left" />
+
+							<p:column>
+								<p:focus>
+									<p:inputText id="email" value="#{recuperaSenhaBean.email}" required="true" label="e-mail" requiredMessage="Por favor, informe seu e-mail"
+										size="30" />
+								</p:focus>
+							</p:column>
+
+
+							<h:panelGrid columns="2">
+
+								<p:commandButton id="btnRecuperarSenha" value="Criar nova senha"
+									icon="ui-icon-check" action="#{recuperaSenhaBean.recuperaSenha}"
+									style="float:left">
+								</p:commandButton>
+								<p:button value="Login" outcome="login"/>
+
+
+							</h:panelGrid>
+
+						</h:panelGrid>
+
+
+
+
+
+
+					</h:panelGrid>
+
+
+
+
+				</p:panel>
+			</div>
+		</div>
+	</h:form>
+
+
+</h:body>
+
+</html>

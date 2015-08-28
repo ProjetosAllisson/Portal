@@ -1,0 +1,85 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<style type="text/css">
+body {
+	background-color: #bfbfbf;
+	font-size: 12px
+}
+</style>
+
+
+	<f:metadata>
+		<f:viewParam
+			name="903DAEF4110B5F2D2F0D5A4DB00A124A29DF27FADB5C4216AC3D47438B9878CE"
+			value="#{recuperaSenhaBean.parametroUser}" />
+	</f:metadata>
+
+	<h:outputStylesheet library="algaworks" name="estilo.css" />
+</h:head>
+<h:body>
+	<h:form>
+		<div id="div" class="container" style="width: 520px; height: 200px;	position: absolute;	top: 50%;	margin-top: -150px;	left: 50%;	margin-left: -250px;">
+			<div class="col-xs-12">
+				<p:messages autoUpdate="true" />
+				<p:panel header="Portal do Cliente" style="text-align:center">
+
+					
+					<p:fieldset
+						legend="Nova Senha  -  #{recuperaSenhaBean.usuario.login}">
+						<p:separator></p:separator>
+
+						<h:panelGrid columns="3" styleClass="semBorda">
+							<h:outputText value="Login" />
+
+							<h:outputText value="#{recuperaSenhaBean.usuario.login}" style="float:left" />
+
+							<br></br>
+
+							<h:outputLabel for="usrsenha" value="Senha:" />
+							<p:password value="#{recuperaSenhaBean.senha}"
+								id="usrsenha" required="true" label="senha" autocomplete="false"
+								feedback="true" requiredMessage="Senha é campo obrigatório" />
+							<br></br>
+
+
+						</h:panelGrid>
+
+						<p:separator></p:separator>
+
+
+						<h:panelGrid columns="4" width="100%" style="text-align:right"
+							styleClass="semBorda">
+
+
+
+							<p:spacer width="100" height="0px"></p:spacer>
+							<p:commandButton value="Confirma" icon="ui-icon-circle-check"
+								title="Confirma Alteração" actionListener="#{recuperaSenhaBean.updateSenhaUser}" />
+
+
+
+
+						</h:panelGrid>
+
+					</p:fieldset>
+
+
+
+				</p:panel>
+
+			</div>
+		</div>
+	</h:form>
+
+
+
+</h:body>
+</html>

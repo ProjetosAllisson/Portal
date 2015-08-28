@@ -307,11 +307,15 @@ public class UserFacade {
 	
 	public void enviarEmailRecuperarSenha(User usuario) {
 		
+		EmpresaDAO empresaDao = new EmpresaDAO();
+		Empresa empresa = new Empresa();
+
+		empresa = empresaDao.DadosTransportadora();
+		
 		Mensagem msgAdmin = new Mensagem();
 
 		msgAdmin.setTitulo("Criação de nova senha");
-		//msgAdmin.setDestino(usuario.getEmail());
-		msgAdmin.setDestino("felipe@allisson.com.br");
+		msgAdmin.setDestino(usuario.getEmail());
 		
 		List<String> corpoEmail = new ArrayList<String>();
 		
@@ -340,18 +344,18 @@ public class UserFacade {
 		
 		String imgHttp = Geral.getCaminhoURL()+"img/logo.jpg";
 		
-		corpoEmail.add("            <img src="+imgHttp+" height='170' width='200'>");
+		corpoEmail.add("            <img src="+imgHttp+" height='150' width='200'>");
 		            
 		corpoEmail.add("            </div>");
 
 		corpoEmail.add("            <div colspan='1' height='30' align='left'>");
-		corpoEmail.add("            <p>Prezado(a),Cliente</p>");
-		corpoEmail.add("            <p>Este é um email de <strong>Transportadora</strong>.</p>");
+		corpoEmail.add("            <p>Prezado(a),"+usuario.getCliente().getNome()+"</p>");
+		corpoEmail.add("            <p>Este é um email de <strong>"+empresa.getNome()+"</strong>.</p>");
 		corpoEmail.add("            </div>");
 		            
 		            
 		corpoEmail.add("            <div colspan='1' height='30' align='left'>");
-		corpoEmail.add("               Você nos informou que esqueceu sua senha de acesso ao site www.portal.br");
+		corpoEmail.add("               Você nos informou que esqueceu sua senha de acesso ao <a href="+Geral.getCaminhoURL()+">Portal");
 		corpoEmail.add("            </div>");
 		corpoEmail.add("	    <br/>");
 		corpoEmail.add("	    <div colspan='1' height='30' align='left'>");
@@ -359,7 +363,9 @@ public class UserFacade {
 		corpoEmail.add("            </div>");
 		corpoEmail.add("	    <br/>");
 		corpoEmail.add("            <div colspan='1' height='30' align='left'>");
+		
 		corpoEmail.add("		link para trocar de senha");
+		
 		corpoEmail.add("            </div>");
 		                               
 		            

@@ -82,14 +82,13 @@ public class ColetaBean extends AbstractMB implements Serializable {
 		// if (usuario.getCliente().getGrupoCliente()!=null){
 		// setGrupoRemet(grupoFacade.findGrupo(usuario.getCliente().getGrupoCliente().getGrupo()));
 		// }
-
-	}
-
-	public ColetaBean() {
+		
 		this.completeCliente("");
 		this.completeDestinatario("");
 
 	}
+
+	
 
 	public List<Cliente> completeCliente(String query) {
 

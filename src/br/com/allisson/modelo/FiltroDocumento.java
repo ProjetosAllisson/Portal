@@ -17,7 +17,9 @@ public class FiltroDocumento implements Serializable {
 	private Integer ctrc;
 	private String nota_fiscal;
 	
+	private Cliente clienteSelecionado = new Cliente();
 	private String cnpj_cpf;
+	private boolean pesquisaAdmin;
 
 	private int primeiroRegistro;
 	private int quantidadeRegistros;
@@ -78,6 +80,24 @@ public class FiltroDocumento implements Serializable {
 	}
 	public void setCnpj_cpf(String cnpj_cpf) {
 		this.cnpj_cpf = cnpj_cpf;
+	}
+	public Cliente getClienteSelecionado() {
+		return clienteSelecionado;
+	}
+	public void setClienteSelecionado(Cliente clienteSelecionado) {
+		this.clienteSelecionado = clienteSelecionado;
+		
+		if (this.clienteSelecionado !=null){
+			if (!this.clienteSelecionado.getCgc().equals("")){
+				this.cnpj_cpf = this.clienteSelecionado.getCgc();
+			}
+		}
+	}
+	public boolean isPesquisaAdmin() {
+		return pesquisaAdmin;
+	}
+	public void setPesquisaAdmin(boolean pesquisaAdmin) {
+		this.pesquisaAdmin = pesquisaAdmin;
 	}
 
 

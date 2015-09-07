@@ -54,11 +54,11 @@ public class Coleta implements Serializable{
 	@GeneratedValue(strategy = GenerationType.SEQUENCE,generator="Coleta")
 	private int id;
 	
-	@OneToMany(mappedBy="coleta",targetEntity = ColetaItem.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL,orphanRemoval=true)
+	@OneToMany(mappedBy="coleta",targetEntity = ColetaItem.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL,orphanRemoval=true)
 	@Fetch(FetchMode.SUBSELECT)
 	private List<ColetaItem> itensColeta = new ArrayList<ColetaItem>();
 	
-	@OneToMany(mappedBy="coleta",targetEntity = ColetaEvento.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy="coleta",targetEntity = ColetaEvento.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@Fetch(FetchMode.SUBSELECT)
 	private List<ColetaEvento> eventos = new ArrayList<ColetaEvento>();
 	
@@ -303,9 +303,16 @@ public class Coleta implements Serializable{
 	}
 
 	public boolean isPermiteCancelamento() {
-		return getAutorizada().equals(
-				ColetaAutorizadaEnum.SIM)
-				&& (getStatus().equals("EM ABERTO") && getCancelamento() == null);
+		
+		try{
+			return getAutorizada().equals(
+					ColetaAutorizadaEnum.SIM)
+					&& (getStatus().equals("EM ABERTO") && getCancelamento() == null);
+				
+		}catch (Exception e) {
+			return false;
+		}
+				
 	}
 
 	public Calendar getDiapedido() {

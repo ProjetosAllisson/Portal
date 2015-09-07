@@ -16,7 +16,8 @@
 
 				<p:tabView>
 					<p:ajax event="tabChange" listener="#{docsViewBean.onTabChange}"
-						update=":form:gridDocumentos txtDataInicio txtDataTermino edtNotaFiscal edtCtrc"
+						update=":form:gridDocumentos txtDataInicio txtDataTermino txtDataInicioCli txtDataTerminoCli
+								 basicPojoCliente edtNotaFiscal edtCtrc"
 						process="@this" />
 					<p:tab title="Notas em Transito" id="notasEmAberto">
 						<h1>Notas em Transito</h1>
@@ -29,6 +30,11 @@
 					<p:tab title="Pesquisa por Período">
 
 						<h:panelGrid columns="5">
+
+
+
+
+
 							<h:outputLabel value="Data Inicial" for="txtDataInicio" />
 
 							<p:calendar id="txtDataInicio" pattern="dd/MM/yyyy"
@@ -53,15 +59,14 @@
 					</p:tab>
 
 					<p:tab title="Pesquisa por CT-e/NF-e">
-										
+
 						<h:panelGrid columns="5">
-						   <h:outputLabel value="Conhecimento:" for="edtCtrc" />
-							<p:inputText id="edtCtrc"
-								value="#{docsViewBean.filtro.ctrc}"
+							<h:outputLabel value="Conhecimento:" for="edtCtrc" />
+							<p:inputText id="edtCtrc" value="#{docsViewBean.filtro.ctrc}"
 								converterMessage="Campo Conhecimento é Numérico">
 								<f:convertNumber integerOnly="true" maxIntegerDigits="9" />
 							</p:inputText>
-						
+
 							<h:outputLabel value="Nota Fiscal:" for="edtNotaFiscal" />
 							<p:inputText id="edtNotaFiscal"
 								value="#{docsViewBean.filtro.nota_fiscal}"
@@ -74,6 +79,60 @@
 								update=":form:gridDocumentos" />
 						</h:panelGrid>
 
+
+					</p:tab>
+					<p:tab id="consultaCliente" title="Pesquisa por Cliente e Período"
+						rendered="#{userBean.admin}">
+						<h:panelGrid columns="2">
+							<h:outputText value="Informe o nome do Cliente" />
+
+							<p:autoComplete value="#{docsViewBean.filtro.clienteSelecionado}"
+								id="basicPojoCliente"
+								completeMethod="#{usuariosBean.completeCliente}" size="60"
+								immediate="true" var="c" itemLabel="#{c.nome}" itemValue="#{c}"
+								converter="clienteConverter" forceSelection="true"
+								minQueryLength="4" queryDelay="1000" scrollHeight="200"
+								placeholder="Todos os Clientes">
+
+								<f:facet name="itemtip">
+									<h:panelGrid columns="2" cellpadding="5">
+
+										<h:outputText value="Cgc:" />
+										<h:outputText value="#{c.cgc}" />
+
+										<h:outputText value="Nome" />
+										<h:outputText value="#{c.nome}" />
+									</h:panelGrid>
+								</f:facet>
+
+							</p:autoComplete>
+						</h:panelGrid>
+
+						<h:panelGrid columns="5">
+
+
+
+							<h:outputLabel value="Data Inicial" for="txtDataInicioCli" />
+
+							<p:calendar id="txtDataInicioCli" pattern="dd/MM/yyyy"
+								locale="pt_BR" value="#{docsViewBean.filtro.dataInicio}"
+								maxlength="10" style="font-size:12px;heigth=30"
+								converterMessage="Data Invalida. Exemplo 01/01/2015"
+								mindate="#{docsViewBean.minDataInicio}">
+
+							</p:calendar>
+
+							<h:outputLabel value="Data Final" for="txtDataTerminoCli" />
+
+							<p:calendar id="txtDataTerminoCli" pattern="dd/MM/yyyy"
+								locale="pt_BR" value="#{docsViewBean.filtro.dataTermino}"
+								maxlength="10" style="font-size:12px;width=130">
+							</p:calendar>
+
+							<p:commandButton value="Consultar"
+								action="#{docsViewBean.pesquisar()}"
+								update=":form:gridDocumentos" />
+						</h:panelGrid>
 
 					</p:tab>
 
@@ -118,7 +177,7 @@
 					</f:facet>
 
 
-					<p:column style="font-size:11px;" 
+					<p:column style="font-size:11px;"
 						sortBy="#{documentos.id.documento}">
 						<f:facet name="header">
 							<h:outputText value="Documento" />
@@ -126,14 +185,15 @@
 						<h:outputText value="#{documentos.id.documento}" />
 					</p:column>
 
-					<p:column style="font-size:11px;" sortBy="#{documentos.id.n_fiscal}">
+					<p:column style="font-size:11px;"
+						sortBy="#{documentos.id.n_fiscal}">
 
 
 						<f:facet name="header">
 							<h:outputText value="NF" />
 						</f:facet>
 						<h:outputText value="#{documentos.id.n_fiscal}">
-							
+
 						</h:outputText>
 					</p:column>
 
@@ -198,7 +258,8 @@
 						</h:outputText>
 					</p:column>
 
-					<p:column style="font-size:11px;" sortBy="#{documentos.totalFrete}" width="100">
+					<p:column style="font-size:11px;" sortBy="#{documentos.totalFrete}"
+						width="100">
 						<f:facet name="header">
 							<h:outputText value="Total Frete" />
 						</f:facet>
@@ -206,7 +267,7 @@
 							<f:convertNumber currencySymbol="R$" type="currency"
 								locale="pt_BR" />
 						</h:outputText>
-						
+
 					</p:column>
 
 
@@ -244,7 +305,7 @@
 						<h:outputText value="#{documentos.recebedor}" />
 					</p:column>
 
-					<p:column style="font-size:10px;" exportable="false" >
+					<p:column style="font-size:10px;" exportable="false">
 						<f:facet name="header">
 							<h:outputText value="Comprovante" />
 						</f:facet>
@@ -266,7 +327,8 @@
 						</h:commandLink>
 
 						<h:outputLink value="#{documentos.comprovante_link}"
-							target="_blank" rendered="#{documentos.comprovante_link!=null and documentos.entrega!=null}">
+							target="_blank"
+							rendered="#{documentos.comprovante_link!=null and documentos.entrega!=null}">
 							<p:graphicImage styleClass="semBorda"
 								value="/img/comprovante.png"></p:graphicImage>
 

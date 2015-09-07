@@ -72,6 +72,11 @@ public class DocumentoViewBean {
 		if (!event.getTab().getId().equals("notasEmAberto")) {
 			// filtro.setDataInicio(new Date());
 		}
+		
+		if (event.getTab().getId().equals("consultaCliente")) {
+			filtro.setPesquisaAdmin(true);
+		}
+		
 	}
 
 	public void pesquisar() {

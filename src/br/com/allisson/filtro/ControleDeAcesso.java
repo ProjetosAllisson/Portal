@@ -130,6 +130,8 @@ public class ControleDeAcesso implements Filter {
 				&& !url.endsWith("esqueceuSenha.jsf")
 				&& !url.endsWith("esqueceuSenhaRetorno.jsf")
 				&& !url.endsWith("novaSenha.jsf")
+				&& !url.endsWith("novaSenhaRetorno.jsf")
+				
 				
 
 				&& !url.endsWith("javax.faces.resource/layout/layout.css.jsf")

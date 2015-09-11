@@ -180,13 +180,13 @@ public class UserFacade {
 		
 	}
 	
-	public User userPorEmail(String email) {
+	public List<User> userPorEmail(String email) {
 		
 		userDAO.beginTransaction();
-		User user = userDAO.findUserEmail(email);
+		List<User> result = userDAO.findUserEmail(email);
 		userDAO.closeTransaction();
 		
-		return user;
+		return result;
 	}
 	
 	public List<User> listAll(){
@@ -305,7 +305,7 @@ public class UserFacade {
 
 	}
 	
-	public void enviarEmailRecuperarSenha(User usuario) {
+	public void enviarEmailRecuperarSenha(List<User> usuarios) {
 		
 		EmpresaDAO empresaDao = new EmpresaDAO();
 		Empresa empresa = new Empresa();
@@ -315,7 +315,7 @@ public class UserFacade {
 		Mensagem msgAdmin = new Mensagem();
 
 		msgAdmin.setTitulo("Criação de nova senha");
-		msgAdmin.setDestino(usuario.getEmail());
+		msgAdmin.setDestino(usuarios.get(0).getEmail());
 		
 		List<String> corpoEmail = new ArrayList<String>();
 		
@@ -344,28 +344,33 @@ public class UserFacade {
 		
 		String imgHttp = Geral.getCaminhoURL()+"img/logo.jpg";
 		
-		corpoEmail.add("            <img src="+imgHttp+" height='150' width='200'>");
+		corpoEmail.add("            <img src="+imgHttp+" height='100' width='150'>");
 		            
 		corpoEmail.add("            </div>");
 
 		corpoEmail.add("            <div colspan='1' height='30' align='left'>");
-		corpoEmail.add("            <p>Prezado(a),"+usuario.getCliente().getNome()+"</p>");
+		corpoEmail.add("            <p>Prezado(a),"+usuarios.get(0).getCliente().getNome()+"</p>");
 		corpoEmail.add("            <p>Este é um email de <strong>"+empresa.getNome()+"</strong>.</p>");
 		corpoEmail.add("            </div>");
 		            
 		            
 		corpoEmail.add("            <div colspan='1' height='30' align='left'>");
-		corpoEmail.add("               Você nos informou que esqueceu sua senha de acesso ao <a href="+Geral.getCaminhoURL()+">Portal");
+		corpoEmail.add("               Você nos informou que esqueceu sua senha de acesso ao <a href="+Geral.getCaminhoURL()+">Portal"+"</a>");
 		corpoEmail.add("            </div>");
 		corpoEmail.add("	    <br/>");
 		corpoEmail.add("	    <div colspan='1' height='30' align='left'>");
-		corpoEmail.add("               Use o link a seguir nas próximas horas para criar uma nova senha:");	
+		corpoEmail.add("               Use o(s) link(s) a seguir nas próximas horas para criar uma nova senha:");	
 		corpoEmail.add("            </div>");
 		corpoEmail.add("	    <br/>");
 		corpoEmail.add("            <div colspan='1' height='30' align='left'>");
 		
-		corpoEmail.add("		link para trocar de senha");
 		
+		for (User usuario : usuarios) {
+			corpoEmail.add("Login = "+usuario.getLogin()+  ", <a href="+Geral.getCaminhoURL()+"pages/public/novaSenha.jsf?"+Criptografia.md5("idUser")+"="+Criptografia.criptografa(String.valueOf(usuario.getId()), 25)+">Trocar senha</a><br/>");	
+		}
+		
+		
+				
 		corpoEmail.add("            </div>");
 		                               
 		            

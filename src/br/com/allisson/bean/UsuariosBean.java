@@ -34,6 +34,7 @@ public class UsuariosBean extends AbstractMB {
 	private ClienteFacade clienteFacade;
 
 	private boolean campoBooleanControle=true;
+	private boolean enviaEmailParaCliente=true;
 	
 		
 	public UsuariosBean() {
@@ -183,7 +184,10 @@ public class UsuariosBean extends AbstractMB {
 
 			if (usuarioSelecionado.getAcesso_autorizado()) {
 				try {
-				    getUserFacade().enviarEmailAcessoAutorizado(usuarioSelecionado);
+					if (this.enviaEmailParaCliente) {
+						getUserFacade().enviarEmailAcessoAutorizado(usuarioSelecionado);	
+					}
+					
 				} catch (Exception e) {
 					System.out.println(e.getMessage());
 				}
@@ -245,6 +249,13 @@ public class UsuariosBean extends AbstractMB {
 		this.usuarioSelecionado = new User();
 		this.usuarioSelecionado = getUserFacade().findUser(id);
 	}
+	
+	public void trocarSenhaUser(int id){
+		this.localizaUser(id);
+		this.enviaEmailParaCliente = false;
+	}
+	
+	
 	
 	public String getCnpj() {
 

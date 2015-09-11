@@ -87,6 +87,8 @@ public class FiltroDocumento implements Serializable {
 	public void setClienteSelecionado(Cliente clienteSelecionado) {
 		this.clienteSelecionado = clienteSelecionado;
 		
+		this.cnpj_cpf = "";
+		
 		if (this.clienteSelecionado !=null){
 			if (!this.clienteSelecionado.getCgc().equals("")){
 				this.cnpj_cpf = this.clienteSelecionado.getCgc();

@@ -10,7 +10,8 @@
 	<h:body>
 		<h:form target="_blank">
 
-			<p:panel header="Portal de Serviço Web" style="position:absolute;">
+			<p:panel header="Portal de Serviço Web"
+				style="position:absolute;font-size: 12px;">
 
 
 				<h:panelGrid id="panel" columns="2" cellspacing="3"
@@ -20,25 +21,35 @@
 						<p:inputText value="#{loginBean.usuario}" id="usuario"
 							required="true" label="usuario" />
 					</p:focus>
-					
+
 					<h:outputLabel for="senha" value="Senha:" />
 					<p:password value="#{loginBean.senha}" id="senha" required="true"
 						label="senha" />
 
-					
 
-				 <h:commandLink value="Solicite cadastro" action="/pages/public/usuario.jsf"  title="Caso não possua Login. Solicite seu cadastro aqui."   
-                    immediate="true"/>  
+					<p:columnGroup >
+						<h:panelGrid columns="1" style="border: none !important;">
+							<h:commandLink value="Solicite cadastro"
+								action="/pages/public/usuario.jsf" 
+								title="Caso não possua Login. Solicite seu cadastro aqui."
+								immediate="true" />
+							
+							<h:commandLink title="Recupere a senha"
+								value="Esqueceu sua senha?"
+								action="/pages/public/esqueceuSenha.jsf" 
+								style="float:rigth;font-size:11px" 
+								immediate="true" />
+						</h:panelGrid>
+					</p:columnGroup>
 
-				
-				          <h:commandButton id="btnLogin" value="Login" icon="ui-icon-check"
-					action="#{loginBean.autenticaLoginFrame}" >
-				</h:commandButton>
+					<h:commandButton id="btnLogin" value="Login" icon="ui-icon-check"
+						action="#{loginBean.autenticaLoginFrame}">
+					</h:commandButton>
 
 				</h:panelGrid>
-			
-			
-				
+
+
+
 
 			</p:panel>
 

@@ -36,12 +36,12 @@ public class UserDAO extends GenericDAO<User> {
 		return super.findAllResult(User.FIND_ALL, null);
 	}
 	
-	public User findUserEmail(String email) {
+	public List<User> findUserEmail(String email) {
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		
 		parameters.put("email", email);
 		
-		return super.findOneResult(User.FIND_USER_EMAIL, parameters);
+		return super.findAllResult(User.FIND_USER_EMAIL, parameters);
 	}
 
 }

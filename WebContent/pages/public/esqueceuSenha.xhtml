@@ -15,6 +15,25 @@ body {
 	font-size: 12px
 }
 </style>
+
+	<style type="text/css">
+#div {
+	width: 550px; /* Tamanho da Largura da Div */
+	height: 200px; /* Tamanho da Altura da Div */
+	position: absolute;
+	top: 50%;
+	margin-top: -150px;
+	/* ou seja ele pega 50% da altura tela e sobe metade do valor da altura no caso 100 */
+	left: 50%;
+	margin-left: -250px;
+	/* ou seja ele pega 50% da largura tela e diminui  metade do valor da largura no caso 250 */
+	;
+}
+</style>
+
+	<!-- define a viewport -->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
 	<h:outputStylesheet library="algaworks" name="estilo.css" />
 </h:head>
 
@@ -22,6 +41,12 @@ body {
 <h:body>
 
 	<h:form id="frm">
+		<p:ajaxStatus onstart="statusDialog.show()"
+			onsuccess="statusDialog.hide();" />
+		<p:dialog modal="true" widgetVar="statusDialog"
+			header="Processando, Aguarde." draggable="false" closable="false">
+			<h:graphicImage value="/resources/LoadingProgressBar.gif" />
+		</p:dialog>
 
 		<div id="div" class="container">
 			<div class="col-xs-12">
@@ -29,7 +54,7 @@ body {
 				<p:panel header="Portal do Cliente" style="text-align:center">
 
 					<h:panelGrid columns="2">
-						<p:spacer width="210px" height="0px"/>
+						<p:spacer width="210px" height="0px" />
 						<p:column>
 							<div style="float: left">
 								<h2>Esqueceu sua Senha?</h2>
@@ -54,8 +79,9 @@ body {
 
 							<p:column>
 								<p:focus>
-									<p:inputText id="email" value="#{recuperaSenhaBean.email}" required="true" label="e-mail" requiredMessage="Por favor, informe seu e-mail"
-										size="30" />
+									<p:inputText id="email" value="#{recuperaSenhaBean.email}"
+										required="true" label="e-mail"
+										requiredMessage="Por favor, informe seu e-mail" size="30" />
 								</p:focus>
 							</p:column>
 
@@ -63,10 +89,10 @@ body {
 							<h:panelGrid columns="2">
 
 								<p:commandButton id="btnRecuperarSenha" value="Criar nova senha"
-									icon="ui-icon-check" action="#{recuperaSenhaBean.recuperaSenha}"
-									style="float:left">
+									icon="ui-icon-check"
+									action="#{recuperaSenhaBean.recuperaSenha}" style="float:left">
 								</p:commandButton>
-								<p:button value="Login" outcome="login"/>
+								<p:button value="Login" outcome="login" />
 
 
 							</h:panelGrid>

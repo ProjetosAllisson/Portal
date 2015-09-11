@@ -82,7 +82,7 @@
 
 						<p:menuitem value="Trocar senha" icon="ui-icon-locked"  rendered="#{loginBean.logado}"
 							update=":usuariosNovaSenhaForm" 
-							actionListener="#{usuariosBean.localizaUser(userBean.user.id)}"
+							actionListener="#{usuariosBean.trocarSenhaUser(userBean.user.id)}"
 							onclick="usuariosNovaSenhaWidget.show();"/>
 
 						<p:menuitem value="Sair" icon="ui-icon-power"

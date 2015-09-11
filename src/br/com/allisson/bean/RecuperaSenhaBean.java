@@ -1,6 +1,8 @@
 package br.com.allisson.bean;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -31,14 +33,14 @@ public class RecuperaSenhaBean extends AbstractMB implements Serializable{
 	
 	public String recuperaSenha() {
 		
-		setUsuario(new User());
-		setUsuario(getUserFacade().userPorEmail(this.email));
+		List<User> usuarios = new ArrayList<User>();
+		usuarios.addAll(getUserFacade().userPorEmail(this.email));
 		
-		if (getUsuario() == null) {
+		if (usuarios.size()==0) {
 			displayErrorMessageToUser("E-mail não localizado em nosso cadastro.");
 			return "";
 		}else{
-			getUserFacade().enviarEmailRecuperarSenha(getUsuario());
+			getUserFacade().enviarEmailRecuperarSenha(usuarios);
 			return "/pages/public/esqueceuSenhaRetorno.jsf?faces-redirect=true";
 			
 		}
@@ -68,17 +70,18 @@ public class RecuperaSenhaBean extends AbstractMB implements Serializable{
 	
 	//http://localhost:8080/portal/pages/public/novaSenha.jsf?903DAEF4110B5F2D2F0D5A4DB00A124A29DF27FADB5C4216AC3D47438B9878CE=MKL
 	
-	public void updateSenhaUser() {
+	public String updateSenhaUser() {
 		try {
 
 			this.getUsuario().setSenha(senha);
 			getUserFacade().updateUser(this.usuario);
-			displayInfoMessageToUser("Senha alterada com sucesso");
+			return "/pages/public/novaSenhaRetorno.jsf?faces-redirect=true";
 			
 		} catch (Exception e) {
 			keepDialogOpen();
 			displayErrorMessageToUser(e.getMessage());
 			e.printStackTrace();
+			return "";
 		}
 	}
 	

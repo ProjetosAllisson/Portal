@@ -27,12 +27,13 @@ public class DocumentoViewDAO extends GenericDAO<DocumentoView> {
 
 	public DocumentoViewDAO() {
 		super(DocumentoView.class);
-
 	}
 
 	@SuppressWarnings("unchecked")
 	public List<DocumentoView> filtrados(FiltroDocumento filtro) {
 
+		usuario = new User();
+		
 		if (filtro.getCnpj_cpf() != null && !filtro.getCnpj_cpf().equals("")) {
 			Cliente cli = new Cliente();
 			cli.setCgc(filtro.getCnpj_cpf());

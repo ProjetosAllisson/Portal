@@ -160,9 +160,10 @@
 							</h:outputText>
 						</f:facet>
 						<f:facet name="input">
-							<p:inputText value="#{c.vlrCobrado}">
+							<pe:inputNumber value="#{c.vlrCobrado}" label="Valor Coleta"
+								decimalPlaces="2" thousandSeparator="." decimalSeparator=",">
 
-							</p:inputText>
+							</pe:inputNumber>
 						</f:facet>
 					</p:cellEditor>
 
@@ -305,7 +306,8 @@
 
 
 
-							<h:panelGroup id="inDestinatario" rendered="#{coletaBean.coletaSelecionada.id==0}">
+							<h:panelGroup id="inDestinatario"
+								rendered="#{coletaBean.coletaSelecionada.id==0}">
 
 								<p:autoComplete
 									value="#{coletaBean.coletaSelecionada.destinatario}"
@@ -336,7 +338,8 @@
 									for="basicPojoClienteDest" />
 							</h:panelGroup>
 
-							<h:panelGroup id="alDestinatario" rendered="#{coletaBean.coletaSelecionada.id>0}">
+							<h:panelGroup id="alDestinatario"
+								rendered="#{coletaBean.coletaSelecionada.id>0}">
 								<p:inplace
 									label="#{coletaBean.coletaSelecionada.destinatario.nome}"
 									editor="true">
@@ -599,13 +602,15 @@
 						<p:commandButton value="Incluir"
 							rendered="#{coletaBean.coletaSelecionada.id==0}"
 							actionListener="#{coletaBean.incluirColeta}"
-							update="messages, :form:dataTableColetas" process="@this inDestinatario"
+							update="messages, :form:dataTableColetas"
+							process="@this inDestinatario"
 							oncomplete="if (!args.validationFailed) {dialogColeta.hide();}" />
 
 						<p:commandButton value="Alterar"
 							rendered="#{coletaBean.coletaSelecionada.id>0 and coletaBean.coletaSelecionada.vlrCobrado==0}"
 							actionListener="#{coletaBean.alterarColeta}"
-							update="messages, :form:dataTableColetas" process="@this alDestinatario"
+							update="messages, :form:dataTableColetas"
+							process="@this alDestinatario"
 							oncomplete="closeDialogIfSucess(xhr, status, args, dialogColeta, 'dialogColetaId')" />
 
 

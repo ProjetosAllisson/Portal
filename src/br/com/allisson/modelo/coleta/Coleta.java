@@ -307,7 +307,7 @@ public class Coleta implements Serializable{
 		try{
 			return getAutorizada().equals(
 					ColetaAutorizadaEnum.SIM)
-					&& (getStatus().equals("EM ABERTO") && getCancelamento() == null);
+					&& (getStatus().trim().equals("EM ABERTO") && getCancelamento() == null);
 				
 		}catch (Exception e) {
 			return false;

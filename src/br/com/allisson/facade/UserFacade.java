@@ -59,7 +59,7 @@ public class UserFacade {
 			
 			String imgHttp = Geral.getCaminhoURL()+"img/logo.jpg";
 			
-			corpoEmail.add("<img src="+imgHttp+">");  
+			corpoEmail.add("<img src="+imgHttp+" height='100' width='150'>");  
 			corpoEmail.add("</div>");  
 
 			
@@ -121,22 +121,21 @@ public class UserFacade {
 			
 			corpoEmail.add("<br/>");  
 			corpoEmail.add("<div colspan='1' height='30' align='center'>");
-			corpoEmail.add("<strong>Cliente: </strong>"+user.getCliente().getNome()+"<br/>");  
-			corpoEmail.add("<strong>Login  : </strong>"+user.getLogin()+"<br/>");
+			corpoEmail.add("<strong>O cliente: </strong>"+user.getCliente().getCgc()+" - "+ user.getCliente().getNome()+"<br/>");  
 			corpoEmail.add("</div>");
 			
-			corpoEmail.add("<br/>");  
-			corpoEmail.add("<br/>"); 
+			corpoEmail.add("<br/>");
 			
 			corpoEmail.add("<div colspan='1' height='30' align='center'>");  
-			corpoEmail.add("<b><center>Efetuou cadastro no Portal Web</center></b>");   
+			corpoEmail.add("<b><center>Efetuou cadastro no Portal Web, </center></b><br/>");
+			corpoEmail.add("<strong>com o Login  : </strong>"+user.getLogin()+"<br/>");
 			corpoEmail.add("</div>");  
 			
 			corpoEmail.add("<br/>"); 
 			
 			
 			corpoEmail.add("<div colspan='1' height='30' align='center'>");  
-			corpoEmail.add("<b><center>Para autorizar agora mesmo. <a href="+Geral.getCaminhoURL()+"pages/public/autorizarAcessoURL.jsf?"+Criptografia.md5("idUser")+"="+Criptografia.criptografa(String.valueOf(user.getId()), 25)+">Autorizar</a></center></b>");   
+			corpoEmail.add("<b><center>Para autorizar o acesso agora mesmo, clique ao lado. <a href="+Geral.getCaminhoURL()+"pages/public/autorizarAcessoURL.jsf?"+Criptografia.md5("idUser")+"="+Criptografia.criptografa(String.valueOf(user.getId()), 25)+">Autorizar acesso</a></center></b>");   
 			corpoEmail.add("</div>");  
 			
 			corpoEmail.add("<br/>");  
@@ -260,7 +259,7 @@ public class UserFacade {
             
 			String imgHttp = Geral.getCaminhoURL()+"img/logo.jpg";
 			
-			corpoEmail.add("<img src="+imgHttp+">");
+			corpoEmail.add("<img src="+imgHttp+" height='100' width='150'>");
 			
 			corpoEmail.add("</div>");  
 

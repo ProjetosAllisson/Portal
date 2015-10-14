@@ -68,6 +68,7 @@ public class UsuariosBean extends AbstractMB {
 
 	public String InserirUsuarioExterno() {
 
+		cliente = clienteFacade.localiza(cliente.getCgc());
 		usuario.setCliente(cliente);
 
 		if (getUserFacade().isExists(usuario.getLogin()) == true) {

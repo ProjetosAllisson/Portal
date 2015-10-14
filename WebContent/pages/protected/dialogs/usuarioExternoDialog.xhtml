@@ -62,8 +62,8 @@
 						<h:outputText id="nomeCliente" value="#{clienteBean.cliente.nome}" />
 
 						<h:outputText value="E-mail" />
-						<p:inputText id="email" label="email" size="40"
-							value="#{usuariosBean.usuario.email}">
+						<p:inputText id="email" label="email" size="40" required="true" requiredMessage="Informe um e-mail valido"
+							value="#{usuariosBean.usuario.email}"> 
 						</p:inputText>
 						<p:watermark for="email" value="Endereço de e-mail *" />
 

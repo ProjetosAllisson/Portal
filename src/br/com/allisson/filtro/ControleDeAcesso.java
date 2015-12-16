@@ -137,6 +137,8 @@ public class ControleDeAcesso implements Filter {
 				&& !url.endsWith("javax.faces.resource/layout/layout.css.jsf")
 				&& !url.endsWith("javax.faces.resource/watermark/watermark.css.jsf")
 				&& !url.endsWith("javax.faces.resource/normalize.css.jsf")
+				&& !url.endsWith("javax.faces.resource/estilo.css.jsf")
+				
 				&& !url.contains("jquery.js.jsf")
 
 				&& !url.endsWith("javax.faces.resource/resources/imagens/bg.gif");

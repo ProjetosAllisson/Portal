@@ -112,6 +112,99 @@ public class UserFacade {
 			msgAdmin.setDestino(ContaEmailFacade.getDadosContaEmail().getEmailadmin());
 			
 			corpoEmail.clear();
+			
+			corpoEmail.add("<head>");
+			corpoEmail.add("<meta http-equiv='Content-Type' content='text/html; charset=utf-8'>");
+			corpoEmail.add("</head>");
+			corpoEmail.add("<html>");               
+			corpoEmail.add("		<body  bgcolor='#EBEBEB'>");
+			corpoEmail.add("			<center>");
+						
+			corpoEmail.add("				<div id='principal' style='max-width: 400px;  width: 94%' align='left'>"); 
+			corpoEmail.add("					<table cellpadding='0' cellspacing='0' border='0' bgcolor='#ffffff' width='100%'>"); 
+			corpoEmail.add("						<table >");
+			corpoEmail.add("							<tr>");	
+			corpoEmail.add("								<th>Prezado(a),</th>");
+			corpoEmail.add("							</tr>");
+			corpoEmail.add("						</table>");
+			corpoEmail.add("						<table>");
+			corpoEmail.add("							<tr>");
+			corpoEmail.add("								<td>");
+			corpoEmail.add("									O Cliente:");
+			corpoEmail.add("								</td>");
+											
+			corpoEmail.add("								<td>");
+			corpoEmail.add("									<strong>"+user.getCliente().getNome()+"</strong>");
+			corpoEmail.add("								</td>");
+											
+			corpoEmail.add("							</tr>");
+			corpoEmail.add("							<tr>");
+			corpoEmail.add("								<td>");
+			corpoEmail.add("									Cnpj/Cpf:");
+			corpoEmail.add("								</td>");
+			corpoEmail.add("								<td>");
+			corpoEmail.add(										user.getCliente().getCgc());
+			corpoEmail.add("								</td>");
+			corpoEmail.add("							</tr>");
+			corpoEmail.add("						</table>");
+			corpoEmail.add("						<br/>");
+			corpoEmail.add("						<table align='center'>");
+			corpoEmail.add("							<tr>");
+			corpoEmail.add("								<td>");
+			corpoEmail.add("									<strong>Efetuou cadastro no Portal Web.</strong>");
+			corpoEmail.add("								</td>");
+			corpoEmail.add("							</tr>");
+			corpoEmail.add("						</table>");
+			corpoEmail.add("						<br/>");
+			corpoEmail.add("						<table>");
+			corpoEmail.add("							<tr>");
+			corpoEmail.add("								<td>");
+			corpoEmail.add("									Login:");
+			corpoEmail.add("								</td>");
+											
+			corpoEmail.add("								<td>");
+			corpoEmail.add( 									user.getLogin());
+			corpoEmail.add("								</td>");
+			corpoEmail.add("							</tr>");
+										
+			corpoEmail.add("							<tr>");
+			corpoEmail.add("								<td>");
+			corpoEmail.add("									E-mail:");
+			corpoEmail.add("								</td>");
+			corpoEmail.add("								<td>");
+			corpoEmail.add("									<strong>"+user.getEmail()+"</strong>");
+			corpoEmail.add("								</td>");
+			corpoEmail.add("							</tr>");
+										
+										
+			corpoEmail.add("						</table>");
+			corpoEmail.add("						<br/>");
+			corpoEmail.add("						<table>");
+			corpoEmail.add("							<tr>");
+			corpoEmail.add("							    <td>");
+			corpoEmail.add("									<strong>Para autorizar o acesso agora mesmo, clique abaixo.</strong>");
+			corpoEmail.add("								</td>");	
+			corpoEmail.add("							</tr>");
+			corpoEmail.add("						</table>");
+			corpoEmail.add("						<table align='center'>");
+			corpoEmail.add("							<tr>");
+			corpoEmail.add("								<td>");
+			corpoEmail.add("									<a href="+Geral.getCaminhoURL()+"pages/public/autorizarAcessoURL.jsf?"+Criptografia.md5("idUser")+"="+Criptografia.criptografa(String.valueOf(user.getId()), 25)+">Autorizar acesso</a>");
+			corpoEmail.add("								</td>");
+			corpoEmail.add("							</tr>");
+			corpoEmail.add("						</table>");	
+									
+									
+			corpoEmail.add("					</table>");
+			corpoEmail.add("				</div>");
+						
+			corpoEmail.add("			</center>");
+						      
+			corpoEmail.add("		</body>");  
+			corpoEmail.add("</html>");  
+			
+			
+			/* Layout Anterior.
 			corpoEmail.add("<html>");               
 			corpoEmail.add("<body  bgcolor='#EBEBEB'>");                    
 			
@@ -145,6 +238,8 @@ public class UserFacade {
 			      
 			corpoEmail.add("</body>");  
 			corpoEmail.add("</html>");  
+			
+			*/
 
 			msgAdmin.setMensagens(corpoEmail);
 			

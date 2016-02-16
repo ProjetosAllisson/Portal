@@ -5,6 +5,7 @@ import javax.faces.application.FacesMessage.Severity;
 import javax.faces.context.FacesContext;
 
 public class JSFMessageUtil {
+	
 	public void sendInfoMessageToUser(String message) {
 		FacesMessage facesMessage = createMessage(FacesMessage.SEVERITY_INFO, message);
 		addMessageToJsfContext(facesMessage);

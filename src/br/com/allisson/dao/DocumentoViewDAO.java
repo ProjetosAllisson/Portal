@@ -84,7 +84,11 @@ public class DocumentoViewDAO extends GenericDAO<DocumentoView> {
 				dis.add(consignatario);
 			}
 
-			dis.add(remetente);
+			
+			if (!filtro.isConsultaPublica()){
+				dis.add(remetente);	
+			}
+			
 			dis.add(destinatario);
 
 			criteria.add(dis);
@@ -103,6 +107,8 @@ public class DocumentoViewDAO extends GenericDAO<DocumentoView> {
 			// and (((d.saida_entrega is not null) or (d.chegada is null)) or
 			// ((d.saida_entrega is null) and (d.chegada is null)) )
 
+			
+			/*
 			Criterion emDeposito;
 			Criterion emEntrega;
 
@@ -112,10 +118,10 @@ public class DocumentoViewDAO extends GenericDAO<DocumentoView> {
 			emDeposito = Restrictions.isNull("chegada");
 			transito.add(emEntrega);
 			transito.add(emDeposito);
-
+			*/
 			// LogicalExpression orExp = Restrictions.or(emEntrega, emDeposito);
 
-			criteria.add(transito).add(Restrictions.isNotNull("embarque"));
+			//criteria.add(transito).add(Restrictions.isNotNull("embarque"));
 
 		}
 

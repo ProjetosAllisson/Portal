@@ -26,6 +26,8 @@ public class FiltroDocumento implements Serializable {
 	private String propriedadeOrdenacao;
 	private boolean ascendente;
 	
+	private boolean consultaPublica = false;
+	
 	
 	public int getPrimeiroRegistro() {
 		return primeiroRegistro;
@@ -83,6 +85,15 @@ public class FiltroDocumento implements Serializable {
 	}
 	public Cliente getClienteSelecionado() {
 		return clienteSelecionado;
+	}
+	
+	
+	
+	public boolean isConsultaPublica() {
+		return consultaPublica;
+	}
+	public void setConsultaPublica(boolean consultaPublica) {
+		this.consultaPublica = consultaPublica;
 	}
 	public void setClienteSelecionado(Cliente clienteSelecionado) {
 		this.clienteSelecionado = clienteSelecionado;

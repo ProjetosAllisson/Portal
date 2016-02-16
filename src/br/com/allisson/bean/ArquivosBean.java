@@ -2,13 +2,20 @@ package br.com.allisson.bean;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.Serializable;
 
 import javax.faces.bean.ManagedBean;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletResponse;
+
+import br.com.allisson.util.JSFMessageUtil;
+import br.com.allisson.util.OperacoesArquivos;
 
 @ManagedBean(name = "arquivosBean")
 public class ArquivosBean extends AbstractMB implements Serializable {
@@ -27,22 +34,96 @@ public class ArquivosBean extends AbstractMB implements Serializable {
 	private String nomearquivo;
 	private String extensao;
 	
+	private String eErro;
+	
 	public void download(String caminho_arquivo, String nome_arquivo,String extensao_arquivo){
 		
 		this.caminho     = caminho_arquivo;
 		this.nomearquivo = nome_arquivo; 
-		this.extensao    = extensao_arquivo;
+		this.extensao    = "."+extensao_arquivo;
 		
-		if (this.importarArquivo()){
-			this.processaArquivo(true);
-		}else {
-			displayErrorMessageToUser("Arquivo "+caminho_arquivo+nome_arquivo+"."+extensao_arquivo +" não encontrado.");
+		//OperacoesArquivos.downloadFile(nome_arquivo+"."+extensao_arquivo, caminho_arquivo, "xml", FacesContext.getCurrentInstance());
+		
+        // deve ser passado o nome do arquivo+extensão  teste.txt
+		
+		
+		FacesContext facesContext = FacesContext.getCurrentInstance(); 
+		
+		ExternalContext context = facesContext.getExternalContext(); // Context
+				
+		File file = new File(caminho_arquivo + nome_arquivo+extensao); // LINHA ALTERADA
+		
+		try {
+			FileInputStream in = new FileInputStream(file);
+			
+			
+			ServletContext sContext = (ServletContext) FacesContext
+					.getCurrentInstance().getExternalContext().getContext();
+
+			File folder = new File(sContext.getRealPath("/temp"));
+
+			if (!folder.exists())
+				folder.mkdirs();
+			
+			String arquivoSaida = sContext.getRealPath("/temp") + File.separator
+					+ nome_arquivo+extensao;
+			
+			File file2 = new File (arquivoSaida); 
+			FileOutputStream saida = new FileOutputStream(file2);
+			
+			byte[] buf = new byte[(int) file.length()];
+			int count;
+			while ((count = in.read(buf)) >= 0) {
+				saida.write(buf, 0, count);
+			}
+			file = new File(arquivoSaida); // LINHA ALTERADA
+			in.close();
+			in = new FileInputStream(file);
+			
+			HttpServletResponse response = (HttpServletResponse) context
+					.getResponse();
+			response.setHeader("Content-Disposition", "attachment;filename=\""
+					+ nome_arquivo+extensao + "\""); // aki eu seto o header e o nome q vai
+										// aparecer na hr do donwload
+			response.setContentLength((int) file.length()); // O tamanho do arquivo
+			response.setContentType(extensao_arquivo); // e obviamente o tipo
+			
+			OutputStream out = response.getOutputStream();
+			buf = new byte[(int) file.length()];
+			
+			while ((count = in.read(buf)) >= 0) {
+				out.write(buf, 0, count);
+			}
+			in.close();
+			
+			saida.close();
+			out.flush();
+			out.close();
+			facesContext.responseComplete();
+		} catch (Exception ex) {
+			System.out.println("Error in downloadFile: " + ex.getMessage());
+			JSFMessageUtil messageUtil = new JSFMessageUtil();
+			messageUtil.sendErrorMessageToUser(ex.getMessage());
 		}
 		
 		
 		
 		
+		
+		
+		/*
+		if (this.importarArquivo()){
+			 this.processaArquivo(true);
+		}else {
+			 displayErrorMessageToUser(eErro);
+		}
+		*/
+		
+		
 	}
+	
+	
+	
 	
 	private boolean importarArquivo() {
 		try {
@@ -58,7 +139,7 @@ public class ArquivosBean extends AbstractMB implements Serializable {
 			//nomearquivo = Geral.LimpaString(duplicata.getCliente().getCgc(), "[./-]") +
 			  //        String.format("%06d", duplicata.getId().getFatura()) + ".pdf";
 
-			String arquivo = caminho+'/'+nomearquivo+'.'+extensao;
+			String arquivo = caminho+nomearquivo+'.'+extensao;
 			System.out.println(arquivo);
 
 			File file = new File(arquivo);
@@ -73,13 +154,14 @@ public class ArquivosBean extends AbstractMB implements Serializable {
 
 			// Aqui o InputStream faz a leitura do arquivo, transformando em um
 			// array de bytes
+			
 			is.read(conteudo);
 
 			// Fecha o InputStream, liberando seus recursos
 			is.close();
 			return true;
 		} catch (Exception e) {
-			e.printStackTrace();
+			eErro = e.getMessage();
 			return false;
 		}
 	}

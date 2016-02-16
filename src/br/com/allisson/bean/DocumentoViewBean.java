@@ -82,6 +82,10 @@ public class DocumentoViewBean {
 	public void pesquisar() {
 		documentos = docViewFacade.consultaDocumentos(getFiltro());
 	}
+	
+	public void consultaPublica() {
+		getFiltro().setConsultaPublica(true);
+	}
 
 	public Date getMinDataInicio() {
 		int iDias = 90 * -1;

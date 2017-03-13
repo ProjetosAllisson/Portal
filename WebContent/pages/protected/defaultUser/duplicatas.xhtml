@@ -130,7 +130,21 @@
 							target="#{duplicatasBean.duplicataSelecionada}"
 							value="#{duplicata}" />
 					</h:commandLink>
-
+				</p:column>
+				
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="Pacote Xml/Dacte"/>
+					</f:facet>
+					
+					<h:commandLink value="Download" title="Download"
+						rendered="#{duplicata.boletoGerado}"
+						action="#{arquivosBean.download(duplicata.pathPacoteZipXmlDacte,duplicata.nomePacoteZipXmlDacte,'zip')}">
+					
+					</h:commandLink>
+					
+					
+				
 				</p:column>
 
 

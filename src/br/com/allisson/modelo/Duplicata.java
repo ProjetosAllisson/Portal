@@ -16,6 +16,9 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
+import br.com.allisson.facade.ConfigSatwinFacade;
+import br.com.allisson.util.Geral;
+
 @Entity
 @Table(name = "STWFATTCOB")
 @NamedQueries({ @NamedQuery(name = "Duplicata.EmAberto", query = "select u from Duplicata u where u.cliente.cgc =:cgc and u.dt_pagto is null and u.status = 'DG' "
@@ -60,7 +63,7 @@ public class Duplicata {
 	
 	@Column
 	private String status;
-
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (obj instanceof Duplicata) {
@@ -157,4 +160,30 @@ public class Duplicata {
 	public BigDecimal getSaldoPagar() {
 		return getTot_fatura().add(getVlr_juros()).subtract(getVlr_desc());
 	}
+
+	public String getPathPacoteZipXmlDacte() {
+		
+		if (this.boletoGerado) {
+			
+			ConfigSatwinFacade configSatwinfacade = new ConfigSatwinFacade();
+			
+			String caminho = configSatwinfacade.leclausula("FATURAMENTO","Path para Salvar Boletos em PDF", this.getId().getFil_orig());
+			
+			return caminho;
+			
+		}
+		
+		return "";
+	}
+	
+	public String getNomePacoteZipXmlDacte() {
+		if (this.boletoGerado) {
+			return Geral.LimpaString(this.getCliente().getCgc(), "[./-]") +
+			          String.format("%06d", this.getId().getFatura());
+		}
+		else
+			return "";
+	}
+
+	
 }

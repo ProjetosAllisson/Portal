@@ -13,11 +13,15 @@
 			<f:viewParam name="cnpj" value="#{docsViewBean.paramCpnj_Cpf}" />
 			<f:viewParam name="notafiscal"
 				value="#{docsViewBean.paramNotaFiscal}" />
+				
+			<f:event listener="#{docsViewBean.consultaPublica}" type="preRenderView"/>	
 		</f:metadata>
 
 	</ui:define>
 	<ui:define name="corpo">
-		<h1>Consulta Pública</h1>
+	
+		
+		<h2>Consulta Pública por Destinatário</h2>
 		<h:form id="form">
 			
 
@@ -145,6 +149,16 @@
 					</f:facet>
 					<h:outputText value="#{documentos.nome_destinatario}" />
 				</p:column>
+				
+				<p:column style="font-size:11px;"
+						sortBy="#{documentos.previsao_entrega}">
+						<f:facet name="header">
+							<h:outputText value="Prev.Entrega" />
+						</f:facet>
+						<h:outputText value="#{documentos.previsao_entrega.getTime()}">
+							<f:convertDateTime pattern="dd/MM/yy" />
+						</h:outputText>
+				</p:column>
 
 				<p:column style="font-size:10px;" >
 					<f:facet name="header">
@@ -206,6 +220,9 @@
 		</h:form>
 
 	</ui:define>
+	
 
 </ui:composition>
+
+
 </html>

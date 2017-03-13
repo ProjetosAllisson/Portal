@@ -19,7 +19,7 @@ public class FiltroDocumento implements Serializable {
 	
 	private Cliente clienteSelecionado = new Cliente();
 	private String cnpj_cpf;
-	private boolean pesquisaAdmin;
+	private boolean pesquisaAdmin = false;
 
 	private int primeiroRegistro;
 	private int quantidadeRegistros;

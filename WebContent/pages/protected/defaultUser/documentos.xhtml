@@ -16,32 +16,54 @@
 
 				<p:tabView>
 					<p:ajax event="tabChange" listener="#{docsViewBean.onTabChange}"
-						update=":form:gridDocumentos txtDataInicio txtDataTermino txtDataInicioCli txtDataTerminoCli
+						update=":form:gridDocumentos  txtDataInicio txtDataTermino
 								 basicPojoCliente edtNotaFiscal edtCtrc"
 						process="@this" />
 					<p:tab title="Notas em Transito" id="notasEmAberto">
 						<h1>Notas em Transito</h1>
-
+						
 						<p:commandButton value="Consultar"
-							action="#{docsViewBean.pesquisar()}"
+							action="#{docsViewBean.notasEmAberto()}"
 							update=":form:gridDocumentos" />
 					</p:tab>
 
-					<p:tab title="Pesquisa por Período">
+					<p:tab id="consultaCliente" title="Pesquisa por Período">
+					
+						<h:panelGrid columns="2" rendered="#{userBean.admin}">
+							<h:outputText value="Informe o nome do Cliente" />
+
+							<p:autoComplete value="#{docsViewBean.filtro.clienteSelecionado}"
+								id="basicPojoCliente"
+								completeMethod="#{usuariosBean.completeCliente}" size="60"
+								immediate="true" var="c" itemLabel="#{c.nome}" itemValue="#{c}"
+								converter="clienteConverter" forceSelection="true"
+								minQueryLength="4" queryDelay="1000" scrollHeight="200"
+								placeholder="Todos os Clientes">
+
+								<f:facet name="itemtip">
+									<h:panelGrid columns="2" cellpadding="5">
+
+										<h:outputText value="Cgc:" />
+										<h:outputText value="#{c.cgc}" />
+
+										<h:outputText value="Nome" />
+										<h:outputText value="#{c.nome}" />
+									</h:panelGrid>
+								</f:facet>
+
+							</p:autoComplete>
+						</h:panelGrid>
+					
+					
 
 						<h:panelGrid columns="5">
-
-
-
-
 
 							<h:outputLabel value="Data Inicial" for="txtDataInicio" />
 
 							<p:calendar id="txtDataInicio" pattern="dd/MM/yyyy"
 								locale="pt_BR" value="#{docsViewBean.filtro.dataInicio}"
 								maxlength="10" style="font-size:12px;heigth=30"
-								converterMessage="Data Invalida. Exemplo 01/01/2015"
-								mindate="#{docsViewBean.minDataInicio}">
+								converterMessage="Data Invalida. Exemplo 01/01/2015">
 
 							</p:calendar>
 
@@ -81,53 +103,15 @@
 
 
 					</p:tab>
-					<p:tab id="consultaCliente" title="Pesquisa por Cliente e Período"
-						rendered="#{userBean.admin}">
-						<h:panelGrid columns="2">
-							<h:outputText value="Informe o nome do Cliente" />
-
-							<p:autoComplete value="#{docsViewBean.filtro.clienteSelecionado}"
-								id="basicPojoCliente"
-								completeMethod="#{usuariosBean.completeCliente}" size="60"
-								immediate="true" var="c" itemLabel="#{c.nome}" itemValue="#{c}"
-								converter="clienteConverter" forceSelection="true"
-								minQueryLength="4" queryDelay="1000" scrollHeight="200"
-								placeholder="Todos os Clientes">
-
-								<f:facet name="itemtip">
-									<h:panelGrid columns="2" cellpadding="5">
-
-										<h:outputText value="Cgc:" />
-										<h:outputText value="#{c.cgc}" />
-
-										<h:outputText value="Nome" />
-										<h:outputText value="#{c.nome}" />
-									</h:panelGrid>
-								</f:facet>
-
-							</p:autoComplete>
-						</h:panelGrid>
+					<p:tab  title="Pesquisa por Cliente e Período"
+						rendered="false">
+						
 
 						<h:panelGrid columns="5">
 
+							
 
-
-							<h:outputLabel value="Data Inicial" for="txtDataInicioCli" />
-
-							<p:calendar id="txtDataInicioCli" pattern="dd/MM/yyyy"
-								locale="pt_BR" value="#{docsViewBean.filtro.dataInicio}"
-								maxlength="10" style="font-size:12px;heigth=30"
-								converterMessage="Data Invalida. Exemplo 01/01/2015"
-								mindate="#{docsViewBean.minDataInicio}">
-
-							</p:calendar>
-
-							<h:outputLabel value="Data Final" for="txtDataTerminoCli" />
-
-							<p:calendar id="txtDataTerminoCli" pattern="dd/MM/yyyy"
-								locale="pt_BR" value="#{docsViewBean.filtro.dataTermino}"
-								maxlength="10" style="font-size:12px;width=130">
-							</p:calendar>
+							
 
 							<p:commandButton value="Consultar"
 								action="#{docsViewBean.pesquisar()}"

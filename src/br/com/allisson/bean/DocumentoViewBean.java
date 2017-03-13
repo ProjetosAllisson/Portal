@@ -10,6 +10,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
@@ -22,18 +23,21 @@ import org.primefaces.model.StreamedContent;
 import br.com.allisson.facade.DocumentoViewFacade;
 import br.com.allisson.modelo.DocumentoView;
 import br.com.allisson.modelo.FiltroDocumento;
+import br.com.allisson.modelo.User;
 
 @ManagedBean(name = "docsViewBean")
 @ViewScoped
 public class DocumentoViewBean {
 
-	private FiltroDocumento filtro = new FiltroDocumento();
+	private FiltroDocumento filtro;
 	//private LazyDataModel<DocumentoView> model;
 
 	private DocumentoViewFacade docViewFacade = new DocumentoViewFacade();
 	private DocumentoView documentoSelecionado;
 
 	private List<DocumentoView> documentos = new ArrayList<DocumentoView>();
+	
+	private User usuario = new User();
 
 	private String paramCpnj_Cpf;
 	private String paramNotaFiscal;
@@ -64,7 +68,12 @@ public class DocumentoViewBean {
 	 * }
 	 */
 
-	
+	@PostConstruct
+	public void init() {
+		filtro = new FiltroDocumento();
+		this.usuario = usuario.DevolveUsuarioSessao();
+		
+	}
 
 	public void onTabChange(TabChangeEvent event) {
 		filtro = new FiltroDocumento();
@@ -74,14 +83,27 @@ public class DocumentoViewBean {
 		}
 		
 		if (event.getTab().getId().equals("consultaCliente")) {
-			filtro.setPesquisaAdmin(true);
+			//filtro.setPesquisaAdmin(true);
+			//filtro.setClienteSelecionado(this.usuario.getCliente());
+			//filtro.setCnpj_cpf(this.usuario.getCliente().getCgc());
 		}
 		
 	}
 
 	public void pesquisar() {
+		
+		if (this.usuario.isAdmin()) {
+			filtro.setPesquisaAdmin(true);
+		}
 		documentos = docViewFacade.consultaDocumentos(getFiltro());
 	}
+	
+	
+	public void notasEmAberto() {
+		filtro.setPesquisaAdmin(false);
+		documentos = docViewFacade.consultaDocumentos(getFiltro());
+	}
+	
 	
 	public void consultaPublica() {
 		getFiltro().setConsultaPublica(true);

@@ -142,8 +142,9 @@ public class DocumentoViewDAO extends GenericDAO<DocumentoView> {
 
 		if (filtro.getNota_fiscal() != null
 				&& !filtro.getNota_fiscal().equals("")) {
-			criteria.add(Restrictions.like("id.n_fiscal",
-					"%" + filtro.getNota_fiscal() + "%"));
+			//criteria.add(Restrictions.like("id.n_fiscal",
+				//	"%" + filtro.getNota_fiscal() + "%"));
+			criteria.add(Restrictions.eq("id.n_fiscal", filtro.getNota_fiscal()));
 		}
 
 		if (filtro.getCtrc() != null && filtro.getCtrc() > 0) {

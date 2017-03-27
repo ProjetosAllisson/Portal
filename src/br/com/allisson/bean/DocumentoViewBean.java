@@ -92,7 +92,7 @@ public class DocumentoViewBean {
 
 	public void pesquisar() {
 		
-		if (this.usuario.isAdmin()) {
+		if ((this.usuario!=null) && (this.usuario.isAdmin())) {
 			filtro.setPesquisaAdmin(true);
 		}
 		documentos = docViewFacade.consultaDocumentos(getFiltro());

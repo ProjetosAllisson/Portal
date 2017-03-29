@@ -85,9 +85,9 @@ public class DocumentoViewDAO extends GenericDAO<DocumentoView> {
 			}
 
 			
-			if (!filtro.isConsultaPublica()){
+			//if (!filtro.isConsultaPublica()){
 				dis.add(remetente);	
-			}
+			//}
 			
 			dis.add(destinatario);
 

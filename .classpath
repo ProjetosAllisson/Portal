@@ -13,13 +13,13 @@
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/JSF2">
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/JSF">
 		<attributes>
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 			<attribute name="owner.project.facets" value="jst.jsf"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/jstl">
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/JSTL">
 		<attributes>
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 			<attribute name="owner.project.facets" value="jst.jsf"/>
@@ -73,5 +73,7 @@
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/hibernate-3.6.0.jar"/>
 	<classpathentry kind="var" path="ECLIPSE_HOME"/>
 	<classpathentry kind="lib" path="C:/Web/jsf/javax.faces-2.2.5.jar"/>
+	<classpathentry kind="lib" path="C:/Web/jsf/jsf-impl-2.0.10.jar"/>
+	<classpathentry kind="lib" path="C:/Web/jsf/jstl-1.2.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

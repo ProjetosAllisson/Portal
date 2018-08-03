@@ -15,7 +15,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletResponse;
 
 import br.com.allisson.util.JSFMessageUtil;
-import br.com.allisson.util.OperacoesArquivos;
+//import br.com.allisson.util.OperacoesArquivos;
 
 @ManagedBean(name = "arquivosBean")
 public class ArquivosBean extends AbstractMB implements Serializable {

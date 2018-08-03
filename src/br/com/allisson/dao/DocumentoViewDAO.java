@@ -95,7 +95,7 @@ public class DocumentoViewDAO extends GenericDAO<DocumentoView> {
 
 		}
 
-		int dias = 90 * -1;
+		int dias = 365 * -1;
 
 		if (filtro.getDataInicio() == null
 				&& filtro.getDataTermino() == null

@@ -55,12 +55,12 @@ public class Cliente implements Serializable {
 	//@OrderBy("nome")
 	//private User user;
 	
-	@Column
+	@Column(name="nome",length=60)
 	@OrderBy("nome")
 	@Index(name="IDX_NOME")
 	private String nome;
 	
-	@Column
+	@Column(name="fantasia",length=60)
 	private String fantasia;
 	
 	@Temporal(TemporalType.TIMESTAMP)
@@ -82,7 +82,20 @@ public class Cliente implements Serializable {
 	
 
 	public String getNome() {
-		return nome;
+		
+		try{
+			if (nome.length()>59) {
+				return nome.substring(1,nome.length()-1);	
+			}else {
+				return nome;
+			}
+			
+		}catch (NullPointerException e){
+			return nome;
+		}
+		//String teste = nome.substring(1,nome.length()-1);
+		//System.out.println(teste);
+		//return nome;
 	}
 
 	public void setNome(String nome) {

@@ -3,6 +3,7 @@ package br.com.allisson.modelo;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Calendar;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -93,6 +94,15 @@ public class ExtratoDuplicata implements Serializable {
 	
 	@Column(columnDefinition = "VARCHAR(20)")
 	private String desc_fatura;
+	
+	@Column
+	private String nome_destinatario;
+	
+	@Column
+	private Date entrega;
+	
+	@Column
+	private String recebedor;
 	
 	
 	@Override
@@ -296,6 +306,30 @@ public class ExtratoDuplicata implements Serializable {
 
 	public void setItr(BigDecimal itr) {
 		this.itr = itr;
+	}
+
+	public String getNome_destinatario() {
+		return nome_destinatario;
+	}
+
+	public void setNome_cliente(String nome_destinatario) {
+		this.nome_destinatario = nome_destinatario;
+	}
+
+	public Date getEntrega() {
+		return entrega;
+	}
+
+	public void setEntrega(Date entrega) {
+		this.entrega = entrega;
+	}
+
+	public String getRecebedor() {
+		return recebedor;
+	}
+
+	public void setRecebedor(String recebedor) {
+		this.recebedor = recebedor;
 	}	
 
 }

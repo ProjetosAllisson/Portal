@@ -10,7 +10,7 @@
 
 		<properties>
 			<property name="javax.persistence.jdbc.driver" value="org.firebirdsql.jdbc.FBDriver" />
-			<property name="javax.persistence.jdbc.url" value="jdbc:firebirdsql:192.168.0.2/3050:e:/Publico/BaseDados/MMA/MMA.FDB" />
+			<property name="javax.persistence.jdbc.url" value="jdbc:firebirdsql:SVRBDPROD03/3050:D:/allisson/basedados/SDL/SDL.fdb" />
 			<property name="javax.persistence.jdbc.user" value="sysdba" />
 			<property name="javax.persistence.jdbc.password" value="masterkey" />
 			<property name="hibernate.dialect" value="org.hibernate.dialect.FirebirdDialect" />

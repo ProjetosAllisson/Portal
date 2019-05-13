@@ -93,6 +93,9 @@
 
 					<h:outputText value="#{duplicata.desc_fatura}" />
 				</p:column>
+				
+				
+				
 
 				<p:column sortBy="#{duplicata.dt_fatura}"
 					style="text-align:center; max-width: 50px; min-width: 50px; overflow: hidden"
@@ -142,6 +145,14 @@
 					<h:outputText value="#{duplicata.tipo_frt}" />
 				</p:column>
 
+				
+				<p:column style="max-width: 250px; min-width: 200px; overflow: hidden;"
+					styleClass="columns">
+					<f:facet name="header">
+						<h:outputText value="Destinatário"/>
+					</f:facet>
+				    <h:outputText value="#{duplicata.nome_destinatario}" style="font-size:10px;"/>
+				</p:column>
 
 				<p:column
 					style="max-width: 250px; min-width: 200px; overflow: hidden;"
@@ -354,6 +365,24 @@
 						<f:convertNumber type="currency" locale="pt_BR" />
 					</h:outputText>
 				</p:column>
+				
+				
+				<p:column style="font-size:11px;" >
+						<f:facet name="header">
+							<h:outputText value="Entrega" />
+						</f:facet>
+						<h:outputText value="#{duplicata.entrega.getTime()}">
+							<f:convertDateTime pattern="dd/MM/yy" />
+						</h:outputText>
+				</p:column>
+				
+				<p:column style="font-size:11px;" width="200">
+					<f:facet name="header">
+						<h:outputText value="Recebedor"/>
+					</f:facet>
+				    <h:outputText value="#{duplicata.recebedor}" style="font-size:10px;"/>
+				</p:column>
+				
 
 				<!-- 
 				<p:columnGroup type="footer">

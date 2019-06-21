@@ -21,9 +21,9 @@ import br.com.allisson.util.Geral;
 
 @Entity
 @Table(name = "STWFATTCOB")
-@NamedQueries({ @NamedQuery(name = "Duplicata.EmAberto", query = "select u from Duplicata u where u.cliente.cgc =:cgc and u.dt_pagto is null and u.status = 'DG' "
+@NamedQueries({ @NamedQuery(name = "Duplicata.EmAberto", query = "select u from Duplicata u where u.cliente.cgc =:cgc and u.dt_pagto is null and u.status <> 'CA' "
 		+ "order by u.dt_vencto"), 
-				@NamedQuery(name = "Duplicata.EmAbertoGrupo", query ="select u from Duplicata u where u.cliente.grupoCliente.grupo =:grupo and u.dt_pagto is null and u.status = 'DG' "
+				@NamedQuery(name = "Duplicata.EmAbertoGrupo", query ="select u from Duplicata u where u.cliente.grupoCliente.grupo =:grupo and u.dt_pagto is null and u.status <> 'CA' "
 		+ "order by u.dt_vencto"),})
 public class Duplicata {
 

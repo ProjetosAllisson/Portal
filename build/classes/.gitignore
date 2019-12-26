@@ -1,3 +1,5 @@
 /Driver/
-/br/
 /META-INF/
+/br/
+/conexao.properties
+/log4j.properties

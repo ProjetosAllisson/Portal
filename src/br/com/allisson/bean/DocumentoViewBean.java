@@ -11,6 +11,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
@@ -24,6 +25,8 @@ import br.com.allisson.facade.DocumentoViewFacade;
 import br.com.allisson.modelo.DocumentoView;
 import br.com.allisson.modelo.FiltroDocumento;
 import br.com.allisson.modelo.User;
+import br.com.caelum.stella.format.CNPJFormatter;
+import br.com.caelum.stella.format.Formatter;
 
 @ManagedBean(name = "docsViewBean")
 @ViewScoped
@@ -41,6 +44,9 @@ public class DocumentoViewBean {
 
 	private String paramCpnj_Cpf;
 	private String paramNotaFiscal;
+	
+	private boolean lChaveAcessoObrigatoria=true;
+	private boolean lDadosNotaObrigatoria;
 
 	/*
 	 * public DocumentoViewBean() { model = new LazyDataModel<DocumentoView>() {
@@ -89,12 +95,85 @@ public class DocumentoViewBean {
 		}
 		
 	}
+	
+	public void onTabChangeConsultaPublica(TabChangeEvent event) {
+		setlChaveAcessoObrigatoria(false);
+		setlDadosNotaObrigatoria(false);
+		
+		if (event.getTab().getId().equals("porChaveAcesso")) {
+			setlChaveAcessoObrigatoria(true);
+		}
+		
+		if (event.getTab().getId().equals("porNotaFiscal")) {
+			setlDadosNotaObrigatoria(true);
+		}
+		
+	}
 
 	public void pesquisar() {
 		
 		if ((this.usuario!=null) && (this.usuario.isAdmin())) {
 			filtro.setPesquisaAdmin(true);
 		}
+		documentos = docViewFacade.consultaDocumentos(getFiltro());
+	}
+	
+	public void pesquisarPublica() {
+		
+		documentos = new ArrayList<DocumentoView>();
+		
+		if (islChaveAcessoObrigatoria()) {
+			
+			if (getFiltro().getChave_acesso().equals("")) {
+				FacesContext.getCurrentInstance().addMessage("msgValidacao", 
+						new FacesMessage("Informe a chave de acesso."));
+				return;
+			}
+			
+			if (getFiltro().getChave_acesso().length()<44) {
+				FacesContext.getCurrentInstance().addMessage("msgValidacao", 
+						new FacesMessage("Chave de acesso inválida."));
+				return;
+			}
+			
+			//getFiltro().setNota_fiscal();
+			//System.out.println(getFiltro().getChave_acesso());
+			String cnpj_cpf = String.valueOf(getFiltro().getChave_acesso().toCharArray(),6,14);
+			
+			Formatter cnpj = new CNPJFormatter();
+			cnpj_cpf = cnpj.format(cnpj_cpf);
+			getFiltro().setCnpj_cpf(cnpj_cpf);
+			
+			//System.out.println(cnpj_cpf);
+			
+			String nota = String.valueOf(getFiltro().getChave_acesso().toCharArray(), 25,9);
+			//System.out.println(Integer.valueOf(nota));
+			
+			//nota = Integer.toString(Integer.valueOf(nota));
+			
+			getFiltro().setNota_fiscal(Integer.toString(Integer.valueOf(nota)));
+			
+		}
+		
+		if (islDadosNotaObrigatoria()) {
+			
+			if (getFiltro().getCnpj_cpf().equals("")) {
+				FacesContext.getCurrentInstance().addMessage("msgValidacao", 
+				new FacesMessage("Informe o Cpf/Cnpj."));
+				
+				return;
+			}
+			
+			if (getFiltro().getNota_fiscal().equals("")) {
+				FacesContext.getCurrentInstance().addMessage("msgValidacao", 
+				new FacesMessage("Informe a Nota Fiscal"));
+				
+				return;
+			}
+			
+			
+		}
+		
 		documentos = docViewFacade.consultaDocumentos(getFiltro());
 	}
 	
@@ -240,6 +319,22 @@ public class DocumentoViewBean {
 		}
 		
 		
+	}
+
+	private boolean islChaveAcessoObrigatoria() {
+		return lChaveAcessoObrigatoria;
+	}
+
+	private void setlChaveAcessoObrigatoria(boolean lChaveAcessoObrigatoria) {
+		this.lChaveAcessoObrigatoria = lChaveAcessoObrigatoria;
+	}
+
+	private boolean islDadosNotaObrigatoria() {
+		return lDadosNotaObrigatoria;
+	}
+
+	private void setlDadosNotaObrigatoria(boolean lDadosNotaObrigatoria) {
+		this.lDadosNotaObrigatoria = lDadosNotaObrigatoria;
 	}
 
 }

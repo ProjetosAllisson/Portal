@@ -24,13 +24,40 @@
 		<h2>Consulta Pública</h2>
 		<h:form id="form">
 			
-
-
-
-			<p:panel header="Tipo de Pessoa">
+			
+        <h:message for="msgValidacao" />
+        <h:outputLabel id="msgValidacao"></h:outputLabel>
+        
+		<p:tabView>
+		   <p:ajax event="tabChange" listener="#{docsViewBean.onTabChangeConsultaPublica}"
+						update=":form:gridDocumentos  edtChaveAcesso CPF
+								 edtNotaFiscal"
+						process="@this" />
+		   <p:tab title="Por Chave de Acesso" id="porChaveAcesso">
+		   
+		        <h:panelGrid columns="2" styleClass="columns">
+			        
+			        <p:focus>
+				        <p:inputText id="edtChaveAcesso"
+							value="#{docsViewBean.filtro.chave_acesso}" 
+							
+							 maxlength="44" size="50">
+							
+						</p:inputText>
+					</p:focus>	
+			   
+			   		<p:commandButton value="Pesquisar" style="font-size:12px;width=40%"
+						action="#{docsViewBean.pesquisarPublica}" 
+						update=":form:gridDocumentos"></p:commandButton>
+				</h:panelGrid>		
+		   
+		   </p:tab>
+		   
+		   <p:tab title="Por Nota Fiscal" id="porNotaFiscal">
+		   		<p:panel header="Tipo de Pessoa">
 				<h:selectOneRadio id="cpf-cnpj"
 					value="#{usuariosBean.campoBooleanControle}"
-					title="Selecione qual tipo de Pessoa deseja inserir Jurídca ou Física.">
+					title="Selecione qual tipo de Pessoa deseja inserir Jurídica ou Física.">
 					<f:selectItem itemLabel="Jurídica" itemValue="#{true}" />
 					<f:selectItem itemLabel="Física" itemValue="#{false}" />
 					<p:ajax update="documento, CPF" event="change" />
@@ -56,7 +83,7 @@
 					<p:inputMask id="CPF" size="20"
 						value="#{docsViewBean.filtro.cnpj_cpf}"
 						mask="#{usuariosBean.campoBooleanControle ? '99.999.999/9999-99' : '999.999.999-99'}"
-						required="true" requiredMessage="Campo obrigatório não preenchido"
+						
 						title="#{usuariosBean.campoBooleanControle ? 'Informe o Cnpj.' : 'Informe o Cpf.'}">
 
 
@@ -66,16 +93,20 @@
 				<br></br>
 				<h:outputLabel value="Nota Fiscal:" for="edtNotaFiscal" />
 				<p:inputText id="edtNotaFiscal"
-					value="#{docsViewBean.filtro.nota_fiscal}" required="true"
-					requiredMessage="Informe a Nota Fiscal"
+					value="#{docsViewBean.filtro.nota_fiscal}" 
 					converterMessage="Campo nota fiscal é Numérico" maxlength="9">
 					<f:convertNumber integerOnly="true" maxIntegerDigits="9" />
 				</p:inputText>
 
 				<p:commandButton value="Pesquisar" style="font-size:12px;width=40%"
-					action="#{docsViewBean.pesquisar}" 
-					update="gridDocumentos"></p:commandButton>
+					action="#{docsViewBean.pesquisarPublica}" 
+					update=":form:gridDocumentos"></p:commandButton>
 			</h:panelGrid>
+		   </p:tab>
+		
+		</p:tabView>
+
+			
 
 
 

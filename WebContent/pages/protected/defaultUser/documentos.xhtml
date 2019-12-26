@@ -242,6 +242,8 @@
 						</h:outputText>
 					</p:column>
 
+					
+					<!-- 
 					<p:column style="font-size:11px;" sortBy="#{documentos.totalFrete}"
 						width="100">
 						<f:facet name="header">
@@ -253,6 +255,16 @@
 						</h:outputText>
 
 					</p:column>
+					-->
+
+
+                    <p:column style="font-size:11px;" width="300"
+						sortBy="#{documentos.cgc_remetente}">
+						<f:facet name="header">
+							<h:outputText value="Remetente" />
+						</f:facet>
+						<h:outputText value="#{documentos.cgc_remetente}" />
+					</p:column>
 
 
 					<p:column style="font-size:11px;" width="300"
@@ -261,6 +273,14 @@
 							<h:outputText value="Remetente" />
 						</f:facet>
 						<h:outputText value="#{documentos.nome_remetente}" />
+					</p:column>
+					
+					<p:column style="font-size:11px;" width="300"
+						sortBy="#{documentos.cgc_destinatario}">
+						<f:facet name="header">
+							<h:outputText value="Destinatario" />
+						</f:facet>
+						<h:outputText value="#{documentos.cgc_destinatario}" />
 					</p:column>
 
 					<p:column style="font-size:11px;" width="300"

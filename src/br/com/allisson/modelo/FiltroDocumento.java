@@ -16,6 +16,7 @@ public class FiltroDocumento implements Serializable {
 	
 	private Integer ctrc;
 	private String nota_fiscal;
+	private String chave_acesso;
 	
 	private Cliente clienteSelecionado = new Cliente();
 	private String cnpj_cpf;
@@ -111,6 +112,12 @@ public class FiltroDocumento implements Serializable {
 	}
 	public void setPesquisaAdmin(boolean pesquisaAdmin) {
 		this.pesquisaAdmin = pesquisaAdmin;
+	}
+	public String getChave_acesso() {
+		return chave_acesso;
+	}
+	public void setChave_acesso(String chave_acesso) {
+		this.chave_acesso = chave_acesso;
 	}
 
 
